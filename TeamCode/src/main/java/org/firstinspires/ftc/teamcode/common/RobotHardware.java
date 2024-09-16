@@ -8,6 +8,7 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.LynxConstants;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.common.drive.pathing.geometry.Vector2D;
@@ -31,6 +32,7 @@ public class RobotHardware {
     private double imuAngle = 0;
     public double imuOffset = 0;
     private double startOffset = 0;
+    private double voltage = 12.0;
 
     public HashMap<Sensors.SensorType, Object> values;
 
@@ -62,6 +64,8 @@ public class RobotHardware {
             m.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
             if (m.isParent() && LynxConstants.isEmbeddedSerialNumber(m.getSerialNumber())) CONTROL_HUB = m;
         }
+
+        voltage = hardwareMap.voltageSensor.iterator().next().getVoltage();
     }
 
     public void periodic(){
@@ -93,4 +97,9 @@ public class RobotHardware {
     public double getAngle() {
         return AngleUnit.normalizeRadians(imuAngle - imuOffset + startOffset);
     }
+
+    public double getVoltage() {
+        return voltage;
+    }
+
 }
