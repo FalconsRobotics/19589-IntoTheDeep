@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.common.drive.pathing.geometry.drivetrain;
+package org.firstinspires.ftc.teamcode.common.drive;
 
 import org.firstinspires.ftc.teamcode.common.drive.pathing.geometry.Pose;
 
