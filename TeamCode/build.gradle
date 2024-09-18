@@ -26,3 +26,5 @@ android {
 dependencies {
     implementation project(':FtcRobotController')
 }
+
+apply from: '../build.dependencies.gradle'
