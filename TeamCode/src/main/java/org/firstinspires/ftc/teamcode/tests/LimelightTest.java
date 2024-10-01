@@ -10,6 +10,8 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
+import org.firstinspires.ftc.teamcode.subsystems.DriveBase;
+
 @TeleOp
 public class LimelightTest extends LinearOpMode {
 
@@ -21,6 +23,8 @@ public class LimelightTest extends LinearOpMode {
     }
 
     public void runOpMode() {
+        final DriveBase driveBase = new DriveBase(hardwareMap);
+
         final Limelight3A limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.pipelineSwitch(0);
 
@@ -30,6 +34,8 @@ public class LimelightTest extends LinearOpMode {
         while (opModeIsActive() == true) {
             telemetry.update();
             printStatus(limelight.getStatus());
+
+            driveBase.setVelocity(gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, 1);
 
             LLResult latest = limelight.getLatestResult();
 
