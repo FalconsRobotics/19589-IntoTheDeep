@@ -6,9 +6,9 @@ import org.firstinspires.ftc.teamcode.subsystems.DriveBase;
 
 /** Collection of subsystems and associated procedures intended to be used by all OpModes. */
 public class SubsystemControlUtil {
-    public final DriveBase driveBase;
+    public DriveBase driveBase;
 
-    public void initAll(HardwareMap map) {
+    public void SubsystemControlUtil(HardwareMap map) {
         driveBase = new DriveBase(map);
     }
 
