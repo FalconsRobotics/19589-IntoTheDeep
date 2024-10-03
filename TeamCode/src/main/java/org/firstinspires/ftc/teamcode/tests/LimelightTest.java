@@ -25,8 +25,10 @@ public class LimelightTest extends LinearOpMode {
     public void runOpMode() {
         final DriveBase driveBase = new DriveBase(hardwareMap);
 
+        int index = 0;
+
         final Limelight3A limelight = hardwareMap.get(Limelight3A.class, "limelight");
-        limelight.pipelineSwitch(0);
+        limelight.pipelineSwitch(index);
 
         waitForStart();
         limelight.start();
@@ -38,6 +40,13 @@ public class LimelightTest extends LinearOpMode {
             driveBase.setVelocity(gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, 1);
 
             LLResult latest = limelight.getLatestResult();
+
+            if (gamepad1.a) {
+                index = (index += 1) % 10;
+                limelight.pipelineSwitch(index);
+
+                sleep(500);
+            }
 
             Pose3D pose = latest.getBotpose();
             telemetry.addData("Pos", "x: " + pose.getPosition().x + " y: " + pose.getPosition().y + "orientation: " + pose.getOrientation().getYaw());
