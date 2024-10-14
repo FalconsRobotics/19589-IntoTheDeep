@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.ext.GoBilaPinpointDriver;
+
 /** Manages all mechanisms associated with robot drive base. */
 public class DriveBase {
 
@@ -18,19 +20,38 @@ public class DriveBase {
         final static int LAST = BACK_PASSENGER + 1;
     }
 
+    /** Array containing all wheel motors used by drive base. Positions referenced by members within
+     *  the \ref WheelPos class. */
     private final DcMotor[] wheels;
 
-    /** Initializes drive base motors and any of their associated flags. */
+    // TODO: Documentation
+    private final GoBildaPinpointDriver odometry;
+
+    /** Initializes drive base motors and odometry, including any of their associated flags. */
     public DriveBase(HardwareMap map) {
+        // Wheel motors setup:
         wheels = new DcMotor[WheelPos.LAST];
         for (int i = 0; i < wheels.length; i++) {
-            wheels[i] = map.dcMotor.get("DriveBase-Wheel" + i);
+            wheels[i] = map.get(DcMotor.class, "DriveBase-Wheel" + i);
             wheels[i].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
-        // Simplifies all future calculations applied to all wheel motors
+        // Simplifies all future calculations applied to all wheel motors.
         wheels[WheelPos.BACK_DRIVER].setDirection(DcMotor.Direction.REVERSE);
         wheels[WheelPos.BACK_PASSENGER].setDirection(DcMotorSimple.Direction.REVERSE);
+
+        // Odometry computer setup:
+        odometry = map.get(GoBildaPinpointDriver.class, "DriveBase-Odemetry");
+        odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        odometry.setOffsets(-100, 80); // TODO
+
+        odometry.resetPosAndIMU();
+    }
+
+    /** Miscellanous procedures that need to be ran every iteration */
+    public void update() {
+        odometry.update();
     }
 
     /** Cleans up resources used by drive base.  */
@@ -38,9 +59,9 @@ public class DriveBase {
         // Do nothing.
     }
 
-    // TODO: Documentation
-
-    public void setVelocity(double forward, double strafe, double rotation, double multiplier) {
+    /** Sets the drive base's positinal and rotational velocity relative to the last known position
+     *  of itself. */
+    public void setVelocity(double forward, double strafe, double rotation) {
         double angle = Math.atan2(strafe, forward);
         double power = Math.hypot(forward, strafe);
 
@@ -53,9 +74,19 @@ public class DriveBase {
         sinCalc /= max;
         cosCalc /= max;
 
-        wheels[WheelPos.FRONT_DRIVER].setPower((power * cosCalc + rotation) * multiplier);
-        wheels[WheelPos.FRONT_PASSENGER].setPower((power * sinCalc + rotation) * multiplier);
-        wheels[WheelPos.BACK_DRIVER].setPower((power * sinCalc - rotation) * multiplier);
-        wheels[WheelPos.BACK_PASSENGER].setPower((power * cosCalc - rotation) * multiplier);
+        wheels[WheelPos.FRONT_DRIVER].setPower(power * cosCalc + rotation);
+        wheels[WheelPos.FRONT_PASSENGER].setPower(power * sinCalc + rotation);
+        wheels[WheelPos.BACK_DRIVER].setPower(power * sinCalc - rotation);
+        wheels[WheelPos.BACK_PASSENGER].setPower(power * cosCalc - rotation);
+    }
+
+    /** Sets the drive base's positional and rotational velocity relative to its starting position
+     *  on the field. */
+    public void setVelocityFieldCentric(double foward, double strafe, double rotate) {
+        // May not be the most effiecent use of sin and cos. Counter-point: Simple to implement--
+        // TOO BAD!
+        double relativeRotation = odo.getPosition().heading;
+        relativeRotation *= (Math.pi / 180) // Converts from degrees to radians.
+        setVelocity(foward * Math.sin(relativeRotation), strafe * Math.cos(relativeRotation), rotate);
     }
 }
