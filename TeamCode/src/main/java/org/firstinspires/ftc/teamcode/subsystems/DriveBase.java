@@ -4,7 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.ext.GoBilaPinpointDriver;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.ext.GoBildaPinpointDriver;
 
 /** Manages all mechanisms associated with robot drive base. */
 public class DriveBase {
@@ -19,6 +20,10 @@ public class DriveBase {
         final static int BACK_PASSENGER = 3;
         final static int LAST = BACK_PASSENGER + 1;
     }
+
+    /** As strafing requires more power than moving forward, inputs will be scaled to this degree to
+     *  help maintain a uniform amount of movement in all directions*/
+    private final double STRAFE_CORRECTION = 1.1;
 
     /** Array containing all wheel motors used by drive base. Positions referenced by members within
      *  the \ref WheelPos class. */
@@ -62,31 +67,35 @@ public class DriveBase {
     /** Sets the drive base's positinal and rotational velocity relative to the last known position
      *  of itself. */
     public void setVelocity(double forward, double strafe, double rotation) {
-        double angle = Math.atan2(strafe, forward);
-        double power = Math.hypot(forward, strafe);
+        // Allows for uniform movement forward and strafing.
+        strafe *= STRAFE_CORRECTION;
 
-        final double piDiv4 = Math.PI / 4; // 45 degrees in radians.
-        // Avoids costly re-calculations;
-        double sinCalc = Math.sin(angle - piDiv4);
-        double cosCalc = Math.cos(angle - piDiv4);
-
-        double max = Math.max(Math.abs(sinCalc), Math.abs(cosCalc));
-        sinCalc /= max;
-        cosCalc /= max;
-
-        wheels[WheelPos.FRONT_DRIVER].setPower(power * cosCalc + rotation);
-        wheels[WheelPos.FRONT_PASSENGER].setPower(power * sinCalc + rotation);
-        wheels[WheelPos.BACK_DRIVER].setPower(power * sinCalc - rotation);
-        wheels[WheelPos.BACK_PASSENGER].setPower(power * cosCalc - rotation);
+        wheels[WheelPos.FRONT_DRIVER].setPower(forward + strafe + rotation);
+        wheels[WheelPos.FRONT_PASSENGER].setPower(forward - strafe + rotation);
+        wheels[WheelPos.BACK_DRIVER].setPower(forward - strafe - rotation);
+        wheels[WheelPos.BACK_PASSENGER].setPower(forward + strafe - rotation);
     }
 
     /** Sets the drive base's positional and rotational velocity relative to its starting position
      *  on the field. */
-    public void setVelocityFieldCentric(double foward, double strafe, double rotate) {
-        // May not be the most effiecent use of sin and cos. Counter-point: Simple to implement--
-        // TOO BAD!
-        double relativeRotation = odo.getPosition().heading;
-        relativeRotation *= (Math.pi / 180) // Converts from degrees to radians.
-        setVelocity(foward * Math.sin(relativeRotation), strafe * Math.cos(relativeRotation), rotate);
+    public void setVelocityFieldCentric(double forward, double strafe, double rotation) {
+        double heading = odometry.getHeading();
+
+        // Avoids multiple executions costly procedures.
+        double sinHeading = Math.sin(heading);
+        double cosHeading = Math.cos(heading);
+
+        double forwardRotated = strafe * sinHeading + forward * cosHeading;
+        double strafeRotated = strafe * cosHeading - forward * sinHeading * STRAFE_CORRECTION;
+
+        // TODO: Name is not ideal.
+        // Total power applied to motors must be clamped to one to ensure robot moves in desired
+        // direction.
+        double denominator = Math.max(Math.abs(forwardRotated) + Math.abs(strafeRotated) + Math.abs(rotation), 1);
+
+        wheels[WheelPos.FRONT_DRIVER].setPower((forward + strafe + rotation) / denominator);
+        wheels[WheelPos.FRONT_PASSENGER].setPower((forward - strafe + rotation) / denominator);
+        wheels[WheelPos.BACK_DRIVER].setPower((forward - strafe - rotation) / denominator);
+        wheels[WheelPos.BACK_PASSENGER].setPower((forward + strafe - rotation) / denominator);
     }
 }
