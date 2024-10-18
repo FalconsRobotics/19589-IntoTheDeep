@@ -3,14 +3,14 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.subsystems.*;
+import org.firstinspires.ftc.teamcode.opmodes.util.*;
 
- /** Main Autonomous mode */
+/** Main Autonomous mode */
 @Autonomous
 public abstract class AutoControl extends OpMode {
 
      /** Access to all subsystems */
-     SubsystemControlUtil sys;
+     SubsystemsCollection sys;
 
     /** Entry point of OpMode */
     public void init() {

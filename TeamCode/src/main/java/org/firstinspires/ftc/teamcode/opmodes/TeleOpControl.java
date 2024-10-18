@@ -3,12 +3,17 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.opmodes.util.*;
+
 /** Main TeleOp Mode */
 @TeleOp
 public abstract class TeleOpControl extends OpMode {
 
     /** Access to all subsystems */
-    SubsystemControlUtil sys;
+    private final SubsystemsCollection sys = new SubsystemsCollection(hardwareMap);
+
+    private final GamepadWrapper pad1 = new GamepadWrapper(gamepad1);
+    private final GamepadWrapper pad2 = new GamepadWrapper(gamepad2);
 
     /** Entry point of OpMode */
     public void init() {

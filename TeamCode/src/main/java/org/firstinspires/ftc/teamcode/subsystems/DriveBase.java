@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.ext.GoBildaPinpointDriver;
 
 /** Manages all mechanisms associated with robot drive base. */
-public class DriveBase {
+public class DriveBase implements Subsystem {
 
     /** Indexes referencing wheel positions on drive base. */
     private static class WheelPos {
@@ -54,7 +54,6 @@ public class DriveBase {
         odometry.resetPosAndIMU();
     }
 
-    /** Miscellanous procedures that need to be ran every iteration */
     public void update() {
         odometry.update();
     }
