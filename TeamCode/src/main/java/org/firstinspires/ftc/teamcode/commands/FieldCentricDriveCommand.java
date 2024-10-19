@@ -21,7 +21,7 @@ public class FieldCentricDriveCommand extends CommandBase {
     }
 
     public void execute() {
-        driveBase.setVelocityFieldCentric(forwardPower.getAsDouble(), strafePower.getAsDouble(), rotationPower.getAsDouble());
+        // driveBase.setVelocityFieldCentric(forwardPower.getAsDouble(), strafePower.getAsDouble(), rotationPower.getAsDouble());
     }
 
     public boolean isFinished() { return true; }

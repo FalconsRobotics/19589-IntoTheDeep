@@ -5,12 +5,13 @@ import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.FieldCentricDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.RobotCentricDriveCommand;
 import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
 
-
+@TeleOp(name = "Test - Drive Base")
 public class DriveBaseTest extends CommandOpMode {
     private SubsystemsCollection sys;
     private GamepadEx pad;
@@ -25,7 +26,7 @@ public class DriveBaseTest extends CommandOpMode {
         pad = new GamepadEx(gamepad1);
 
         robotCentric = new RobotCentricDriveCommand(sys.driveBase, () -> -pad.getLeftY(), () -> pad.getLeftX(), () -> pad.getRightX());
-        fieldCentric = new FieldCentricDriveCommand(sys.driveBase, () -> -pad.getLeftY(), () -> pad.getLeftX(), () -> pad.getRightX());
+        // fieldCentric = new FieldCentricDriveCommand(sys.driveBase, () -> -pad.getLeftY(), () -> pad.getLeftX(), () -> pad.getRightX());
 
         register(sys.driveBase);
         sys.driveBase.setDefaultCommand(robotCentric);
