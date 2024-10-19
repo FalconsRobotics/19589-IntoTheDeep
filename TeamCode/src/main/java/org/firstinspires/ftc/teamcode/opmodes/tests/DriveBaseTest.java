@@ -1,45 +1,35 @@
 
 package org.firstinspires.ftc.teamcode.opmodes.tests;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.command.CommandOpMode;
 
-import org.firstinspires.ftc.teamcode.subsystems.DriveBase;
+import org.firstinspires.ftc.teamcode.commands.FieldCentricDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.RobotCentricDriveCommand;
+import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
 
-import org.firstinspires.ftc.teamcode.opmodes.util.GamepadWrapper;
 
+public class DriveBaseTest extends CommandOpMode {
+    private SubsystemsCollection sys;
+    private GamepadEx pad;
 
-@TeleOp
-public class DriveBaseTest extends LinearOpMode {
-    public void runOpMode() {
-        final DriveBase driveBase = new DriveBase(hardwareMap);
-        final GamepadWrapper pad = new GamepadWrapper(gamepad1);
+    private boolean movementModeRobotCentric = true;
 
-        boolean movementModeRobotCentric = true;
+    private RobotCentricDriveCommand robotCentric;
+    private FieldCentricDriveCommand fieldCentric;
 
-        waitForStart();
+    public void initialize() {
+        sys = SubsystemsCollection.getInstance(hardwareMap);
+        pad = new GamepadEx(gamepad1);
 
-        while (opModeIsActive()) {
-            driveBase.update();
-            pad.update();
+        robotCentric = new RobotCentricDriveCommand(sys.driveBase, () -> -pad.getLeftY(), () -> pad.getLeftX(), () -> pad.getRightX());
+        fieldCentric = new FieldCentricDriveCommand(sys.driveBase, () -> -pad.getLeftY(), () -> pad.getLeftX(), () -> pad.getRightX());
 
-            if (pad.a.justPressed()) {
-                movementModeRobotCentric = true;
-            } else if (pad.b.justPressed()) {
-                movementModeRobotCentric = false;
-            }
-
-            if (movementModeRobotCentric) {
-                driveBase.setVelocity(-pad.leftStick.getY(),
-                        pad.leftStick.getX(),
-                        pad.rightStick.getX());
-            } else {
-                driveBase.setVelocityFieldCentric(-pad.leftStick.getY(),
-                        pad.leftStick.getX(),
-                        pad.rightStick.getX());
-            }
-        }
-
-        driveBase.finalize();
+        register(sys.driveBase);
+        sys.driveBase.setDefaultCommand(robotCentric);
     }
+
+
 }

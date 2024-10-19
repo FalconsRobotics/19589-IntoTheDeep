@@ -4,11 +4,14 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import com.arcrobotics.ftclib.command.SubsystemBase;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.ext.GoBildaPinpointDriver;
 
+
 /** Manages all mechanisms associated with robot drive base. */
-public class DriveBase implements Subsystem {
+public class DriveBase extends SubsystemBase {
 
     /** Indexes referencing wheel positions on drive base. */
     private static class WheelPos {
@@ -22,7 +25,7 @@ public class DriveBase implements Subsystem {
     }
 
     /** As strafing requires more power than moving forward, inputs will be scaled to this degree to
-     *  help maintain a uniform amount of movement in all directions*/
+     *  help maintain a uniform amount of movement in all directions */
     private final double STRAFE_CORRECTION = 1.1;
 
     /** Array containing all wheel motors used by drive base. Positions referenced by members within
@@ -54,13 +57,8 @@ public class DriveBase implements Subsystem {
         odometry.resetPosAndIMU();
     }
 
-    public void update() {
+    public void periodic() {
         odometry.update();
-    }
-
-    /** Cleans up resources used by drive base.  */
-    public void finalize() {
-        // Do nothing.
     }
 
     /** Sets the drive base's positinal and rotational velocity relative to the last known position
