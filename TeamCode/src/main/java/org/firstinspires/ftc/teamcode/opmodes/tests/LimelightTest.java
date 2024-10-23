@@ -27,17 +27,17 @@ public class LimelightTest extends LinearOpMode {
 
         int index = 0;
 
-        final Limelight3A limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        final Limelight3A limelight = hardwareMap.get(Limelight3A.class, "Limelight");
         limelight.pipelineSwitch(index);
 
         waitForStart();
         limelight.start();
 
-        while (opModeIsActive() == true) {
+        while (opModeIsActive()) {
             telemetry.update();
             printStatus(limelight.getStatus());
 
-            driveBase.setVelocity(gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x);
+            driveBase.motors.driveRobotCentric(gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x);
 
             LLResult latest = limelight.getLatestResult();
 

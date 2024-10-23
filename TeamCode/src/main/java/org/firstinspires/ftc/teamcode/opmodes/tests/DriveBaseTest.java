@@ -30,11 +30,22 @@ public class DriveBaseTest extends LinearOpMode {
             }
 
             if (driveModeRobotCentric) {
-                sys.driveBase.motors.driveRobotCentric(pad.getLeftY(), pad.getLeftX(), pad.getRightX());
+                sys.driveBase.motors.driveRobotCentric(pad.getLeftX(), pad.getLeftY(), pad.getRightX());
             } else {
                 // TODO: Odometry
-                sys.driveBase.motors.driveFieldCentric(pad.getLeftY(), pad.getLeftX(), pad.getRightX(), sys.driveBase.odometry.getHeading());
+                sys.driveBase.motors.driveFieldCentric(pad.getLeftX(), pad.getLeftY(), pad.getRightX(), sys.driveBase.odometry.getHeading());
             }
+
+            if (pad.wasJustPressed(GamepadKeys.Button.X)) {
+                sys.driveBase.odometry.recalibrateIMU();
+                sys.driveBase.odometry.resetPosAndIMU();
+                sleep(1000);
+            }
+
+            telemetry.addData("X Position", sys.driveBase.odometry.getPosX());
+            telemetry.addData("Y Position", sys.driveBase.odometry.getPosY());
+            telemetry.addData("Heading", sys.driveBase.odometry.getHeading());
+            telemetry.update();
         }
     }
 
