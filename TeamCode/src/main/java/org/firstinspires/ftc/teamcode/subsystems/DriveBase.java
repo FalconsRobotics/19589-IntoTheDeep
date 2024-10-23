@@ -34,6 +34,7 @@ public class DriveBase extends SubsystemBase {
         odometry.resetPosAndIMU();
 
         limelight = map.get(Limelight3A.class, "Limelight");
+        limelight.setPollRateHz(30);
         limelight.start();
     }
 
