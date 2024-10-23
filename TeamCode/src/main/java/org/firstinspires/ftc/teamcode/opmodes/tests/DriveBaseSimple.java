@@ -26,7 +26,8 @@ public class DriveBaseSimple extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            sys.driveBase.setVelocity(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            sys.periodic();
+            sys.driveBase.motors.driveRobotCentric(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
         }
 
 

@@ -11,11 +11,13 @@ public class SubsystemsCollection {
 
     // All subsystems
     public final DriveBase driveBase;
+    public final Intake intake;
 
     private SubsystemsCollection(HardwareMap hMap) {
         map = hMap;
 
         driveBase = new DriveBase(map);
+        intake = new Intake(map);
     }
 
     public static SubsystemsCollection getInstance(HardwareMap hMap) {
@@ -28,5 +30,10 @@ public class SubsystemsCollection {
         }
 
         return instance;
+    }
+
+    public void periodic() {
+        driveBase.periodic();
+        intake.periodic();
     }
 }

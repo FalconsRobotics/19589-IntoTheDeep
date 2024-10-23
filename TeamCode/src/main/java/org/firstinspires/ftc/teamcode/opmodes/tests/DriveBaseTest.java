@@ -21,6 +21,8 @@ public class DriveBaseTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+            sys.periodic();
+
             if (pad.wasJustPressed(GamepadKeys.Button.A)) {
                 driveModeRobotCentric = true;
             } else if (pad.wasJustPressed(GamepadKeys.Button.B)) {
@@ -28,9 +30,10 @@ public class DriveBaseTest extends LinearOpMode {
             }
 
             if (driveModeRobotCentric) {
-                sys.driveBase.setVelocity(-pad.getLeftY(), pad.getLeftX(), pad.getRightX());
+                sys.driveBase.motors.driveRobotCentric(pad.getLeftY(), pad.getLeftX(), pad.getRightX());
             } else {
-                sys.driveBase.setVelocityFieldCentric(-pad.getLeftY(), pad.getLeftX(), pad.getRightX());
+                // TODO: Odometry
+                sys.driveBase.motors.driveFieldCentric(pad.getLeftY(), pad.getLeftX(), pad.getRightX(), sys.driveBase.odometry.getHeading());
             }
         }
     }
