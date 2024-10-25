@@ -13,15 +13,13 @@ public class DriveBaseSimple extends LinearOpMode {
     public void runOpMode() {
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
 
-        DcMotor frontLeft = hardwareMap.dcMotor.get("DriveBase-Wheel0");
-        DcMotor backLeft = hardwareMap.dcMotor.get("DriveBase-Wheel1");
-        DcMotor frontRight = hardwareMap.dcMotor.get("DriveBase-Wheel2");
-        DcMotor backRight = hardwareMap.dcMotor.get("DriveBase-Wheel3");
+        DcMotor frontLeft = hardwareMap.dcMotor.get("DriveBase-FrontLeft");
+        DcMotor backLeft = hardwareMap.dcMotor.get("DriveBase-BackLeft");
+        DcMotor frontRight = hardwareMap.dcMotor.get("DriveBase-FrontRight");
+        DcMotor backRight = hardwareMap.dcMotor.get("DriveBase-BackRight");
 
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
 

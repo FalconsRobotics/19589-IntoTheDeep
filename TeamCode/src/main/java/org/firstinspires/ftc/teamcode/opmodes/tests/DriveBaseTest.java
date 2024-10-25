@@ -16,25 +16,12 @@ public class DriveBaseTest extends LinearOpMode {
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
         GamepadEx pad = new GamepadEx(gamepad1);
 
-        boolean driveModeRobotCentric = true;
-
         waitForStart();
 
         while (opModeIsActive()) {
             sys.periodic();
 
-            if (pad.wasJustPressed(GamepadKeys.Button.A)) {
-                driveModeRobotCentric = true;
-            } else if (pad.wasJustPressed(GamepadKeys.Button.B)) {
-                driveModeRobotCentric = false;
-            }
-
-            if (driveModeRobotCentric) {
-                sys.driveBase.motors.driveRobotCentric(pad.getLeftX(), pad.getLeftY(), pad.getRightX());
-            } else {
-                // TODO: Odometry
-                sys.driveBase.motors.driveFieldCentric(pad.getLeftX(), pad.getLeftY(), pad.getRightX(), sys.driveBase.odometry.getHeading());
-            }
+            sys.driveBase.motors.driveFieldCentric(pad.getLeftX(), pad.getLeftY(), pad.getRightX(), sys.driveBase.odometry.getHeading());
 
             if (pad.wasJustPressed(GamepadKeys.Button.X)) {
                 sys.driveBase.odometry.recalibrateIMU();
