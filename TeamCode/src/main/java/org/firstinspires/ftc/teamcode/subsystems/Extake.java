@@ -14,7 +14,6 @@ public class Extake extends SubsystemBase {
 
     /** Left and right servos controlling the bucket arm. */
     public final SimpleServo leftArm, rightArm;
-    public final SimpleServo
 
     public Extake(HardwareMap map) {
         slide = new MotorEx(map, "Extake-Slide", Motor.GoBILDA.RPM_435);
