@@ -16,24 +16,24 @@ public class SubsystemsCollection {
     /** Manages all system related to extake. */
     public final Extake extake;
 
-    private SubsystemsCollection(HardwareMap hMap) {
-        map = hMap;
+    private SubsystemsCollection(HardwareMap map) {
+        this.map = map;
 
-        driveBase = new DriveBase(map);
-        intake = new Intake(map);
-        extake = new Extake(map);
+        driveBase = new DriveBase(this.map);
+        intake = new Intake(this.map);
+        extake = new Extake(this.map);
     }
 
     /** Returns singleton instance of SubsystemsCollection. If this instance does not yet exist, it
      *  will be created. If this is the case `hMap` must be supplied an appropriate object,
      *  otherwise it may be null. */
-    public static SubsystemsCollection getInstance(HardwareMap hMap) {
+    public static SubsystemsCollection getInstance(HardwareMap map) {
         if (instance == null) {
-            if (hMap == null) {
+            if (map == null) {
                 throw new InvalidParameterException();
             }
 
-            instance = new SubsystemsCollection(hMap);
+            instance = new SubsystemsCollection(map);
         }
 
         return instance;
