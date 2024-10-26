@@ -9,9 +9,11 @@ public class SubsystemsCollection {
     private static SubsystemsCollection instance = null;
     private HardwareMap map = null; // Also tracks if instance was already initialized.
 
-    // All subsystems
+    /** Drive-base subsystem. */
     public final DriveBase driveBase;
+    /** Manages all systems related to intake. */
     public final Intake intake;
+    /** Manages all system related to extake. */
     public final Extake extake;
 
     private SubsystemsCollection(HardwareMap hMap) {
@@ -22,6 +24,9 @@ public class SubsystemsCollection {
         extake = new Extake(map);
     }
 
+    /** Returns singleton instance of SubsystemsCollection. If this instance does not yet exist, it
+     *  will be created. If this is the case `hMap` must be supplied an appropriate object,
+     *  otherwise it may be null. */
     public static SubsystemsCollection getInstance(HardwareMap hMap) {
         if (instance == null) {
             if (hMap == null) {
