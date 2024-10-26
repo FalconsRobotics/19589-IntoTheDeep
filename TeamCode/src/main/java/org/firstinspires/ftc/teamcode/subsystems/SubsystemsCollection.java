@@ -42,5 +42,6 @@ public class SubsystemsCollection {
     public void periodic() {
         driveBase.periodic();
         intake.periodic();
+        extake.periodic();
     }
 }
