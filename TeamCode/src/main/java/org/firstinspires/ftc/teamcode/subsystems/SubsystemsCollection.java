@@ -12,12 +12,14 @@ public class SubsystemsCollection {
     // All subsystems
     public final DriveBase driveBase;
     public final Intake intake;
+    public final Extake extake;
 
     private SubsystemsCollection(HardwareMap hMap) {
         map = hMap;
 
         driveBase = new DriveBase(map);
         intake = new Intake(map);
+        extake = new Extake(map);
     }
 
     public static SubsystemsCollection getInstance(HardwareMap hMap) {
