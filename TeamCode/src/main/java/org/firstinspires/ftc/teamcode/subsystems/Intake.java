@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.SimpleServo;
+import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.hardware.ServoEx;
@@ -10,71 +11,53 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Intake extends SubsystemBase {
-    public static class SlidePositions {
-        public static double RETRACTED = 0.0;
-        public static double EXTENDED = 100.0;
+    /** Pre-defined slide positions */
+    public static class SlidePositions { // Wish this could be an enum. Java says "TOO BAD!"
+        public static final double RETRACTED = 0.0;
+        public static final double EXTENDED = 45.0;
     }
 
+    /** Pre-defined arm positions. */
     public static class ArmPositions {
-        public static int EXTAKE = 0;
-        public static int HOVER = 0;
-        public static int PICKUP = 0;
+        public static final int EXTAKE = 0;
+        public static final int HOVER = 0;
+        public static final int PICKUP = 0;
 
     }
 
-    /**
-     * Servo object for the left and right linear linkage extension servos.
-     */
-    public final ServoEx leftExtensionServo, rightExtensionServo;
+    /** Servo object for the left and right linear linkage extension servos. */
+    public final SimpleServo leftSlide, rightSlide;
+    /** Servo object for the front and back wheels. */
+    public final CRServo frontWheel, backWheel;
 
-    /**
-     * Motor object for the pivoting arm.
-     */
-    public final MotorEx pivotingArmMotor;
-
-    /**
-     * Servo object for the front and back wheels.
-     */
-    public final ServoEx frontIntakeServo, backIntakeServo;
+    /** Motor object for the pivoting arm. */
+    public final MotorEx arm;
 
     public Intake(HardwareMap map) {
-        leftExtensionServo = new SimpleServo(map, "Intake-LeftExtension", 0, 360, AngleUnit.DEGREES);
-        rightExtensionServo = new SimpleServo(map, "Intake-LeftExtension", 0, 360, AngleUnit.DEGREES);
+        leftSlide = new SimpleServo(map, "Intake-LeftSlide", 0, 360, AngleUnit.DEGREES);
+        rightSlide = new SimpleServo(map, "Intake-LeftSlide", 0, 360, AngleUnit.DEGREES);
 
-        pivotingArmMotor = new MotorEx(map, "Intake-PivotingArm", Motor.GoBILDA.RPM_84);
+        arm = new MotorEx(map, "Intake-Arm", Motor.GoBILDA.RPM_84);
+        arm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
-        frontIntakeServo = new SimpleServo(map, "Intake-FrontIntakeWheel", 0, 360, AngleUnit.DEGREES);
-        backIntakeServo = new SimpleServo(map, "Intake-BackIntakeWheel", 0, 360, AngleUnit.DEGREES);
+        frontWheel = new CRServo(map, "Intake-FrontWheel");
+        backWheel = new CRServo(map, "Intake-BackWheel");
+        // We want wheels moving in opposing directions in order to pick up and release game pieces.
+        backWheel.setInverted(true);
     }
 
-    /**
-     * Sets the positions of both slide servos.
-     * @param position Sets the positions of both servos.
-     */
-    public void moveSlides(double position) {
-        leftExtensionServo.setPosition(position);
-        rightExtensionServo.setPosition(position);
+    /** Sets the positions of both slide servos.
+     *  @param position Sets the positions of both servos */
+    public void setSlidePositions(double position) {
+        leftSlide.setPosition(position);
+        rightSlide.setPosition(position);
     }
 
-    /**
-     * Sets the pivoting motor to the predefined extake position.
+    /** Sets power for both wheels
      */
-    public void rotateToHandoff() {
-        pivotingArmMotor.setTargetPosition(ArmPositions.EXTAKE);
-    }
-
-    /**
-     * Sets the pivoting motor to the predefined hover position.
-     */
-    public void rotateToHover() {
-        pivotingArmMotor.setTargetPosition(ArmPositions.HOVER);
-    }
-
-    /**
-     * Sets the pivoting motor to the predefined pickup position.
-     */
-    public void rotateToPickup() {
-        pivotingArmMotor.setTargetPosition(ArmPositions.PICKUP);
+    public void setWheelPower(double power) {
+        frontWheel.set(power);
+        backWheel.set(power);
     }
 
     public void periodic() {

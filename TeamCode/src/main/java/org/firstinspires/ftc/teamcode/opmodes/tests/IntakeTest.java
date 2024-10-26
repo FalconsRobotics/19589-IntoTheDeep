@@ -15,7 +15,7 @@ public class IntakeTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            sys.intake.moveSlides((gamepad1.getLeftX() + 1.0) / 2);
+            sys.intake.setSlidePositions((gamepad1.getLeftX() + 1.0) / 2);
 
             if (gamepad1.gamepad.dpad_left) {
                 sys.intake.rotateToHandoff();
