@@ -46,15 +46,13 @@ public class Intake extends SubsystemBase {
         backWheel.setInverted(true);
     }
 
-    /** Sets the positions of both slide servos.
-     *  @param position Sets the positions of both servos */
+    /** Sets the `position` of both slide servos */
     public void setSlidePositions(double position) {
         leftSlide.setPosition(position);
         rightSlide.setPosition(position);
     }
 
-    /** Sets power for both wheels
-     */
+    /** Sets `power` for both wheels */
     public void setWheelPower(double power) {
         frontWheel.set(power);
         backWheel.set(power);
