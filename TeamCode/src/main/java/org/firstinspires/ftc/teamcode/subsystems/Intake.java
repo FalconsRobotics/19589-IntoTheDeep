@@ -30,7 +30,8 @@ public class Intake extends SubsystemBase {
     /** Servo object for the front and back wheels. */
     public final CRServo frontWheel, backWheel;
 
-    /** Motor object for the pivoting arm. */
+    /** Motor object for the pivoting arm. This should be used explicitly with target positions and
+     *  not power. */
     public final MotorEx arm;
 
     public Intake(HardwareMap map) {

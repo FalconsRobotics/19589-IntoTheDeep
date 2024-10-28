@@ -10,15 +10,15 @@ import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
 @TeleOp(name = "Command TeleOp")
 public class CommandTeleOp extends CommandOpMode {
     private SubsystemsCollection sys;
-    private GamepadEx pad1, pad2;
+    private GamepadEx driverGamepad, utilityGamepad;
 
     public void initialize() {
         sys = SubsystemsCollection.getInstance(hardwareMap);
-        pad1 = new GamepadEx(gamepad1);
-        pad2 = new GamepadEx(gamepad2);
+        driverGamepad = new GamepadEx(gamepad1);
+        utilityGamepad = new GamepadEx(gamepad2);
 
         schedule(new CommandDriveRobotCentric(
-                () -> pad1.getLeftY(), () -> pad1.getLeftX(), () -> pad1.getRightX()
+                () -> driverGamepad.getLeftY(), () -> driverGamepad.getLeftX(), () -> driverGamepad.getRightX()
         ));
 
         register(sys.intake);
