@@ -21,7 +21,7 @@ public class DriveBaseTest extends LinearOpMode {
         while (opModeIsActive()) {
             sys.periodic();
 
-            sys.driveBase.motors.driveFieldCentric(pad.getLeftX(), pad.getLeftY(), pad.getRightX(), sys.driveBase.odometry.getHeading());
+            sys.driveBase.motors.driveRobotCentric(pad.getLeftX(), pad.getLeftY(), pad.getRightX());
 
             if (pad.wasJustPressed(GamepadKeys.Button.X)) {
                 sys.driveBase.odometry.recalibrateIMU();
