@@ -24,8 +24,5 @@ public class CommandTeleOp extends CommandOpMode {
                 () -> driverGamepad.getLeftY(), () -> driverGamepad.getLeftX(),
                 () -> driverGamepad.getRightX()
         ));
-
-        driverGamepad.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new CommandExtakeMoveLift(Extake.LiftPosition.DOWM));
     }
 }

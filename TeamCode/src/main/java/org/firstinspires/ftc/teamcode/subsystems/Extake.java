@@ -18,6 +18,14 @@ public class Extake extends SubsystemBase {
     /** Pre-defined lift positions. */
     public static class LiftPosition {
         public static final int DOWM = 0;
+        public static final int UP = 1215;
+
+        public static final int TOP_BUCKET = UP;
+        public static final int LOWER_BUCKET = 200;
+
+        public static final int TOP_BAR = 1050;
+        public static final int TOP_BAR_UNLOAD = 550;
+        public static final int LOWER_BAR = 200;
     }
 
     /** Motor controlling tube slide. */
@@ -33,8 +41,8 @@ public class Extake extends SubsystemBase {
         lift.setPositionCoefficient(1.0);
         lift.setTargetPosition(LiftPosition.DOWM);
 
-        leftArm = new SimpleServo(map, "Extake-LeftArm", 0, 360, AngleUnit.DEGREES);
-        rightArm = new SimpleServo(map, "Extake-RightArm", 0, 360, AngleUnit.DEGREES);
+        leftArm = new SimpleServo(map, "Extake-LeftArm", 0, 255, AngleUnit.DEGREES);
+        rightArm = new SimpleServo(map, "Extake-RightArm", 0, 255, AngleUnit.DEGREES);
         setArmPosition(ArmPosition.LOAD);
         // Servo face opposite directions, thankfully this is addressed with servo programming.
     }

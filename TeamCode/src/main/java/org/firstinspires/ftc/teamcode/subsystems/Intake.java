@@ -18,10 +18,9 @@ public class Intake extends SubsystemBase {
 
     /** Pre-defined arm positions. */
     public static class ArmPosition {
-        public static final int UNLOAD = 0;
-        public static final int HOVER = 0;
+        public static final int UNLOAD = -655;
+        public static final int HOVER = 34;
         public static final int PICKUP = 0;
-
     }
 
     /** Servo object for the left and right linear linkage extension servos. */
