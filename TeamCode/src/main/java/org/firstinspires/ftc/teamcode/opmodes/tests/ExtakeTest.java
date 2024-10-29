@@ -13,7 +13,7 @@ public class ExtakeTest extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            telemetry.addData("Lift Position", sys.extake.slide.getCurrentPosition());
+            telemetry.addData("Lift Position", sys.extake.lift.getCurrentPosition());
             telemetry.addData("Right Servo Position", sys.extake.rightArm.getPosition());
             telemetry.addData("Left Servo Position", sys.extake.leftArm.getPosition());
             telemetry.update();

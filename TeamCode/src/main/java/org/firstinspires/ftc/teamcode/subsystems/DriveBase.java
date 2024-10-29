@@ -83,8 +83,6 @@ public class DriveBase extends SubsystemBase {
             mDirect.frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
             mDirect.backLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
             mDirect.backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-
-            motors.driveWithMotorPowers(0.0, 0.0, 0.0, 0.0);
         } else {
             mDirect.frontLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
             mDirect.frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);

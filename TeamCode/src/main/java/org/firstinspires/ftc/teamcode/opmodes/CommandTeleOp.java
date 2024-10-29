@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.opmodes.commands.CommandDriveBaseBrake;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandDriveBaseDriveRobotCentric;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandExtakeMoveLift;
 import org.firstinspires.ftc.teamcode.subsystems.Extake;
@@ -44,5 +45,12 @@ public class CommandTeleOp extends CommandOpMode {
 
                 () -> driverGamepad.getRightX() * rotationMultiplier
         ));
+
+        driverGamepad.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(new CommandExtakeMoveLift(Extake.LiftPosition.DOWN));
+
+        driverGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                .whileActiveOnce(new CommandDriveBaseBrake(true))
+                .whenInactive(new CommandDriveBaseBrake(false));
     }
 }
