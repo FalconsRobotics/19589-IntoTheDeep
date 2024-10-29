@@ -9,13 +9,15 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Extake extends SubsystemBase {
+    /** Pre-defined arm positions. */
     public static class ArmPosition {
-        public static double LOAD = 0.94;
-        public static double UNLOAD = 0.31;
+        public static final double LOAD = 0.94;
+        public static final double UNLOAD = 0.31;
     }
 
+    /** Pre-defined lift positions. */
     public static class LiftPosition {
-        public static int DOWM = 0;
+        public static final int DOWM = 0;
     }
 
     /** Motor controlling tube slide. */
