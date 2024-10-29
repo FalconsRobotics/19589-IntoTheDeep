@@ -5,21 +5,20 @@ import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
-import com.arcrobotics.ftclib.hardware.ServoEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Intake extends SubsystemBase {
     /** Pre-defined slide positions */
-    public static class SlidePositions { // Wish this could be an enum. Java says "TOO BAD!"
+    public static class SlidePosition { // Wish this could be an enum. Java says: "TOO BAD!"
         public static final double RETRACTED = 0.0;
         public static final double EXTENDED = 45.0;
     }
 
     /** Pre-defined arm positions. */
-    public static class ArmPositions {
-        public static final int EXTAKE = 0;
+    public static class ArmPosition {
+        public static final int UNLOAD = 0;
         public static final int HOVER = 0;
         public static final int PICKUP = 0;
 
@@ -39,7 +38,10 @@ public class Intake extends SubsystemBase {
         rightSlide = new SimpleServo(map, "Intake-LeftSlide", 0, 360, AngleUnit.DEGREES);
 
         arm = new MotorEx(map, "Intake-Arm", Motor.GoBILDA.RPM_84);
+        arm.setRunMode(Motor.RunMode.PositionControl);
         arm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        arm.setPositionCoefficient(1.0);
+        arm.setTargetPosition(ArmPosition.UNLOAD);
 
         frontWheel = new CRServo(map, "Intake-FrontWheel");
         backWheel = new CRServo(map, "Intake-BackWheel");
@@ -48,7 +50,7 @@ public class Intake extends SubsystemBase {
     }
 
     /** Sets the `position` of both slide servos */
-    public void setSlidePositions(double position) {
+    public void setSlidePosition(double position) {
         leftSlide.setPosition(position);
         rightSlide.setPosition(position);
     }

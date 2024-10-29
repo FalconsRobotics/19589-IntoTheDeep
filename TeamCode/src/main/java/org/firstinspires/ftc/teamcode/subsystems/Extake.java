@@ -30,6 +30,7 @@ public class Extake extends SubsystemBase {
         lift = new MotorEx(map, "Extake-Slide", Motor.GoBILDA.RPM_435);
         lift.setRunMode(Motor.RunMode.PositionControl);
         lift.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        lift.setPositionCoefficient(1.0);
         lift.setTargetPosition(LiftPosition.DOWM);
 
         leftArm = new SimpleServo(map, "Extake-LeftArm", 0, 360, AngleUnit.DEGREES);

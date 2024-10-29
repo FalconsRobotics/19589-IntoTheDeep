@@ -6,11 +6,11 @@ import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
 
 import java.util.function.DoubleSupplier;
 
-public class CommandDriveRobotCentric extends CommandBase {
+public class CommandDriveBaseDriveRobotCentric extends CommandBase {
     private final SubsystemsCollection sys;
     private final DoubleSupplier forward, strafe, rotation;
 
-    public CommandDriveRobotCentric(DoubleSupplier forward, DoubleSupplier strafe, DoubleSupplier rotation) {
+    public CommandDriveBaseDriveRobotCentric(DoubleSupplier forward, DoubleSupplier strafe, DoubleSupplier rotation) {
         sys = SubsystemsCollection.getInstance(null);
         addRequirements(sys.driveBase);
 

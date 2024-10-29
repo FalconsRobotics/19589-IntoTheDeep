@@ -16,14 +16,14 @@ public class IntakeTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            sys.intake.setSlidePositions((testingGamepad.getLeftX() + 1.0) / 2);
+            sys.intake.setSlidePosition((testingGamepad.getLeftX() + 1.0) / 2);
 
             if (testingGamepad.gamepad.dpad_left) {
-                sys.intake.arm.setTargetPosition(Intake.ArmPositions.EXTAKE);
+                sys.intake.arm.setTargetPosition(Intake.ArmPosition.UNLOAD);
             } else if (testingGamepad.gamepad.dpad_up) {
-                sys.intake.arm.setTargetPosition(Intake.ArmPositions.HOVER);
+                sys.intake.arm.setTargetPosition(Intake.ArmPosition.HOVER);
             } else if (testingGamepad.gamepad.dpad_right) {
-                sys.intake.arm.setTargetPosition(Intake.ArmPositions.PICKUP);
+                sys.intake.arm.setTargetPosition(Intake.ArmPosition.PICKUP);
             }
 
             telemetry.addData("Left Extension Position", sys.intake.leftSlide.getPosition());

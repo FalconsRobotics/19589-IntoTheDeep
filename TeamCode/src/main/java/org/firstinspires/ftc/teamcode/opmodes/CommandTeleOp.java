@@ -5,7 +5,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.opmodes.commands.CommandDriveRobotCentric;
+import org.firstinspires.ftc.teamcode.opmodes.commands.CommandDriveBaseDriveRobotCentric;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandExtakeMoveLift;
 import org.firstinspires.ftc.teamcode.subsystems.Extake;
 import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
@@ -20,10 +20,7 @@ public class CommandTeleOp extends CommandOpMode {
         driverGamepad = new GamepadEx(gamepad1);
         utilityGamepad = new GamepadEx(gamepad2);
 
-        register(sys.intake);
-        register(sys.extake);
-
-        schedule(new CommandDriveRobotCentric(
+        schedule(new CommandDriveBaseDriveRobotCentric(
                 () -> driverGamepad.getLeftY(), () -> driverGamepad.getLeftX(),
                 () -> driverGamepad.getRightX()
         ));
