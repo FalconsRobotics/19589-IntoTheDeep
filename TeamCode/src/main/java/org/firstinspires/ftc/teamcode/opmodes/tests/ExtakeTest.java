@@ -1,16 +1,11 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests;
 
-import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
 
-@TeleOp(name = "Test - Drive Base")
+@TeleOp(name = "Test - Extake")
 public class ExtakeTest extends LinearOpMode {
     public void runOpMode() {
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);

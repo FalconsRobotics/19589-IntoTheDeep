@@ -22,8 +22,7 @@ public class Extake extends SubsystemBase {
 
         leftArm = new SimpleServo(map, "Extake-LeftArm", 0, 360, AngleUnit.DEGREES);
         rightArm = new SimpleServo(map, "Extake-RightArm", 0, 360, AngleUnit.DEGREES);
-        // Servo face opposite directions.
-        rightArm.setInverted(true);
+        // Servo face opposite directions, thankfully this is addressed with servo programming.
     }
 
     public void periodic() {
