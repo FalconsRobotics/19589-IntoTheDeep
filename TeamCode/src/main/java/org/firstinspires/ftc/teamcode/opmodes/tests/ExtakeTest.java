@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests;
 
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -10,12 +9,16 @@ import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
 public class ExtakeTest extends LinearOpMode {
     public void runOpMode() {
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
-        GamepadEx pad = new GamepadEx(gamepad1);
-
         waitForStart();
 
         while (opModeIsActive()) {
-            // TODO
+
+            telemetry.addData("Lift Position", sys.extake.slide.getCurrentPosition());
+            telemetry.addData("Right Servo Position", sys.extake.rightArm.getPosition());
+            telemetry.addData("Left Servo Position", sys.extake.leftArm.getPosition());
+            telemetry.update();
         }
     }
+
+
 }
