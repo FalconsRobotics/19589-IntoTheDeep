@@ -37,7 +37,7 @@ public class Extake extends SubsystemBase {
     public final SimpleServo leftArm, rightArm;
 
     public Extake(HardwareMap map) {
-        lift = new MotorEx(map, "Extake-Slide", Motor.GoBILDA.RPM_435);
+        lift = new MotorEx(map, "Extake-Lift", Motor.GoBILDA.RPM_435);
         lift.setRunMode(Motor.RunMode.PositionControl);
         lift.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         lift.setPositionCoefficient(1.0);
@@ -46,7 +46,7 @@ public class Extake extends SubsystemBase {
         leftArm = new SimpleServo(map, "Extake-LeftArm", 0, 255, AngleUnit.DEGREES);
         rightArm = new SimpleServo(map, "Extake-RightArm", 0, 255, AngleUnit.DEGREES);
         setArmPosition(ArmPosition.LOAD);
-        // Servo face opposite directions, thankfully this is addressed with servo programming.
+        // Servo face opposite directions, thankfully this was addressed in servo programming.
     }
 
     public void periodic() {

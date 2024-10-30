@@ -36,7 +36,7 @@ public class Intake extends SubsystemBase {
 
     public Intake(HardwareMap map) {
         leftSlide = new SimpleServo(map, "Intake-LeftSlide", 0, SLIDE_MAX_ANGLE, AngleUnit.DEGREES);
-        rightSlide = new SimpleServo(map, "Intake-LeftSlide", 0, SLIDE_MAX_ANGLE, AngleUnit.DEGREES);
+        rightSlide = new SimpleServo(map, "Intake-RightSlide", 0, SLIDE_MAX_ANGLE, AngleUnit.DEGREES);
 
         arm = new MotorEx(map, "Intake-Arm", Motor.GoBILDA.RPM_84);
         arm.setRunMode(Motor.RunMode.PositionControl);
