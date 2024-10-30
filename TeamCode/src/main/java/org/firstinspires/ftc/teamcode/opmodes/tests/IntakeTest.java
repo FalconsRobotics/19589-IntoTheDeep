@@ -16,7 +16,7 @@ public class IntakeTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            sys.intake.setSlidePosition((testingGamepad.getLeftX() + 1.0) / 2);
+            sys.intake.setSlidePosition((testingGamepad.getLeftX() * 90.0));
 
             if (testingGamepad.gamepad.dpad_left) {
                 sys.intake.arm.setTargetPosition(Intake.ArmPosition.UNLOAD);
