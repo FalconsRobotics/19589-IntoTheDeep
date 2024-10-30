@@ -10,10 +10,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Intake extends SubsystemBase {
+    private static final int SLIDE_MAX_ANGLE = 180;
+
     /** Pre-defined slide positions */
     public static class SlidePosition { // Wish this could be an enum. Java says: "TOO BAD!"
-        public static final double RETRACTED = 0.0;
-        public static final double EXTENDED = 45.0;
+        public static final double RETRACTED = SLIDE_MAX_ANGLE * 0.0;
+        public static final double EXTENDED = SLIDE_MAX_ANGLE * 0.2;
     }
 
     /** Pre-defined arm positions. */
@@ -33,8 +35,8 @@ public class Intake extends SubsystemBase {
     public final MotorEx arm;
 
     public Intake(HardwareMap map) {
-        leftSlide = new SimpleServo(map, "Intake-LeftSlide", 0, 360, AngleUnit.DEGREES);
-        rightSlide = new SimpleServo(map, "Intake-LeftSlide", 0, 360, AngleUnit.DEGREES);
+        leftSlide = new SimpleServo(map, "Intake-LeftSlide", 0, SLIDE_MAX_ANGLE, AngleUnit.DEGREES);
+        rightSlide = new SimpleServo(map, "Intake-LeftSlide", 0, SLIDE_MAX_ANGLE, AngleUnit.DEGREES);
 
         arm = new MotorEx(map, "Intake-Arm", Motor.GoBILDA.RPM_84);
         arm.setRunMode(Motor.RunMode.PositionControl);

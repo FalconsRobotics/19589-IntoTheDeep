@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.Subsystem;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -10,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandDriveBaseBrake;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandDriveBaseDriveRobotCentric;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandExtakeMoveLift;
+import org.firstinspires.ftc.teamcode.opmodes.commands.CommandRunContinuous;
 import org.firstinspires.ftc.teamcode.subsystems.Extake;
 import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
 
@@ -29,28 +31,51 @@ public class CommandTeleOp extends CommandOpMode {
         driverGamepad = new GamepadEx(gamepad1);
         utilityGamepad = new GamepadEx(gamepad2);
 
-        // Drive Base commands
-        sys.driveBase.brake(driverGamepad.getButton(GamepadKeys.Button.LEFT_BUMPER));
+        // Driver gamepad controls.
 
-        schedule(new CommandDriveBaseDriveRobotCentric(
-                () -> (driverGamepad.getLeftY() +
-                        (driverGamepad.getButton(GamepadKeys.Button.DPAD_UP) ? 1.0 : 0.0) -
-                        (driverGamepad.getButton(GamepadKeys.Button.DPAD_DOWN) ? 1.0 : 0.0)) *
-                        speedMultiplier,
+        // Genuinely the most unreadable code I've ever made. TOO BAD!
+        schedule(new ParallelCommandGroup(
+            new CommandDriveBaseDriveRobotCentric(
+                    () -> (driverGamepad.getLeftY() +
+                            (driverGamepad.getButton(GamepadKeys.Button.DPAD_UP) ? 1.0 : 0.0) -
+                            (driverGamepad.getButton(GamepadKeys.Button.DPAD_DOWN) ? 1.0 : 0.0)) *
+                            speedMultiplier,
 
-                () -> (driverGamepad.getLeftX() +
-                        (driverGamepad.getButton(GamepadKeys.Button.DPAD_RIGHT) ? 1.0 : 0.0) -
-                        (driverGamepad.getButton(GamepadKeys.Button.DPAD_LEFT) ? 1.0 : 0.0)) *
-                        speedMultiplier,
+                    () -> (driverGamepad.getLeftX() +
+                            (driverGamepad.getButton(GamepadKeys.Button.DPAD_RIGHT) ? 1.0 : 0.0) -
+                            (driverGamepad.getButton(GamepadKeys.Button.DPAD_LEFT) ? 1.0 : 0.0)) *
+                            speedMultiplier,
 
-                () -> driverGamepad.getRightX() * rotationMultiplier
-        ));
+                    () -> driverGamepad.getRightX() * rotationMultiplier
+            ), new CommandRunContinuous(
+                    () -> {
+                        rotationMultiplier = 1.0;
+                        speedMultiplier = 1.0;
 
-        driverGamepad.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new CommandExtakeMoveLift(Extake.LiftPosition.DOWN));
+                        if (driverGamepad.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) == 1) {
+                            rotationMultiplier = 0.75;
+                        } else if (driverGamepad.getButton(GamepadKeys.Button.RIGHT_BUMPER)) {
+                            rotationMultiplier = 0.5;
+                        }
 
-        driverGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                        if (driverGamepad.getButton(GamepadKeys.Button.Y)) {
+                            speedMultiplier = 0.75;
+                        } else if (driverGamepad.getButton(GamepadKeys.Button.X)) {
+                            speedMultiplier = 0.5;
+                        } else if (driverGamepad.getButton(GamepadKeys.Button.A)) {
+                            speedMultiplier = 0.25;
+                        }
+
+                        return false;
+                    }
+        )));
+
+        driverGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whileActiveOnce(new CommandDriveBaseBrake(true))
                 .whenInactive(new CommandDriveBaseBrake(false));
+
+        // Utility gamepad controls - TODO
+
+        
     }
 }

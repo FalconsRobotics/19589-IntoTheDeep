@@ -9,10 +9,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Extake extends SubsystemBase {
+    private static final int ARM_MAX_ANGLE = 255;
+
     /** Pre-defined arm positions. */
     public static class ArmPosition {
-        public static final double LOAD = 0.94;
-        public static final double UNLOAD = 0.31;
+        public static final double LOAD = ARM_MAX_ANGLE * 0.94;
+        public static final double UNLOAD = ARM_MAX_ANGLE * 0.31;
     }
 
     /** Pre-defined lift positions. */
