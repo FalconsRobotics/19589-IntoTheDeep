@@ -2,15 +2,15 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import android.transition.Slide;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-
+@Config
 public class Intake extends SubsystemBase {
     private static final int SLIDE_MAX_ANGLE = 180;
     private static final double ARM_MOTOR_POWER = 0.525;
@@ -41,13 +41,19 @@ public class Intake extends SubsystemBase {
     public final Motor arm;
     public final MotorController armController;
 
+    public static double armKP = 0.01;
+    public static double armKI = 0.0;
+    public static double armKD = 0.0004;
+    public static double armKF = 0.0;
+    public static int armTolerance = 10;
+
     public Intake(HardwareMap map) {
         leftSlide = new SimpleServo(map, "Intake-LeftSlide", 0, SLIDE_MAX_ANGLE, AngleUnit.DEGREES);
         rightSlide = new SimpleServo(map, "Intake-RightSlide", 0, SLIDE_MAX_ANGLE, AngleUnit.DEGREES);
         setSlidePosition(SlidePosition.FULLY_RETRACTED);
 
         arm = new Motor(map, "Intake-Arm", Motor.GoBILDA.RPM_84);
-        armController = new MotorController(arm, 0.01, 0.0, 0.0004, 0.0, 10, ARM_MOTOR_POWER);
+        armController = new MotorController(arm, armKP, armKI, armKD, armKF, armTolerance, ARM_MOTOR_POWER);
         armController.setTargetPosition(ArmPosition.UNLOAD);
 
         frontWheel = new CRServo(map, "Intake-FrontWheel");

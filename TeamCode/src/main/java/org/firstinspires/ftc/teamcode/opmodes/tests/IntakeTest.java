@@ -38,6 +38,4 @@ public class IntakeTest extends LinearOpMode {
             sys.intake.periodic();
         }
     }
-
-
 }
