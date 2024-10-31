@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import android.transition.Slide;
+
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
@@ -15,13 +17,16 @@ public class Intake extends SubsystemBase {
 
     /** Pre-defined slide positions */
     public static class SlidePosition { // Wish this could be an enum. Java says: "TOO BAD!"
-        public static final double RETRACTED = SLIDE_MAX_ANGLE * 0.0;
+        // FULLY_RETRACTED should only be used for initialization
+        public static final double FULLY_RETRACTED = 0;
+        public static final double RETRACTED = 10;
         public static final double EXTENDED = SLIDE_MAX_ANGLE * 0.2;
     }
 
     /** Pre-defined arm positions. */
     public static class ArmPosition {
         public static final int UNLOAD = 655;
+        public static final int IDLE = 600;
         public static final int HOVER = 34;
         public static final int PICKUP = 0;
     }
@@ -39,6 +44,7 @@ public class Intake extends SubsystemBase {
     public Intake(HardwareMap map) {
         leftSlide = new SimpleServo(map, "Intake-LeftSlide", 0, SLIDE_MAX_ANGLE, AngleUnit.DEGREES);
         rightSlide = new SimpleServo(map, "Intake-RightSlide", 0, SLIDE_MAX_ANGLE, AngleUnit.DEGREES);
+        setSlidePosition(SlidePosition.FULLY_RETRACTED);
 
         arm = new Motor(map, "Intake-Arm", Motor.GoBILDA.RPM_84);
         arm.setInverted(true);

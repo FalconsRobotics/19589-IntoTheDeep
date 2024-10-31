@@ -16,6 +16,7 @@ public class Extake extends SubsystemBase {
     public static class ArmPosition {
         public static final double LOAD = ARM_MAX_ANGLE * 0.94;
         public static final double UNLOAD = ARM_MAX_ANGLE * 0.31;
+        public static final double PREPARE_UNLOAD = (LOAD - UNLOAD) / 2;
     }
 
     /** Pre-defined lift positions. */
