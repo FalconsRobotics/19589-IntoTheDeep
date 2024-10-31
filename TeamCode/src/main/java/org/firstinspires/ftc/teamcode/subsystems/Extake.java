@@ -40,7 +40,7 @@ public class Extake extends SubsystemBase {
 
     public Extake(HardwareMap map) {
         lift = new Motor(map, "Extake-Lift", Motor.GoBILDA.RPM_435);
-        liftController = new MotorController(lift, 0.01, 15, LIFT_MOTOR_POWER);
+        liftController = new MotorController(lift, 0.01, 0.0, 0.0, 0.0, 15, LIFT_MOTOR_POWER);
         setLiftPosition(LiftPosition.DOWN);
 
         leftArm = new SimpleServo(map, "Extake-LeftArm", 0, 255, AngleUnit.DEGREES);
@@ -50,7 +50,7 @@ public class Extake extends SubsystemBase {
     }
 
     public void periodic() {
-        lift.set(liftController.getPower());
+        liftController.setMotorPower();
     }
 
     /** Sets `rotation` of both arm servos. */
@@ -61,9 +61,5 @@ public class Extake extends SubsystemBase {
 
     public void setLiftPosition(int position) {
         liftController.setTargetPosition(position);
-    }
-
-    public boolean liftAtPosition() {
-        return liftController.getPower() == 0;
     }
 }

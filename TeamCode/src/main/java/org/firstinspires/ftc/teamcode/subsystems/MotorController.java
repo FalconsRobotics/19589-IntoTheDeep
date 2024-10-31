@@ -1,40 +1,44 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.arcrobotics.ftclib.controller.PController;
+import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+
+// TODO: ALL OF THIS NEEDS CLEANED UP AFTER 1ST COMPETITION
 
 public class MotorController {
     private final Motor motor;
-    private int target;
-    private final double maxPower, kp;
-    private final int tolerance;
+    private final PIDFController controller;
+    private final double maxPower;
 
-    public MotorController(Motor motor, double kp, int tolerance, double maxPower) {
+    public MotorController(Motor motor, double kp, double ki, double kd, double kf, int tolerance, double maxPower) {
         this.motor = motor;
-        this.maxPower = maxPower;
-        this.tolerance = tolerance;
-        this.kp = kp;
-
         motor.setRunMode(Motor.RunMode.RawPower);
         motor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+
+        controller = new PIDFController(kp, ki, kd, kf);
+        controller.setTolerance(tolerance);
         setTargetPosition(0);
+
+        this.maxPower = maxPower;
     }
 
     public void setTargetPosition(int position) {
         // motor.setTargetPosition(position);
-        target = position;
+        controller.setSetPoint(position);
     }
 
-    public double getPower() {
-        int distance = target - motor.getCurrentPosition();
-        if (Math.abs(distance) > tolerance) {
-            return Math.min(maxPower, distance * maxPower * kp);
+    public void setMotorPower() {
+        if (!controller.atSetPoint()) {
+            motor.set(Math.min(
+                    maxPower,
+                    controller.calculate(motor.getCurrentPosition()) * maxPower
+            ));
         } else {
-            return 0; // Brake motor.
+            motor.stopMotor(); // Brake
         }
     }
 
     public int getTargetPosition() {
-        return target;
+        return (int) controller.getSetPoint();
     }
 }
