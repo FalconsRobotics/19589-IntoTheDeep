@@ -40,7 +40,7 @@ public class Extake extends SubsystemBase {
 
     public Extake(HardwareMap map) {
         lift = new Motor(map, "Extake-Lift", Motor.GoBILDA.RPM_435);
-        liftController = new MotorController(lift, 0.01, 0.0, 0.02, 0.0, 15, LIFT_MOTOR_POWER);
+        liftController = new MotorController(lift, 0.05, 0.0, 0.02, 0.0, 15, LIFT_MOTOR_POWER);
         setLiftPosition(LiftPosition.DOWN);
 
         leftArm = new SimpleServo(map, "Extake-LeftArm", 0, 255, AngleUnit.DEGREES);

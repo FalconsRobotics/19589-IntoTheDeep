@@ -47,7 +47,7 @@ public class Intake extends SubsystemBase {
         setSlidePosition(SlidePosition.FULLY_RETRACTED);
 
         arm = new Motor(map, "Intake-Arm", Motor.GoBILDA.RPM_84);
-        armController = new MotorController(arm, 0.008, 0.0, 0.003, 0.0, 10, ARM_MOTOR_POWER);
+        armController = new MotorController(arm, 0.01, 0.0, 0.0004, 0.0, 10, ARM_MOTOR_POWER);
         armController.setTargetPosition(ArmPosition.UNLOAD);
 
         frontWheel = new CRServo(map, "Intake-FrontWheel");
