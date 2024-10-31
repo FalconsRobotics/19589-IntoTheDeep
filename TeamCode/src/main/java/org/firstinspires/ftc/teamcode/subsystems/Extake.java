@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
+@Config
 public class Extake extends SubsystemBase {
     private static final int ARM_MAX_ANGLE = 255;
     private static final double LIFT_MOTOR_POWER = 0.9;
@@ -38,9 +40,15 @@ public class Extake extends SubsystemBase {
     /** Left and right servos controlling the bucket arm. */
     public final SimpleServo leftArm, rightArm;
 
+    public static double liftKP = 0.05;
+    public static double liftKI = 0.0;
+    public static double liftKD = 0.02;
+    public static double liftKF = 0.0;
+    public static int liftTolerance = 15;
+
     public Extake(HardwareMap map) {
         lift = new Motor(map, "Extake-Lift", Motor.GoBILDA.RPM_435);
-        liftController = new MotorController(lift, 0.05, 0.0, 0.02, 0.0, 15, LIFT_MOTOR_POWER);
+        liftController = new MotorController(lift, liftKP, liftKI, liftKD, liftKF, liftTolerance, LIFT_MOTOR_POWER);
         setLiftPosition(LiftPosition.DOWN);
 
         leftArm = new SimpleServo(map, "Extake-LeftArm", 0, 255, AngleUnit.DEGREES);
