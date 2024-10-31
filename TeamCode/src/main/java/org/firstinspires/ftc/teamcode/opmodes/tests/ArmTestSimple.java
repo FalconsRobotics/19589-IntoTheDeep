@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.subsystems.MotorController;
 public class ArmTestSimple extends LinearOpMode {
     public void runOpMode() {
         MotorEx arm = new MotorEx(hardwareMap, "Intake-Arm");
-        MotorController armController = new MotorController(arm, 0.001, 50, 0.1);
+        MotorController armController = new MotorController(arm, 0.001, 0, 0.1, 0.0, 50, 0.75);
         armController.setTargetPosition(Intake.ArmPosition.HOVER);
 
         waitForStart();
@@ -27,7 +27,7 @@ public class ArmTestSimple extends LinearOpMode {
                 armController.setTargetPosition(Intake.ArmPosition.UNLOAD);
             }
 
-            arm.set(armController.getPower());
+            armController.setMotorPower();
 
             telemetry.addData("Motor Position", arm.getCurrentPosition());
             telemetry.addData("at Target", arm.atTargetPosition());
