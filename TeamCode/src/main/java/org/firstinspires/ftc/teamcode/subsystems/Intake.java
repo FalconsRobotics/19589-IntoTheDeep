@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Intake extends SubsystemBase {
     private static final int SLIDE_MAX_ANGLE = 180;
+    private static final double ARM_MOTOR_POWER = 0.7;
 
     /** Pre-defined slide positions */
     public static class SlidePosition { // Wish this could be an enum. Java says: "TOO BAD!"
@@ -20,7 +21,7 @@ public class Intake extends SubsystemBase {
 
     /** Pre-defined arm positions. */
     public static class ArmPosition {
-        public static final int UNLOAD = -655;
+        public static final int UNLOAD = 655;
         public static final int HOVER = 34;
         public static final int PICKUP = 0;
     }
@@ -32,28 +33,31 @@ public class Intake extends SubsystemBase {
 
     /** Motor object for the pivoting arm. This should be used explicitly with target positions and
      *  not power. */
-    public final MotorEx arm;
+    public final Motor arm;
+    private final MotorController armController;
 
     public Intake(HardwareMap map) {
         leftSlide = new SimpleServo(map, "Intake-LeftSlide", 0, SLIDE_MAX_ANGLE, AngleUnit.DEGREES);
         rightSlide = new SimpleServo(map, "Intake-RightSlide", 0, SLIDE_MAX_ANGLE, AngleUnit.DEGREES);
 
-        arm = new MotorEx(map, "Intake-Arm", Motor.GoBILDA.RPM_84);
-        arm.setRunMode(Motor.RunMode.PositionControl);
-        arm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        arm.setPositionCoefficient(1.0);
-        arm.setTargetPosition(ArmPosition.UNLOAD);
+        arm = new Motor(map, "Intake-Arm", Motor.GoBILDA.RPM_84);
+        arm.setInverted(true);
+        armController = new MotorController(arm, 0.0075, 20, ARM_MOTOR_POWER);
+        armController.setTargetPosition(ArmPosition.UNLOAD);
 
         frontWheel = new CRServo(map, "Intake-FrontWheel");
         backWheel = new CRServo(map, "Intake-BackWheel");
-        // We want wheels moving in opposing directions in order to pick up and release game pieces.
-        backWheel.setInverted(true);
+        // Front and back wheels already set inverted.
+    }
+
+    public void periodic() {
+        arm.set(armController.getPower());
     }
 
     /** Sets the `position` of both slide servos */
     public void setSlidePosition(double position) {
-        leftSlide.setPosition(position);
-        rightSlide.setPosition(position);
+        leftSlide.rotateByAngle(position);
+        rightSlide.rotateByAngle(position);
     }
 
     /** Sets `power` for both wheels */
@@ -62,7 +66,11 @@ public class Intake extends SubsystemBase {
         backWheel.set(power);
     }
 
-    public void periodic() {
-        // Do nothing... for now...
+    public void setArmPosition(int position) {
+        armController.setTargetPosition(position);
+    }
+
+    public boolean armAtPosition() {
+        return armController.getPower() == 0;
     }
 }

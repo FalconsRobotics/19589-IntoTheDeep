@@ -18,11 +18,10 @@ public class CommandIntakeRotateArm extends CommandBase {
     }
 
     public void initialize() {
-        sys.intake.arm.setTargetPosition(position);
+        sys.intake.setArmPosition(position);
     }
 
     public boolean isFinished() {
-        int current = sys.intake.arm.getCurrentPosition();
-        return Math.abs(position - current) <= MAX_DISTANCE;
+        return sys.intake.armAtPosition();
     }
 }

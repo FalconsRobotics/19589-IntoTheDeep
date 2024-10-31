@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandDriveBaseBrake;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandDriveBaseDriveRobotCentric;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandExtakeMoveLift;
+import org.firstinspires.ftc.teamcode.opmodes.commands.CommandExtakeRotateArm;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandRunContinuous;
 import org.firstinspires.ftc.teamcode.subsystems.Extake;
 import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
@@ -74,8 +75,12 @@ public class CommandTeleOp extends CommandOpMode {
                 .whileActiveOnce(new CommandDriveBaseBrake(true))
                 .whenInactive(new CommandDriveBaseBrake(false));
 
-        // Utility gamepad controls - TODO
+        // Utility gamepad controls
 
-        
+        utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whileActiveOnce(new ParallelCommandGroup(
+                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
+                        new CommandExtakeRotateArm(Extake.ArmPosition.LOAD)
+                ));
     }
 }

@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Extake extends SubsystemBase {
     private static final int ARM_MAX_ANGLE = 255;
+    private static final double LIFT_MOTOR_POWER = 0.3;
 
     /** Pre-defined arm positions. */
     public static class ArmPosition {
@@ -31,17 +32,16 @@ public class Extake extends SubsystemBase {
     }
 
     /** Motor controlling tube slide. */
-    public final MotorEx lift;
+    public final Motor lift;
+    private final MotorController liftController;
 
     /** Left and right servos controlling the bucket arm. */
     public final SimpleServo leftArm, rightArm;
 
     public Extake(HardwareMap map) {
-        lift = new MotorEx(map, "Extake-Lift", Motor.GoBILDA.RPM_435);
-        lift.setRunMode(Motor.RunMode.PositionControl);
-        lift.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        lift.setPositionCoefficient(1.0);
-        lift.setTargetPosition(LiftPosition.DOWN);
+        lift = new Motor(map, "Extake-Lift", Motor.GoBILDA.RPM_435);
+        liftController = new MotorController(lift, 0.025, 20, LIFT_MOTOR_POWER);
+        setLiftPosition(LiftPosition.DOWN);
 
         leftArm = new SimpleServo(map, "Extake-LeftArm", 0, 255, AngleUnit.DEGREES);
         rightArm = new SimpleServo(map, "Extake-RightArm", 0, 255, AngleUnit.DEGREES);
@@ -50,12 +50,20 @@ public class Extake extends SubsystemBase {
     }
 
     public void periodic() {
-        // Do nothing for now.
+        lift.set(liftController.getPower());
     }
 
     /** Sets `rotation` of both arm servos. */
     public void setArmPosition(double rotation) {
-        leftArm.setPosition(rotation);
-        rightArm.setPosition(rotation);
+        leftArm.rotateByAngle(rotation);
+        rightArm.rotateByAngle(rotation);
+    }
+
+    public void setLiftPosition(int position) {
+        liftController.setTargetPosition(position);
+    }
+
+    public boolean liftAtPosition() {
+        return liftController.getPower() == 0;
     }
 }

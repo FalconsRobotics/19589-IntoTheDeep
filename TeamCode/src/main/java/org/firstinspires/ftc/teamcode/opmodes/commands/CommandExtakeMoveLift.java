@@ -18,11 +18,10 @@ public class CommandExtakeMoveLift extends CommandBase {
     }
 
     public void initialize() {
-        sys.extake.lift.setTargetPosition(position);
+        sys.extake.setLiftPosition(position);
     }
 
     public boolean isFinished() {
-        int current = sys.extake.lift.getCurrentPosition();
-        return Math.abs(position - current) <= MAX_DISTANCE;
+        return sys.extake.liftAtPosition();
     }
 }
