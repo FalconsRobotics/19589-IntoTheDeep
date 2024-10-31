@@ -41,4 +41,6 @@ public class MotorController {
     public int getTargetPosition() {
         return (int) controller.getSetPoint();
     }
+
+    public boolean atTarget() { return controller.atSetPoint(); }
 }

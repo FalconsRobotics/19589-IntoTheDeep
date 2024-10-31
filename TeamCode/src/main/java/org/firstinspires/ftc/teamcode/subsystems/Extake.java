@@ -33,14 +33,14 @@ public class Extake extends SubsystemBase {
 
     /** Motor controlling tube slide. */
     public final Motor lift;
-    private final MotorController liftController;
+    public final MotorController liftController;
 
     /** Left and right servos controlling the bucket arm. */
     public final SimpleServo leftArm, rightArm;
 
     public Extake(HardwareMap map) {
         lift = new Motor(map, "Extake-Lift", Motor.GoBILDA.RPM_435);
-        liftController = new MotorController(lift, 0.01, 0.0, 0.0, 0.0, 15, LIFT_MOTOR_POWER);
+        liftController = new MotorController(lift, 0.01, 0.0, 0.02, 0.0, 15, LIFT_MOTOR_POWER);
         setLiftPosition(LiftPosition.DOWN);
 
         leftArm = new SimpleServo(map, "Extake-LeftArm", 0, 255, AngleUnit.DEGREES);
