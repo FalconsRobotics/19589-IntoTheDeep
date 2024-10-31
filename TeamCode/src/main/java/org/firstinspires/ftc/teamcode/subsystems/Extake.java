@@ -3,14 +3,13 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Extake extends SubsystemBase {
     private static final int ARM_MAX_ANGLE = 255;
-    private static final double LIFT_MOTOR_POWER = 0.3;
+    private static final double LIFT_MOTOR_POWER = 0.9;
 
     /** Pre-defined arm positions. */
     public static class ArmPosition {
@@ -41,7 +40,7 @@ public class Extake extends SubsystemBase {
 
     public Extake(HardwareMap map) {
         lift = new Motor(map, "Extake-Lift", Motor.GoBILDA.RPM_435);
-        liftController = new MotorController(lift, 0.025, 20, LIFT_MOTOR_POWER);
+        liftController = new MotorController(lift, 0.01, 15, LIFT_MOTOR_POWER);
         setLiftPosition(LiftPosition.DOWN);
 
         leftArm = new SimpleServo(map, "Extake-LeftArm", 0, 255, AngleUnit.DEGREES);

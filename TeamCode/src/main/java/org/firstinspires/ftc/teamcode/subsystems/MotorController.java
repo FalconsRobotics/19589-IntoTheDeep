@@ -6,13 +6,14 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 public class MotorController {
     private final Motor motor;
     private int target;
-    private final double maxPower;
+    private final double maxPower, kp;
     private final int tolerance;
 
     public MotorController(Motor motor, double kp, int tolerance, double maxPower) {
         this.motor = motor;
         this.maxPower = maxPower;
         this.tolerance = tolerance;
+        this.kp = kp;
 
         motor.setRunMode(Motor.RunMode.RawPower);
         motor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
@@ -27,7 +28,7 @@ public class MotorController {
     public double getPower() {
         int distance = target - motor.getCurrentPosition();
         if (Math.abs(distance) > tolerance) {
-            return Math.min(maxPower, distance * maxPower * motor.getPositionCoefficient());
+            return Math.min(maxPower, distance * maxPower * kp);
         } else {
             return 0; // Brake motor.
         }

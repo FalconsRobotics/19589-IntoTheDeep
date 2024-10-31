@@ -14,9 +14,11 @@ public class ExtakeTest extends LinearOpMode {
 
         while (opModeIsActive()) {
             if (gamepad1.a) {
-                sys.extake.lift.setTargetPosition(Extake.LiftPosition.TOP_BAR);
+                sys.extake.setLiftPosition(Extake.LiftPosition.TOP_BAR);
             } else if (gamepad1.x) {
-                sys.extake.lift.setTargetPosition(Extake.LiftPosition.LOWER_BAR);
+                sys.extake.setLiftPosition(Extake.LiftPosition.LOWER_BAR);
+            } else if (gamepad1.y) {
+                sys.extake.setLiftPosition(Extake.LiftPosition.LOWER_BUCKET);
             }
 
             telemetry.addData("Lift Position", sys.extake.lift.getCurrentPosition());

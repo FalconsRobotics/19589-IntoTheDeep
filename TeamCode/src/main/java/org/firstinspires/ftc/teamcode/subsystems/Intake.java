@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Intake extends SubsystemBase {
     private static final int SLIDE_MAX_ANGLE = 180;
-    private static final double ARM_MOTOR_POWER = 0.7;
+    private static final double ARM_MOTOR_POWER = 0.525;
 
     /** Pre-defined slide positions */
     public static class SlidePosition { // Wish this could be an enum. Java says: "TOO BAD!"
@@ -25,9 +25,9 @@ public class Intake extends SubsystemBase {
 
     /** Pre-defined arm positions. */
     public static class ArmPosition {
-        public static final int UNLOAD = 655;
-        public static final int IDLE = 600;
-        public static final int HOVER = 34;
+        public static final int UNLOAD = -655;
+        public static final int IDLE = -600;
+        public static final int HOVER = -100;
         public static final int PICKUP = 0;
     }
 
@@ -47,8 +47,7 @@ public class Intake extends SubsystemBase {
         setSlidePosition(SlidePosition.FULLY_RETRACTED);
 
         arm = new Motor(map, "Intake-Arm", Motor.GoBILDA.RPM_84);
-        arm.setInverted(true);
-        armController = new MotorController(arm, 0.0075, 20, ARM_MOTOR_POWER);
+        armController = new MotorController(arm, 0.008, 10, ARM_MOTOR_POWER);
         armController.setTargetPosition(ArmPosition.UNLOAD);
 
         frontWheel = new CRServo(map, "Intake-FrontWheel");
