@@ -30,7 +30,7 @@ public class CommandTeleOp extends CommandOpMode {
 
     // For controlling intake slides
     private double intakeSlideAccumulator = Intake.SlidePosition.RETRACTED;
-    private final double INTAKE_SLIDE_MAX_ACCUMULATION = 0.05;
+    private final double INTAKE_SLIDE_MAX_ACCUMULATION = 0.0008;
 
     public void initialize() {
         SubsystemsCollection.deinit();
@@ -97,16 +97,15 @@ public class CommandTeleOp extends CommandOpMode {
         }));
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whileActiveOnce(new ParallelDeadlineGroup(
-                        new CommandTimer(500),
-                        new CommandIntakeRotateWheels(-1)
-                ));
+                .whileActiveOnce(
+                        new CommandIntakeRotateWheels(-1, 800)
+                );
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .whileActiveOnce(new SequentialCommandGroup(
-                        new ParallelCommandGroup(
-                                new CommandIntakeRotateArm(Intake.ArmPosition.IDLE),
+                        new ParallelDeadlineGroup(
                                 new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
+                                new CommandIntakeRotateArm(Intake.ArmPosition.IDLE),
                                 new CommandExtakeRotateArm(Extake.ArmPosition.LOAD)
                         ),
                         new CommandIntakeRotateArm(Intake.ArmPosition.UNLOAD)
@@ -118,9 +117,8 @@ public class CommandTeleOp extends CommandOpMode {
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whileActiveOnce(new SequentialCommandGroup(
                         new ParallelDeadlineGroup(
-                                new CommandTimer(1200),
-                                new CommandIntakeRotateArm(Intake.ArmPosition.PICKUP),
-                                new CommandIntakeRotateWheels(1)
+                                new CommandIntakeRotateWheels(1, 1200),
+                                new CommandIntakeRotateArm(Intake.ArmPosition.PICKUP)
                         ),
                         new CommandIntakeRotateArm(Intake.ArmPosition.HOVER)
                 ));
@@ -149,20 +147,20 @@ public class CommandTeleOp extends CommandOpMode {
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.B)
                 .whileActiveOnce(new SequentialCommandGroup(
-                        new ParallelCommandGroup(
+                        new ParallelDeadlineGroup(
+                                new CommandExtakeMoveLift(Extake.LiftPosition.LOWER_BUCKET),
                                 new CommandExtakeRotateArm(Extake.ArmPosition.PREPARE_UNLOAD),
-                                new CommandIntakeRotateArm(Intake.ArmPosition.IDLE),
-                                new CommandExtakeMoveLift(Extake.LiftPosition.LOWER_BUCKET)
+                                new CommandIntakeRotateArm(Intake.ArmPosition.IDLE)
                         ),
                         new CommandExtakeRotateArm(Extake.ArmPosition.UNLOAD)
                 ));
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.Y)
                 .whileActiveOnce(new SequentialCommandGroup(
-                        new ParallelCommandGroup(
+                        new ParallelDeadlineGroup(
+                                new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BUCKET),
                                 new CommandExtakeRotateArm(Extake.ArmPosition.PREPARE_UNLOAD),
-                                new CommandIntakeRotateArm(Intake.ArmPosition.IDLE),
-                                new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BUCKET)
+                                new CommandIntakeRotateArm(Intake.ArmPosition.IDLE)
                         ),
                         new CommandExtakeRotateArm(Extake.ArmPosition.UNLOAD)
                 ));

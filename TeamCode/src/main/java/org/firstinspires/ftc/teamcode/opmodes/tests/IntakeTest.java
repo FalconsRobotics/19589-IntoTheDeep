@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 @TeleOp(name = "Test - Intake")
 public class IntakeTest extends LinearOpMode {
     public void runOpMode() {
+        SubsystemsCollection.deinit();
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
         GamepadEx testingGamepad = new GamepadEx(this.gamepad1);
 
@@ -33,7 +34,5 @@ public class IntakeTest extends LinearOpMode {
 
             sys.intake.periodic();
         }
-
-        sys.deinit();
     }
 }
