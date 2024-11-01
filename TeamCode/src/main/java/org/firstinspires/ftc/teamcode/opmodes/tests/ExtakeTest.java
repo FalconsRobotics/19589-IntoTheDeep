@@ -31,8 +31,8 @@ public class ExtakeTest extends LinearOpMode {
                 sys.extake.setArmPosition(Extake.ArmPosition.LOAD);
             }
 
-            telemetry.addData("Lift Position", sys.extake.lift.getCurrentPosition());
-            telemetry.addData("Lift Power", sys.extake.lift.get());
+            telemetry.addData("Lift Position", sys.extake.lift.motor.getCurrentPosition());
+            telemetry.addData("Lift Power", sys.extake.lift.motor.get());
             telemetry.update();
 
             sys.periodic();

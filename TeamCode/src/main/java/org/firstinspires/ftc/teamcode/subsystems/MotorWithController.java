@@ -18,7 +18,7 @@ public class MotorWithController {
 
         controller = new PIDFController(kp, ki, kd, kf);
         controller.setTolerance(tolerance);
-        setTargetPosition(0);
+        controller.setSetPoint(0);
 
         this.maxPower = maxPower;
     }
