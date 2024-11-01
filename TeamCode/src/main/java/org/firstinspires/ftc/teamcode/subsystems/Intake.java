@@ -4,23 +4,22 @@ import android.transition.Slide;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 @Config
 public class Intake extends SubsystemBase {
-    private static final int SLIDE_MAX_ANGLE = 180;
     private static final double ARM_MOTOR_POWER = 0.5;
 
     /** Pre-defined slide positions */
     public static class SlidePosition { // Wish this could be an enum. Java says: "TOO BAD!"
         // FULLY_RETRACTED should only be used for initialization
         public static final double FULLY_RETRACTED = 0;
-        public static final double RETRACTED = 10;
-        public static final double EXTENDED = 30;
+        public static final double RETRACTED = 0.08;
+        public static final double EXTENDED = 0.18;
     }
 
     /** Pre-defined arm positions. */
@@ -32,7 +31,7 @@ public class Intake extends SubsystemBase {
     }
 
     /** Servo object for the left and right linear linkage extension servos. */
-    public final SimpleServo leftSlide, rightSlide;
+    public final Servo leftSlide, rightSlide;
     /** Servo object for the front and back wheels. */
     public final CRServo frontWheel, backWheel;
 
@@ -41,6 +40,7 @@ public class Intake extends SubsystemBase {
     public final Motor arm;
     public final MotorController armController;
 
+    /** These are for FTC dashboard. DO NOT ALTER. */
     public static double armKP = 0.05;
     public static double armKI = 0.0;
     public static double armKD = 0.003;
@@ -48,8 +48,9 @@ public class Intake extends SubsystemBase {
     public static int armTolerance = 8;
 
     public Intake(HardwareMap map) {
-        leftSlide = new SimpleServo(map, "Intake-LeftSlide", 0, SLIDE_MAX_ANGLE, AngleUnit.DEGREES);
-        rightSlide = new SimpleServo(map, "Intake-RightSlide", 0, SLIDE_MAX_ANGLE, AngleUnit.DEGREES);
+        // SimpleServo are not actually simpler in like any way.
+        leftSlide = map.get(Servo.class, "Intake-LeftSlide");
+        rightSlide = map.get(Servo.class, "Intake-RightSlide");
         setSlidePosition(SlidePosition.FULLY_RETRACTED);
 
         arm = new Motor(map, "Intake-Arm", Motor.GoBILDA.RPM_84);
@@ -70,8 +71,8 @@ public class Intake extends SubsystemBase {
 
     /** Sets the `position` of both slide servos */
     public void setSlidePosition(double position) {
-        leftSlide.rotateByAngle(position);
-        rightSlide.rotateByAngle(position);
+        leftSlide.setPosition(position);
+        rightSlide.setPosition(position);
     }
 
     /** Sets `power` for both wheels */

@@ -5,19 +5,19 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @Config
-public class Extake extends SubsystemBase {
-    private static final int ARM_MAX_ANGLE = 255;
+public class Extake extends SubsystemBase { ;
     private static final double LIFT_MOTOR_POWER = 0.9;
 
     /** Pre-defined arm positions. */
     public static class ArmPosition {
-        public static final double LOAD = ARM_MAX_ANGLE * 0.86;
-        public static final double UNLOAD = ARM_MAX_ANGLE * 0.31;
-        public static final double PREPARE_UNLOAD = (LOAD - UNLOAD) / 2;
+        public static final double LOAD = 0.88;
+        public static final double UNLOAD = 0.31;
+        public static final double PREPARE_UNLOAD = UNLOAD + (LOAD - UNLOAD) / 2;
     }
 
     /** Pre-defined lift positions. */
@@ -37,7 +37,7 @@ public class Extake extends SubsystemBase {
     public final MotorController liftController;
 
     /** Left and right servos controlling the bucket arm. */
-    public final SimpleServo leftArm, rightArm;
+    public final Servo leftArm, rightArm;
 
     public static double liftKP = 0.05;
     public static double liftKI = 0.0;
@@ -50,8 +50,8 @@ public class Extake extends SubsystemBase {
         liftController = new MotorController(lift, liftKP, liftKI, liftKD, liftKF, liftTolerance, LIFT_MOTOR_POWER);
         setLiftPosition(LiftPosition.DOWN);
 
-        leftArm = new SimpleServo(map, "Extake-LeftArm", 0, 255, AngleUnit.DEGREES);
-        rightArm = new SimpleServo(map, "Extake-RightArm", 0, 255, AngleUnit.DEGREES);
+        leftArm = map.get(Servo.class, "Extake-LeftArm");
+        rightArm = map.get(Servo.class, "Extake-RightArm");
         setArmPosition(ArmPosition.LOAD);
         // Servo face opposite directions, thankfully this was addressed in servo programming.
     }
@@ -63,10 +63,10 @@ public class Extake extends SubsystemBase {
         }
     }
 
-    /** Sets `rotation` of both arm servos. */
-    public void setArmPosition(double rotation) {
-        leftArm.rotateByAngle(rotation);
-        rightArm.rotateByAngle(rotation);
+    /** Sets `position` of both arm servos. */
+    public void setArmPosition(double position) {
+        leftArm.setPosition(position);
+        rightArm.setPosition(position);
     }
 
     public void setLiftPosition(int position) {
