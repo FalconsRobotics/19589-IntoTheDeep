@@ -88,7 +88,7 @@ public class CommandTeleOp extends CommandOpMode {
         schedule(new CommandRunContinuous(() -> {
             intakeSlideAccumulator = MathUtils.clamp(
                     intakeSlideAccumulator +
-                            INTAKE_SLIDE_MAX_ACCUMULATION * utilityGamepad.getRightY(),
+                            INTAKE_SLIDE_MAX_ACCUMULATION * utilityGamepad.getLeftY(),
                     Intake.SlidePosition.RETRACTED, Intake.SlidePosition.EXTENDED
             );
 
