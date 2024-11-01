@@ -29,7 +29,7 @@ public class Extake extends SubsystemBase { ;
         public static final int LOWER_BUCKET = 200;
 
         public static final int TOP_BAR = 1050;
-        public static final int LOWER_BAR = 200;
+        public static final int LOWER_BAR = 375;
     }
 
     /** Motor controlling tube slide. */
