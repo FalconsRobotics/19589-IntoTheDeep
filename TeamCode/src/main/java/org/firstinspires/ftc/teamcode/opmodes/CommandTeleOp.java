@@ -101,6 +101,11 @@ public class CommandTeleOp extends CommandOpMode {
                         new CommandIntakeRotateWheels(-1, 800)
                 );
 
+        utilityGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                .whileActiveOnce(
+                        new CommandIntakeRotateWheels(1, 800)
+                );
+
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .whileActiveOnce(new SequentialCommandGroup(
                         new ParallelDeadlineGroup(
