@@ -2,12 +2,9 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @Config
 public class Extake extends SubsystemBase { ;
@@ -33,8 +30,7 @@ public class Extake extends SubsystemBase { ;
     }
 
     /** Motor controlling tube slide. */
-    public final Motor lift;
-    public final MotorController liftController;
+    public final MotorWithController lift;
 
     /** Left and right servos controlling the bucket arm. */
     public final Servo leftArm, rightArm;
@@ -46,8 +42,7 @@ public class Extake extends SubsystemBase { ;
     public static int liftTolerance = 15;
 
     public Extake(HardwareMap map) {
-        lift = new Motor(map, "Extake-Lift", Motor.GoBILDA.RPM_435);
-        liftController = new MotorController(lift, liftKP, liftKI, liftKD, liftKF, liftTolerance, LIFT_MOTOR_POWER);
+        lift = new MotorWithController(map, "Extake-Lift", liftKP, liftKI, liftKD, liftKF, liftTolerance, LIFT_MOTOR_POWER);
         setLiftPosition(LiftPosition.DOWN);
 
         leftArm = map.get(Servo.class, "Extake-LeftArm");
@@ -57,9 +52,9 @@ public class Extake extends SubsystemBase { ;
     }
 
     public void periodic() {
-        liftController.setMotorPower();
-        if (liftController.atTarget()) {
-            lift.set(lift.get() * 0.25);
+        lift.setMotorPower();
+        if (lift.controller.atSetPoint()) {
+            lift.motor.set(lift.motor.get() * 0.25);
         }
     }
 
@@ -70,6 +65,6 @@ public class Extake extends SubsystemBase { ;
     }
 
     public void setLiftPosition(int position) {
-        liftController.setTargetPosition(position);
+        lift.controller.setSetPoint(position);
     }
 }
