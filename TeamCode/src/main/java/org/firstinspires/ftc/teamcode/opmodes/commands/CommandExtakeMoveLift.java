@@ -12,7 +12,7 @@ public class CommandExtakeMoveLift extends CommandBase {
 
     public CommandExtakeMoveLift(int position) {
         sys = SubsystemsCollection.getInstance(null);
-        addRequirements(sys.extake);
+        // addRequirements(sys.extake);
 
         this.position = position;
     }

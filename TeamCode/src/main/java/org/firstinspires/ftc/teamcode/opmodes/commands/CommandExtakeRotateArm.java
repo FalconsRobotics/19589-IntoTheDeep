@@ -10,7 +10,7 @@ public class CommandExtakeRotateArm extends CommandBase {
 
     public CommandExtakeRotateArm(double position) {
         sys = SubsystemsCollection.getInstance(null);
-        addRequirements(sys.extake);
+        // addRequirements(sys.extake);
 
         this.position = position;
     }

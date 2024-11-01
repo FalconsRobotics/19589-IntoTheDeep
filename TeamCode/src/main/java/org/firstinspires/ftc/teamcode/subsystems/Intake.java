@@ -13,21 +13,21 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 @Config
 public class Intake extends SubsystemBase {
     private static final int SLIDE_MAX_ANGLE = 180;
-    private static final double ARM_MOTOR_POWER = 0.525;
+    private static final double ARM_MOTOR_POWER = 0.5;
 
     /** Pre-defined slide positions */
     public static class SlidePosition { // Wish this could be an enum. Java says: "TOO BAD!"
         // FULLY_RETRACTED should only be used for initialization
         public static final double FULLY_RETRACTED = 0;
         public static final double RETRACTED = 10;
-        public static final double EXTENDED = SLIDE_MAX_ANGLE * 0.2;
+        public static final double EXTENDED = 30;
     }
 
     /** Pre-defined arm positions. */
     public static class ArmPosition {
-        public static final int UNLOAD = -655;
-        public static final int IDLE = -600;
-        public static final int HOVER = -100;
+        public static final int UNLOAD = -630;
+        public static final int IDLE = -514;
+        public static final int HOVER = -150;
         public static final int PICKUP = 0;
     }
 
@@ -41,11 +41,11 @@ public class Intake extends SubsystemBase {
     public final Motor arm;
     public final MotorController armController;
 
-    public static double armKP = 0.01;
+    public static double armKP = 0.05;
     public static double armKI = 0.0;
-    public static double armKD = 0.0004;
+    public static double armKD = 0.003;
     public static double armKF = 0.0;
-    public static int armTolerance = 10;
+    public static int armTolerance = 8;
 
     public Intake(HardwareMap map) {
         leftSlide = new SimpleServo(map, "Intake-LeftSlide", 0, SLIDE_MAX_ANGLE, AngleUnit.DEGREES);
@@ -58,11 +58,14 @@ public class Intake extends SubsystemBase {
 
         frontWheel = new CRServo(map, "Intake-FrontWheel");
         backWheel = new CRServo(map, "Intake-BackWheel");
-        // Front and back wheels already set inverted.
+        frontWheel.setInverted(true);
     }
 
     public void periodic() {
         armController.setMotorPower();
+        if (armController.atTarget()) {
+            arm.set(arm.get() * 0.2);
+        }
     }
 
     /** Sets the `position` of both slide servos */

@@ -44,4 +44,8 @@ public class SubsystemsCollection {
         intake.periodic();
         extake.periodic();
     }
+
+    public static void deinit() {
+        instance = null;
+    }
 }

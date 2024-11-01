@@ -12,7 +12,7 @@ public class CommandIntakeRotateArm extends CommandBase {
 
     public CommandIntakeRotateArm(int position) {
         sys = SubsystemsCollection.getInstance(null);
-        addRequirements(sys.intake);
+        // addRequirements(sys.intake);
 
         this.position = position;
     }

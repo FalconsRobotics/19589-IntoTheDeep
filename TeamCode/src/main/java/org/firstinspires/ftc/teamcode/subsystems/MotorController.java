@@ -28,14 +28,10 @@ public class MotorController {
     }
 
     public void setMotorPower() {
-        if (!controller.atSetPoint()) {
             motor.set(Math.min(
                     maxPower,
-                    controller.calculate(motor.getCurrentPosition()) * maxPower
-            ));
-        } else {
-            motor.stopMotor(); // Brake
-        }
+                    controller.calculate(motor.getCurrentPosition()) * maxPower)
+            );
     }
 
     public int getTargetPosition() {

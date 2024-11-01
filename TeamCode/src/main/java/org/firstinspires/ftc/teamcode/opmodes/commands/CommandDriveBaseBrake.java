@@ -10,7 +10,7 @@ public class CommandDriveBaseBrake extends CommandBase {
 
     public CommandDriveBaseBrake(boolean toggle) {
         sys = SubsystemsCollection.getInstance(null);
-        addRequirements(sys.driveBase);
+        // addRequirements(sys.driveBase);
 
         this.toggle = toggle;
     }

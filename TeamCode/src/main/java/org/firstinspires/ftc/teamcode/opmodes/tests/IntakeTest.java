@@ -4,7 +4,6 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.subsystems.Extake;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
 
@@ -18,8 +17,6 @@ public class IntakeTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            sys.intake.setSlidePosition((testingGamepad.getLeftX() * 45.0));
-
             if (testingGamepad.gamepad.dpad_left) {
                 sys.intake.setArmPosition(Intake.ArmPosition.UNLOAD);
             } else if (testingGamepad.gamepad.dpad_up) {
@@ -30,12 +27,13 @@ public class IntakeTest extends LinearOpMode {
                 sys.intake.setArmPosition(Intake.ArmPosition.IDLE);
             }
 
-            telemetry.addData("Left Extension Position", sys.intake.leftSlide.getPosition());
-            telemetry.addData("Right Extension Position", sys.intake.leftSlide.getPosition());
             telemetry.addData("Pivoting Motor Position", sys.intake.arm.getCurrentPosition());
+            telemetry.addData("Pivoting Motor Power", sys.intake.arm.get());
             telemetry.update();
 
             sys.intake.periodic();
         }
+
+        sys.deinit();
     }
 }

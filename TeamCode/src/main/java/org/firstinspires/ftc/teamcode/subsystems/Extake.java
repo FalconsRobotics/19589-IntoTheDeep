@@ -15,7 +15,7 @@ public class Extake extends SubsystemBase {
 
     /** Pre-defined arm positions. */
     public static class ArmPosition {
-        public static final double LOAD = ARM_MAX_ANGLE * 0.94;
+        public static final double LOAD = ARM_MAX_ANGLE * 0.86;
         public static final double UNLOAD = ARM_MAX_ANGLE * 0.31;
         public static final double PREPARE_UNLOAD = (LOAD - UNLOAD) / 2;
     }
@@ -29,7 +29,6 @@ public class Extake extends SubsystemBase {
         public static final int LOWER_BUCKET = 200;
 
         public static final int TOP_BAR = 1050;
-        public static final int TOP_BAR_UNLOAD = 550;
         public static final int LOWER_BAR = 200;
     }
 
@@ -42,7 +41,7 @@ public class Extake extends SubsystemBase {
 
     public static double liftKP = 0.05;
     public static double liftKI = 0.0;
-    public static double liftKD = 0.02;
+    public static double liftKD = 0.002;
     public static double liftKF = 0.0;
     public static int liftTolerance = 15;
 
@@ -59,6 +58,9 @@ public class Extake extends SubsystemBase {
 
     public void periodic() {
         liftController.setMotorPower();
+        if (liftController.atTarget()) {
+            lift.set(lift.get() * 0.25);
+        }
     }
 
     /** Sets `rotation` of both arm servos. */

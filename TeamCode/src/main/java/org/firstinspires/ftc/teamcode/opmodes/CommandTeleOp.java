@@ -33,6 +33,7 @@ public class CommandTeleOp extends CommandOpMode {
     private double rotationMultiplier = 1.0, speedMultiplier = 1.0;
 
     public void initialize() {
+        SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
         driverGamepad = new GamepadEx(gamepad1);
         utilityGamepad = new GamepadEx(gamepad2);
@@ -77,8 +78,8 @@ public class CommandTeleOp extends CommandOpMode {
             return false; // This should never finish.
         }));
 
-        driverGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whileActiveOnce(new CommandDriveBaseBrake(true))
+        driverGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                .whileActiveContinuous(new CommandDriveBaseBrake(true))
                 .whenInactive(new CommandDriveBaseBrake(false));
 
         // Utility gamepad controls

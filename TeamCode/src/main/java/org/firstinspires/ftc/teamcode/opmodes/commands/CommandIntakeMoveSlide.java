@@ -10,7 +10,7 @@ public class CommandIntakeMoveSlide extends CommandBase {
 
     public CommandIntakeMoveSlide(double position) {
         sys = SubsystemsCollection.getInstance(null);
-        addRequirements(sys.intake);
+        // addRequirements(sys.intake);
 
         this.position = position;
     }
