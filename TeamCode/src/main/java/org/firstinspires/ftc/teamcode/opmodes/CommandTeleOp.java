@@ -86,10 +86,12 @@ public class CommandTeleOp extends CommandOpMode {
 
         schedule(new CommandRunContinuous(() -> {
             sys.intake.setSlidePosition(
-                    Intake.SlidePosition.RETRACTED + utilityGamepad.getLeftY()
+                    Intake.SlidePosition.RETRACTED + (Math.abs(utilityGamepad.getLeftY()) *
+                            (Intake.SlidePosition.EXTENDED - Intake.SlidePosition.RETRACTED))
             );
 
             sys.intake.setWheelPower(utilityGamepad.getRightY());
+
             return false;
         }));
 
