@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
+import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
 public class CommandExtakeMoveLift extends CommandBase {
     private static final int MAX_DISTANCE = 10;
@@ -22,6 +22,6 @@ public class CommandExtakeMoveLift extends CommandBase {
     }
 
     public boolean isFinished() {
-        return sys.extake.liftController.atTarget();
+        return sys.extake.lift.controller.atSetPoint();
     }
 }

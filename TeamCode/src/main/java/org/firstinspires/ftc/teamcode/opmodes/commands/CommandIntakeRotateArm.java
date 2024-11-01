@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
+import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
 public class CommandIntakeRotateArm extends CommandBase {
     private static final int MAX_DISTANCE = 10;
@@ -22,6 +22,6 @@ public class CommandIntakeRotateArm extends CommandBase {
     }
 
     public boolean isFinished() {
-        return sys.intake.armController.atTarget();
+        return sys.intake.arm.controller.atSetPoint();
     }
 }

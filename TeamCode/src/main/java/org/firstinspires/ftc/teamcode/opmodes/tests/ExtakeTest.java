@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Extake;
-import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
+import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
 @TeleOp(name = "Test - Extake")
 public class ExtakeTest extends LinearOpMode {

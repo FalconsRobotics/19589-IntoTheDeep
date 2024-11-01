@@ -12,14 +12,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandDriveBaseBrake;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandExtakeMoveLift;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandExtakeRotateArm;
-import org.firstinspires.ftc.teamcode.opmodes.commands.CommandIntakeMoveSlide;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandIntakeRotateArm;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandIntakeRotateWheels;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandRunContinuous;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandTimer;
 import org.firstinspires.ftc.teamcode.subsystems.Extake;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
-import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
+import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
 @TeleOp(name = "Command TeleOp")
 public class CommandTeleOp extends CommandOpMode {

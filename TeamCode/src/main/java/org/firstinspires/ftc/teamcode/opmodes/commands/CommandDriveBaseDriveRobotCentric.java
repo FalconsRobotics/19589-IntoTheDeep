@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
+import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
 import java.util.function.DoubleSupplier;
 

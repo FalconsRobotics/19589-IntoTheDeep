@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
-import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
+import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
 @TeleOp(name = "Test - Intake")
 public class IntakeTest extends LinearOpMode {
@@ -27,8 +27,8 @@ public class IntakeTest extends LinearOpMode {
                 sys.intake.setArmPosition(Intake.ArmPosition.IDLE);
             }
 
-            telemetry.addData("Pivoting Motor Position", sys.intake.arm.getCurrentPosition());
-            telemetry.addData("Pivoting Motor Power", sys.intake.arm.get());
+            telemetry.addData("Pivoting Motor Position", sys.intake.arm.motor.getCurrentPosition());
+            telemetry.addData("Pivoting Motor Power", sys.intake.arm.motor.get());
             telemetry.update();
 
             sys.intake.periodic();
