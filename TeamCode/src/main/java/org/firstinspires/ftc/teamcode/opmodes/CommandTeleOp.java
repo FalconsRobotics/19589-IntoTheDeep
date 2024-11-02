@@ -30,18 +30,22 @@ public class CommandTeleOp extends CommandOpMode {
 
     // For controlling intake slides
     private double intakeSlideAccumulator = Intake.SlidePosition.RETRACTED;
-    private final double INTAKE_SLIDE_MAX_ACCUMULATION = 0.0008;
+    private final double INTAKE_SLIDE_MAX_ACCUMULATION = 0.008;
 
     public void initialize() {
+        telemetry.speak("Finger.");
+        telemetry.update();
+
         SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
         driverGamepad = new GamepadEx(gamepad1);
         utilityGamepad = new GamepadEx(gamepad2);
 
-        // Driver gamepad controls.
-
+        // All code that needs to run continuously
         // Genuinely the most unreadable code I've ever made. TOO BAD!
         schedule(new CommandRunContinuous(() -> {
+            // Driver gamepad controls
+
             driveRotationMultiplier = 1.0;
             driveSpeedMultiplier = 1.0;
 
@@ -59,14 +63,19 @@ public class CommandTeleOp extends CommandOpMode {
                 driveSpeedMultiplier = 0.25;
             }
 
+            if (driverGamepad.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) == 1) {
+                driveSpeedMultiplier = 0.5;
+                driveRotationMultiplier = 0.5;
+            }
+
             // Equations for driving
-            double driveX = driverGamepad.getLeftX() +
+            double driveX = (driverGamepad.getLeftX() +
                     (driverGamepad.getButton(GamepadKeys.Button.DPAD_RIGHT) ? 1.0 : 0.0) -
-                    (driverGamepad.getButton(GamepadKeys.Button.DPAD_LEFT) ? 1.0 : 0.0) *
+                    (driverGamepad.getButton(GamepadKeys.Button.DPAD_LEFT) ? 1.0 : 0.0)) *
                             driveSpeedMultiplier;
-            double driveY = driverGamepad.getLeftY() +
+            double driveY = (driverGamepad.getLeftY() +
                     (driverGamepad.getButton(GamepadKeys.Button.DPAD_UP) ? 1.0 : 0.0) -
-                    (driverGamepad.getButton(GamepadKeys.Button.DPAD_DOWN) ? 1.0 : 0.0) *
+                    (driverGamepad.getButton(GamepadKeys.Button.DPAD_DOWN) ? 1.0 : 0.0)) *
                             driveSpeedMultiplier;
 
             sys.driveBase.motors.driveRobotCentric(
@@ -75,26 +84,26 @@ public class CommandTeleOp extends CommandOpMode {
                     true
             );
 
-            return false; // This should never finish.
-        }));
+            // Utility gamepad controls
 
-        driverGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whileActiveContinuous(new CommandDriveBaseBrake(true))
-                .whenInactive(new CommandDriveBaseBrake(false));
-
-        // Utility gamepad controls
-
-        schedule(new CommandRunContinuous(() -> {
-            intakeSlideAccumulator = MathUtils.clamp(
-                    intakeSlideAccumulator +
-                            INTAKE_SLIDE_MAX_ACCUMULATION * utilityGamepad.getLeftY(),
+            intakeSlideAccumulator += INTAKE_SLIDE_MAX_ACCUMULATION * utilityGamepad.getLeftY();
+            intakeSlideAccumulator = MathUtils.clamp(intakeSlideAccumulator,
                     Intake.SlidePosition.RETRACTED, Intake.SlidePosition.EXTENDED
             );
 
             sys.intake.setSlidePosition(intakeSlideAccumulator);
 
-            return false;
+            return false; // This should never finish.
         }));
+
+        // Driver gamepad controls
+
+        driverGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                .whileActiveContinuous(new CommandDriveBaseBrake(true))
+                .whenInactive(new CommandDriveBaseBrake(false));
+
+
+        // Utility gamepad controls
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whileActiveOnce(
@@ -117,7 +126,7 @@ public class CommandTeleOp extends CommandOpMode {
                 ));
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-                .whileActiveOnce(new CommandExtakeRotateArm(Intake.ArmPosition.HOVER));
+                .whileActiveOnce(new CommandIntakeRotateArm(Intake.ArmPosition.HOVER));
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whileActiveOnce(new SequentialCommandGroup(
