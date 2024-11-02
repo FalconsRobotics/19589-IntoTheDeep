@@ -39,7 +39,7 @@ public class Intake extends SubsystemBase {
 
     /** These are for FTC dashboard. DO NOT ALTER. */
     public static double armKP = 0.05;
-    public static double armKI = 0.0;
+    public static double armKI = 0.015;
     public static double armKD = 0.003;
     public static double armKF = 0.0;
     public static int armTolerance = 8;

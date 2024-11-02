@@ -29,4 +29,8 @@ public class MotorWithController {
                     controller.calculate(motor.getCurrentPosition()) * maxPower)
             );
     }
+
+    public boolean atTarget() {
+        return Math.abs(controller.getPositionError()) <= controller.getTolerance()[0];
+    }
 }
