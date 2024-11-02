@@ -61,8 +61,8 @@ public class CommandTeleOp extends CommandOpMode {
             }
 
             if (driverGamepad.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) == 1) {
-                driveSpeedMultiplier = 0.5;
-                driveRotationMultiplier = 0.5;
+                driveSpeedMultiplier = 0.65;
+                driveRotationMultiplier = 0.65;
             }
 
             // Equations for driving
