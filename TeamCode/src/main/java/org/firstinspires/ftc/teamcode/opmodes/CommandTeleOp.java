@@ -30,12 +30,9 @@ public class CommandTeleOp extends CommandOpMode {
 
     // For controlling intake slides
     private double intakeSlideAccumulator = Intake.SlidePosition.RETRACTED;
-    private final double INTAKE_SLIDE_MAX_ACCUMULATION = 0.005;
+    private final double INTAKE_SLIDE_MAX_ACCUMULATION = 0.01;
 
     public void initialize() {
-        telemetry.speak("Finger. Finger. Finger.");
-        telemetry.update();
-
         SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
         driverGamepad = new GamepadEx(gamepad1);
@@ -86,11 +83,15 @@ public class CommandTeleOp extends CommandOpMode {
 
             // Utility gamepad controls
 
-            intakeSlideAccumulator += INTAKE_SLIDE_MAX_ACCUMULATION * -utilityGamepad.getLeftY();
+            intakeSlideAccumulator += INTAKE_SLIDE_MAX_ACCUMULATION * -utilityGamepad.getRightY();
             // Intake slide is retracted at ~0.9 and extended at 0.4.
             intakeSlideAccumulator = MathUtils.clamp(intakeSlideAccumulator,
                     Intake.SlidePosition.EXTENDED, Intake.SlidePosition.RETRACTED
             );
+
+            if (utilityGamepad.getButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)) {
+                intakeSlideAccumulator = Intake.SlidePosition.RETRACTED;
+            }
 
             sys.intake.setSlidePosition(intakeSlideAccumulator);
 
