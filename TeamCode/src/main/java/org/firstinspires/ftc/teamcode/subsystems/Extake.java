@@ -36,11 +36,11 @@ public class Extake extends SubsystemBase { ;
     /** Left and right servos controlling the bucket arm. */
     public final Servo leftArm, rightArm;
 
-    public static double liftKP = 0.05;
+    public static double liftKP = 0.0605;
     public static double liftKI = 0.0;
     public static double liftKD = 0.002;
     public static double liftKF = 0.0;
-    public static int liftTolerance = 15;
+    public static int liftTolerance = 20;
 
     public Extake(HardwareMap map) {
         lift = new MotorWithController(map, "Extake-Lift", liftKP, liftKI, liftKD, liftKF, liftTolerance, LIFT_MOTOR_POWER);

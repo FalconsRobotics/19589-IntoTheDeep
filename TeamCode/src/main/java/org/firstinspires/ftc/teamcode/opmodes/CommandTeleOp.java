@@ -83,8 +83,9 @@ public class CommandTeleOp extends CommandOpMode {
 
             // Utility gamepad controls
 
-            intakeSlideAccumulator += INTAKE_SLIDE_MAX_ACCUMULATION * -utilityGamepad.getRightY();
-            // Intake slide is retracted at ~0.9 and extended at 0.4.
+            intakeSlideAccumulator += INTAKE_SLIDE_MAX_ACCUMULATION * utilityGamepad.getRightY();
+            // Intake slide is retracted at ~0.9 and extended at ~0.4, hence why retracted is
+            // considered its maximum position.
             intakeSlideAccumulator = MathUtils.clamp(intakeSlideAccumulator,
                     Intake.SlidePosition.EXTENDED, Intake.SlidePosition.RETRACTED
             );
