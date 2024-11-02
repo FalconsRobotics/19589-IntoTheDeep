@@ -16,8 +16,8 @@ public class Intake extends SubsystemBase {
     public static class SlidePosition { // Wish this could be an enum. Java says: "TOO BAD!"
         // FULLY_RETRACTED should only be used for initialization
         public static final double FULLY_RETRACTED = 1;
-        public static final double RETRACTED = 1 - 0.015;
-        public static final double EXTENDED = 1 - 0.4;
+        public static final double RETRACTED = 1 - 0.005;
+        public static final double EXTENDED = 0.7758;
     }
 
     /** Pre-defined arm positions. */
