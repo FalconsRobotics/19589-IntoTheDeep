@@ -4,24 +4,22 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
-public class CommandExtakeMoveLift extends CommandBase {
-    private static final int MAX_DISTANCE = 10;
-
+public class CommandDriveBaseBrake extends CommandBase {
     private final SubsystemsCollection sys;
-    private final int position;
+    private final boolean toggle;
 
-    public CommandExtakeMoveLift(int position) {
+    public CommandDriveBaseBrake(boolean toggle) {
         sys = SubsystemsCollection.getInstance(null);
-        // addRequirements(sys.extake);
+        // addRequirements(sys.driveBase);
 
-        this.position = position;
+        this.toggle = toggle;
     }
 
     public void initialize() {
-        sys.extake.setLiftPosition(position);
+        sys.driveBase.brake(toggle);
     }
 
     public boolean isFinished() {
-        return sys.extake.lift.controller.atSetPoint();
+        return true;
     }
 }

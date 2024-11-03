@@ -1,18 +1,18 @@
 
 package org.firstinspires.ftc.teamcode.opmodes.tests;
 
-import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
+import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
 @TeleOp(name = "Test - Drive Base")
 public class DriveBaseTest extends LinearOpMode {
     public void runOpMode() {
+        SubsystemsCollection.deinit();
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
         GamepadEx pad = new GamepadEx(gamepad1);
 
@@ -28,6 +28,8 @@ public class DriveBaseTest extends LinearOpMode {
                 sys.driveBase.odometry.resetPosAndIMU();
                 sleep(1000);
             }
+
+            sys.driveBase.brake(pad.getButton(GamepadKeys.Button.LEFT_BUMPER));
 
             telemetry.addData("X Position", sys.driveBase.odometry.getPosX());
             telemetry.addData("Y Position", sys.driveBase.odometry.getPosY());

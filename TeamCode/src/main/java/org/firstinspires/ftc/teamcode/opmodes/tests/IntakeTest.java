@@ -5,33 +5,34 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
-import org.firstinspires.ftc.teamcode.subsystems.SubsystemsCollection;
+import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
 @TeleOp(name = "Test - Intake")
 public class IntakeTest extends LinearOpMode {
     public void runOpMode() {
+        SubsystemsCollection.deinit();
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
         GamepadEx testingGamepad = new GamepadEx(this.gamepad1);
 
+        sys.extake.setArmPosition(Intake.ArmPosition.IDLE);
         waitForStart();
 
         while (opModeIsActive()) {
-            sys.intake.setSlidePositions((testingGamepad.getLeftX() + 1.0) / 2);
-
             if (testingGamepad.gamepad.dpad_left) {
-                sys.intake.arm.setTargetPosition(Intake.ArmPositions.EXTAKE);
+                sys.intake.setArmPosition(Intake.ArmPosition.UNLOAD);
             } else if (testingGamepad.gamepad.dpad_up) {
-                sys.intake.arm.setTargetPosition(Intake.ArmPositions.HOVER);
+                sys.intake.setArmPosition(Intake.ArmPosition.HOVER);
             } else if (testingGamepad.gamepad.dpad_right) {
-                sys.intake.arm.setTargetPosition(Intake.ArmPositions.PICKUP);
+                sys.intake.setArmPosition(Intake.ArmPosition.PICKUP);
+            } else {
+                sys.intake.setArmPosition(Intake.ArmPosition.IDLE);
             }
 
-            telemetry.addData("Left Extension Position", sys.intake.leftSlide.getPosition());
-            telemetry.addData("Right Extension Position", sys.intake.leftSlide.getPosition());
-            telemetry.addData("Pivoting Motor Position", sys.intake.arm.getCurrentPosition());
+            telemetry.addData("Pivoting Motor Position", sys.intake.arm.motor.getCurrentPosition());
+            telemetry.addData("Pivoting Motor Power", sys.intake.arm.motor.get());
             telemetry.update();
+
+            sys.intake.periodic();
         }
     }
-
-
 }

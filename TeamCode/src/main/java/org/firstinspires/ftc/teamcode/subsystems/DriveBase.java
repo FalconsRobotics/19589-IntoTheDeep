@@ -52,7 +52,7 @@ public class DriveBase extends SubsystemBase {
         motors = new MecanumDrive(false, mDirect.frontLeft, mDirect.frontRight,
                 mDirect.backLeft, mDirect.backRight);
         // For some odd reason: Sometimes this works, sometimes it doesn't.
-        // mDirect.frontLeft.setInverted(true);
+        mDirect.frontLeft.setInverted(true);
 
         odometry = map.get(GoBildaPinpointDriver.class, "DriveBase-Odometry");
         odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
@@ -83,8 +83,6 @@ public class DriveBase extends SubsystemBase {
             mDirect.frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
             mDirect.backLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
             mDirect.backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-
-            motors.driveWithMotorPowers(0.0, 0.0, 0.0, 0.0);
         } else {
             mDirect.frontLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
             mDirect.frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);

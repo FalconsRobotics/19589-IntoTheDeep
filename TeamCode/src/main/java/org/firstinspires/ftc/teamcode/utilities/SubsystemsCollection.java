@@ -1,6 +1,10 @@
-package org.firstinspires.ftc.teamcode.subsystems;
+package org.firstinspires.ftc.teamcode.utilities;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.teamcode.subsystems.DriveBase;
+import org.firstinspires.ftc.teamcode.subsystems.Extake;
+import org.firstinspires.ftc.teamcode.subsystems.Intake;
 
 import java.security.InvalidParameterException;
 
@@ -43,5 +47,9 @@ public class SubsystemsCollection {
         driveBase.periodic();
         intake.periodic();
         extake.periodic();
+    }
+
+    public static void deinit() {
+        instance = null;
     }
 }
