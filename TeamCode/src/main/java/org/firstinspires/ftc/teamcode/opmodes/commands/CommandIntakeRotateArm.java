@@ -22,6 +22,6 @@ public class CommandIntakeRotateArm extends CommandBase {
     }
 
     public boolean isFinished() {
-        return sys.intake.arm.controller.atSetPoint();
+        return sys.intake.arm.atTarget();
     }
 }

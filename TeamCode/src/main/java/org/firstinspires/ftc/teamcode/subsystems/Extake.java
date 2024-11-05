@@ -5,12 +5,12 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
 import org.firstinspires.ftc.teamcode.utilities.MotorWithController;
+import org.firstinspires.ftc.teamcode.utilities.MotorWithPIDFController;
 
 @Config
 public class Extake extends SubsystemBase { ;
-    private static final double LIFT_MOTOR_POWER = 0.9;
-
     /** Pre-defined arm positions. */
     public static class ArmPosition {
         public static final double LOAD = 0.89;
@@ -36,14 +36,16 @@ public class Extake extends SubsystemBase { ;
     /** Left and right servos controlling the bucket arm. */
     public final Servo leftArm, rightArm;
 
-    public static double liftKP = 0.0605;
-    public static double liftKI = 0.0;
-    public static double liftKD = 0.002;
-    public static double liftKF = 0.0;
-    public static int liftTolerance = 20;
-
     public Extake(HardwareMap map) {
-        lift = new MotorWithController(map, "Extake-Lift", liftKP, liftKI, liftKD, liftKF, liftTolerance, LIFT_MOTOR_POWER);
+        lift = new MotorWithPIDFController(
+                map, "Extake-Lift",
+                ControlConstants.ExtakeLift.PIDF.KP,
+                ControlConstants.ExtakeLift.PIDF.KI,
+                ControlConstants.ExtakeLift.PIDF.KD,
+                ControlConstants.ExtakeLift.PIDF.KF,
+                ControlConstants.ExtakeLift.TOLERANCE,
+                ControlConstants.ExtakeLift.MAX_POWER
+        );
         setLiftPosition(LiftPosition.DOWN);
 
         leftArm = map.get(Servo.class, "Extake-LeftArm");
@@ -54,7 +56,7 @@ public class Extake extends SubsystemBase { ;
 
     public void periodic() {
         lift.setMotorPower();
-        if (lift.controller.atSetPoint()) {
+        if (lift.atTarget()) {
             lift.motor.set(lift.motor.get() * 0.25);
         }
     }
@@ -65,7 +67,8 @@ public class Extake extends SubsystemBase { ;
         rightArm.setPosition(position);
     }
 
+    /** Sets `position` (in ticks) of lift. */
     public void setLiftPosition(int position) {
-        lift.controller.setSetPoint(position);
+        lift.setTarget(position);
     }
 }

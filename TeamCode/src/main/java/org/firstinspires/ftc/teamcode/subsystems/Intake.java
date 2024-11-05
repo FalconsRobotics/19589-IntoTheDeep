@@ -6,14 +6,14 @@ import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
 import org.firstinspires.ftc.teamcode.utilities.MotorWithController;
+import org.firstinspires.ftc.teamcode.utilities.MotorWithPIDFController;
 
 @Config
 public class Intake extends SubsystemBase {
-    private static final double ARM_MOTOR_POWER = 0.5;
-
     /** Pre-defined slide positions */
-    public static class SlidePosition { // Wish this could be an enum. Java says: "TOO BAD!"
+    public static final class SlidePosition { // Wish this could be an enum. Java says: "TOO BAD!"
         // FULLY_RETRACTED should only be used for initialization
         public static final double FULLY_RETRACTED = 1;
         public static final double RETRACTED = 1 - 0.005;
@@ -21,11 +21,18 @@ public class Intake extends SubsystemBase {
     }
 
     /** Pre-defined arm positions. */
-    public static class ArmPosition {
+    public static final class ArmPosition {
         public static final int UNLOAD = -615;
         public static final int IDLE = -510;
         public static final int HOVER = -150;
         public static final int PICKUP = 0;
+    }
+
+    /** Pre-defined power for intake wheels. */
+    public static final class WheelPower {
+        public static final double LOAD = 1.0;
+        public static final double UNLOAD = -1.0;
+        public static final double STOP = 0.0;
     }
 
     /** Servo object for the left and right linear linkage extension servos. */
@@ -37,20 +44,21 @@ public class Intake extends SubsystemBase {
      *  not power. */
     public final MotorWithController arm;
 
-    /** These are for FTC dashboard. DO NOT ALTER. */
-    public static double armKP = 0.05;
-    public static double armKI = 0.015;
-    public static double armKD = 0.003;
-    public static double armKF = 0.0;
-    public static int armTolerance = 8;
-
     public Intake(HardwareMap map) {
         // SimpleServo are not actually simpler in like any way.
         leftSlide = map.get(Servo.class, "Intake-LeftSlide");
         rightSlide = map.get(Servo.class, "Intake-RightSlide");
         setSlidePosition(SlidePosition.FULLY_RETRACTED);
 
-        arm = new MotorWithController(map, "Intake-Arm", armKP, armKI, armKD, armKF, armTolerance, ARM_MOTOR_POWER);
+        arm = new MotorWithPIDFController(
+                map, "Intake-Arm",
+                ControlConstants.IntakeArm.PIDF.KP,
+                ControlConstants.IntakeArm.PIDF.KI,
+                ControlConstants.IntakeArm.PIDF.KD,
+                ControlConstants.IntakeArm.PIDF.KF,
+                ControlConstants.IntakeArm.TOLERANCE,
+                ControlConstants.IntakeArm.MAX_POWER
+        );
         setArmPosition(ArmPosition.UNLOAD);
 
         frontWheel = new CRServo(map, "Intake-FrontWheel");
@@ -60,7 +68,7 @@ public class Intake extends SubsystemBase {
 
     public void periodic() {
         arm.setMotorPower();
-        if (arm.controller.atSetPoint()) {
+        if (arm.atTarget()) {
             arm.motor.set(arm.motor.get() * 0.2);
         }
     }
@@ -77,7 +85,8 @@ public class Intake extends SubsystemBase {
         backWheel.set(power);
     }
 
+    /** Sets 'position' (in ticks) of arm. */
     public void setArmPosition(int position) {
-        arm.controller.setSetPoint(position);
+        arm.setTarget(position);
     }
 }
