@@ -33,4 +33,20 @@ public final class ControlConstants {
         public static double MAX_POWER = 0.9;
         public static int TOLERANCE = 20;
     }
+
+    public static final class RoadRunner {
+//        public static final class PIDF {
+//            public static double KP = 0.0;
+//            public static double KI = 0.0;
+//            public static double KD = 0.0;
+//            public static double KF = 0.0;
+//        }
+
+        public static final class Feedforward {
+            public static double KV = 0.0;
+            public static double KA = 0.0;
+            // Not in line with typical naming conventions here... ?
+            public static double K_STATIC = 0.0;
+        }
+    }
 }
