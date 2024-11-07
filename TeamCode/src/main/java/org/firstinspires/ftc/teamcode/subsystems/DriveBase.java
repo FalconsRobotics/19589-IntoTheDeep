@@ -7,23 +7,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
 import org.firstinspires.ftc.teamcode.external.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.utilities.DriveBaseMotors;
 
 
 /** Manages all mechanisms associated with robot drive base. */
 public class DriveBase extends SubsystemBase {
-    // Allows for direct access to the motors used by MecanumDrive. Used for braking.
-    private static class MotorsDirectAccess {
-        public final Motor frontLeft, frontRight, backLeft, backRight;
-
-        public MotorsDirectAccess(Motor frontLeft, Motor frontRight, Motor backLeft, Motor backRight) {
-            this.frontLeft = frontLeft;
-            this.frontRight = frontRight;
-            this.backLeft = backLeft;
-            this.backRight = backRight;
-        }
-    }
-
-    private final MotorsDirectAccess mDirect;
+    private final DriveBaseMotors mDirect;
 
     /**
      * Collection of all drive base motors. Managed by FTCLib.
@@ -39,7 +28,7 @@ public class DriveBase extends SubsystemBase {
      * Initializes all members using 'map.'
      */
     public DriveBase(HardwareMap map) {
-        mDirect = new MotorsDirectAccess(
+        mDirect = new DriveBaseMotors(
                 new Motor(map, "DriveBase-FrontLeft", Motor.GoBILDA.RPM_435),
                 new Motor(map, "DriveBase-FrontRight", Motor.GoBILDA.RPM_435),
                 new Motor(map, "DriveBase-BackLeft", Motor.GoBILDA.RPM_435),

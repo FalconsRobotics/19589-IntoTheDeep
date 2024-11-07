@@ -34,6 +34,7 @@ public final class ControlConstants {
         public static int TOLERANCE = 20;
     }
 
+    /** Constants to be used with Road Runner. */
     public static final class RoadRunner {
 //        public static final class PIDF {
 //            public static double KP = 0.0;
@@ -48,5 +49,11 @@ public final class ControlConstants {
             // Not in line with typical naming conventions here... ?
             public static double K_STATIC = 0.0;
         }
+
+        // TODO: Find these values, as well as the units Road Runner expects them in.
+        //  (likely inches)
+        public static double TRACK_WIDTH = 0.0;
+        public static double WHEEL_BASE = 0.0;
+        public static double LATERAL_MULTIPLIER = 1.0;
     }
 }

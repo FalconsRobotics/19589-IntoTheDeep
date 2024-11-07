@@ -23,8 +23,6 @@ public class OdometryPodLocalizer implements Localizer {
         this.odometryModule = odometryModule;
     }
 
-    MecanumDrive
-
     public void update() {
         odometryModule.update();
     }
