@@ -12,15 +12,13 @@ import org.firstinspires.ftc.teamcode.utilities.DriveBaseMotors;
 
 /** Manages all mechanisms associated with robot drive base. */
 public class DriveBase extends SubsystemBase {
-    private final DriveBaseMotors mDirect;
+    /** Provides direct access to drive base motors. */
+    public final DriveBaseMotors mDirect;
 
-    /**
-     * Collection of all drive base motors. Managed by FTCLib.
-     */
+    /** Collection of all drive base motors. Managed by FTCLib. */
     public final MecanumDrive motors;
-    /**
-     * Used to estimate robot position on field.
-     */
+
+    /** Used to estimate robot position on field. */
     public final GoBildaPinpointDriver odometry;
 //    public final Limelight3A limelight;
 

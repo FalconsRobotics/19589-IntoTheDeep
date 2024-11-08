@@ -26,12 +26,15 @@ public class RRMecanumDriveImpl extends MecanumDrive {
     @NonNull
     public List<Double> getWheelPositions() {
         // Must be returned in the same order as seen in `setMotorPowers().`
-        return Arrays.asList(
-                mDirect.frontLeft.get(),
-                mDirect.backLeft.get(),
-                mDirect.backRight.get(),
-                mDirect.frontRight.get()
-        );
+//        return Arrays.asList(
+//                mDirect.frontLeft.get(),
+//                mDirect.backLeft.get(),
+//                mDirect.backRight.get(),
+//                mDirect.frontRight.get()
+//        );
+
+        // I don't understand the need to get wheel positions. Don't we already have a localizer?
+        return Arrays.asList(); // Yes this is intended.
     }
 
     public void setMotorPowers(double v, double v1, double v2, double v3) {

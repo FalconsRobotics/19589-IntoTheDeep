@@ -35,7 +35,7 @@ public class OdometryPodLocalizer implements Localizer {
         odometryModule.setPosition(new Pose2D(
                 // If I remember correctly, road runner uses inches by default. If this isn't the
                 // case, or if there is some way to change such behaviour, this should be changed.
-                DistanceUnit.INCH, pose.getX(), pose.getY(),
+                DistanceUnit.MM, pose.getY(), pose.getY(),
                 AngleUnit.RADIANS, pose.getHeading()
         ));
     }

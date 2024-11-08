@@ -36,12 +36,17 @@ public final class ControlConstants {
 
     /** Constants to be used with Road Runner. */
     public static final class RoadRunner {
-//        public static final class PIDF {
-//            public static double KP = 0.0;
-//            public static double KI = 0.0;
-//            public static double KD = 0.0;
-//            public static double KF = 0.0;
-//        }
+        public static final class Translation {
+            public static double KP = 0.0;
+            public static double KI = 0.0;
+            public static double KD = 0.0;
+        }
+
+        public static final class Heading {
+            public static double KP = 0.0;
+            public static double KI = 0.0;
+            public static double KD = 0.0;
+        }
 
         public static final class Feedforward {
             public static double KV = 0.0;
@@ -51,9 +56,14 @@ public final class ControlConstants {
         }
 
         // TODO: Find these values, as well as the units Road Runner expects them in.
-        //  (likely inches)
+        //  (likely inches) (because of how I've done things maybe millimeters)
         public static double TRACK_WIDTH = 0.0;
         public static double WHEEL_BASE = 0.0;
         public static double LATERAL_MULTIPLIER = 1.0;
+
+        public static double MAX_TRANSLATIONAL_VELOCITY = 80.0;
+        public static double MAX_ANGLE_VELOCITY = 1.0;
+
+        public static double MAX_ACCELERATION = 50;
     }
 }
