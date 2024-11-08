@@ -22,6 +22,6 @@ public class CommandExtakeMoveLift extends CommandBase {
     }
 
     public boolean isFinished() {
-        return sys.extake.lift.controller.atSetPoint();
+        return sys.extake.lift.atTarget();
     }
 }

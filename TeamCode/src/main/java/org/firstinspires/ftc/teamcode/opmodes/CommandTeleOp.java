@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Extake;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
+/** Main Tele-Op to be used during competition matches and drive practice. */
 @TeleOp(name = "Command TeleOp")
 public class CommandTeleOp extends CommandOpMode {
     private SubsystemsCollection sys;
@@ -114,12 +115,12 @@ public class CommandTeleOp extends CommandOpMode {
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whileActiveOnce(
-                        new CommandIntakeRotateWheels(-1, 800)
+                        new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 800)
                 );
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whileActiveOnce(
-                        new CommandIntakeRotateWheels(1, 800)
+                        new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 800)
                 );
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
@@ -138,7 +139,7 @@ public class CommandTeleOp extends CommandOpMode {
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whileActiveOnce(new SequentialCommandGroup(
                         new ParallelDeadlineGroup(
-                                new CommandIntakeRotateWheels(1, 1200),
+                                new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 1200),
                                 new CommandIntakeRotateArm(Intake.ArmPosition.PICKUP)
                         ),
                         new CommandIntakeRotateArm(Intake.ArmPosition.HOVER)
