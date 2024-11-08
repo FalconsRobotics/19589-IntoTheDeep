@@ -54,9 +54,7 @@ public class DriveBase extends SubsystemBase {
     }
 
     /**
-     * Brakes drive base if `toggle` is set to true.
-     *
-     * @note This must be called after any other driving functions to have any effect.
+     * Sets drive base motor behaviour to brake if `toggle` is set to true.
      */
     public void brake(boolean toggle) {
         if (toggle) {

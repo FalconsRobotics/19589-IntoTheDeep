@@ -15,6 +15,7 @@ public class StraightLineTest extends CommandOpMode {
         SubsystemsCollection.deinit();
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
 
+        sys.driveBase.brake(true);
         RRDriveUtility driveUtil = new RRDriveUtility(sys.driveBase.mDirect, sys.driveBase.odometry);
 
         driveUtil.followPath(
