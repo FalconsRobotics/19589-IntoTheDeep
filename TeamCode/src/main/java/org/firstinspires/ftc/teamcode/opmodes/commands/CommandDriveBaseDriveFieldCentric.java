@@ -22,8 +22,16 @@ public class CommandDriveBaseDriveFieldCentric extends CommandBase {
     }
 
     public void execute() {
-        sys.driveBase.motors.driveFieldCentric(forward.getAsDouble(),
-                strafe.getAsDouble(), rotation.getAsDouble(), angle.getAsDouble(), true);
+        sys.driveBase.motors.driveFieldCentric(
+                forward.getAsDouble(), strafe.getAsDouble(), rotation.getAsDouble(),
+                // For some reason FTCLib requires degrees, but does not tell you this fact.
+                angle.getAsDouble() * (180 / Math.PI),
+                true
+        );
+    }
+
+    public void end() {
+        sys.driveBase.brake(true);
     }
 }
 

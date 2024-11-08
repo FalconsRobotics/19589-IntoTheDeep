@@ -10,6 +10,7 @@ import com.arcrobotics.ftclib.util.MathUtils;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandDriveBaseBrake;
+import org.firstinspires.ftc.teamcode.opmodes.commands.CommandDriveBaseDriveFieldCentric;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandExtakeMoveLift;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandExtakeRotateArm;
 import org.firstinspires.ftc.teamcode.opmodes.commands.CommandIntakeRotateArm;
@@ -67,14 +68,8 @@ public class CommandTeleOp extends CommandOpMode {
             }
 
             // Equations for driving
-            double driveX = (driverGamepad.getLeftX() +
-                    (driverGamepad.getButton(GamepadKeys.Button.DPAD_RIGHT) ? 1.0 : 0.0) -
-                    (driverGamepad.getButton(GamepadKeys.Button.DPAD_LEFT) ? 1.0 : 0.0)) *
-                            driveSpeedMultiplier;
-            double driveY = (driverGamepad.getLeftY() +
-                    (driverGamepad.getButton(GamepadKeys.Button.DPAD_UP) ? 1.0 : 0.0) -
-                    (driverGamepad.getButton(GamepadKeys.Button.DPAD_DOWN) ? 1.0 : 0.0)) *
-                            driveSpeedMultiplier;
+            double driveX = driverGamepad.getLeftX() * driveSpeedMultiplier;
+            double driveY = driverGamepad.getLeftY() * driveSpeedMultiplier;
 
             sys.driveBase.motors.driveRobotCentric(
                     driveX, driveY,
@@ -109,6 +104,28 @@ public class CommandTeleOp extends CommandOpMode {
         driverGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whileActiveContinuous(new CommandDriveBaseBrake(true))
                 .whenInactive(new CommandDriveBaseBrake(false));
+
+        driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                        .whileActiveContinuous(new CommandDriveBaseDriveFieldCentric(
+                                () -> driveSpeedMultiplier, () -> 0, () -> 0,
+                                () -> sys.driveBase.odometry.getHeading()
+                        ));
+        driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                .whileActiveContinuous(new CommandDriveBaseDriveFieldCentric(
+                        () -> -driveSpeedMultiplier, () -> 0, () -> 0,
+                        () -> sys.driveBase.odometry.getHeading()
+                ));
+
+        driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                .whileActiveContinuous(new CommandDriveBaseDriveFieldCentric(
+                        () -> 0, () -> driveSpeedMultiplier, () -> 0,
+                        () -> sys.driveBase.odometry.getHeading()
+                ));
+        driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whileActiveContinuous(new CommandDriveBaseDriveFieldCentric(
+                        () -> 0, () -> -driveSpeedMultiplier, () -> 0,
+                        () -> sys.driveBase.odometry.getHeading()
+                ));
 
 
         // Utility gamepad controls
