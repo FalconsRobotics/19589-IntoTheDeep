@@ -23,23 +23,27 @@ public class OdometryPodLocalizer implements Localizer {
         this.odometryModule = odometryModule;
     }
 
+    /** Should be ran every cycle. */
     public void update() {
         odometryModule.update();
     }
 
+    /** Returns estimated position of robot. */
     public @NotNull Pose2d getPoseEstimate() {
         return new Pose2d(odometryModule.getPosX(), odometryModule.getPosY(), odometryModule.getHeading());
     }
 
+    /** Sets position of robot. */
     public void setPoseEstimate(@NonNull Pose2d pose) {
         odometryModule.setPosition(new Pose2D(
                 // If I remember correctly, road runner uses inches by default. If this isn't the
                 // case, or if there is some way to change such behaviour, this should be changed.
-                DistanceUnit.MM, pose.getY(), pose.getY(),
+                DistanceUnit.MM, pose.getY(), pose.getY(), // Gulp.
                 AngleUnit.RADIANS, pose.getHeading()
         ));
     }
 
+    /** Returns estimated velocity of robot. */
     public Pose2d getPoseVelocity() {
         return new Pose2d(odometryModule.getVelX(), odometryModule.getVelX(), odometryModule.getHeadingVelocity());
     }

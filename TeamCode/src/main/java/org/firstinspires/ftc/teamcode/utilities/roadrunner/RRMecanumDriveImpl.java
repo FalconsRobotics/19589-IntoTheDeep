@@ -14,6 +14,8 @@ import java.util.List;
 public class RRMecanumDriveImpl extends MecanumDrive {
     private final DriveBaseMotors mDirect;
 
+    /** Initializes data using `motors` a `localizer` and associated required multipliers for
+     *  feedforward mecanum drive tuning. */
     public RRMecanumDriveImpl(DriveBaseMotors motors, OdometryPodLocalizer localizer,
                               double kV, double kA, double kStatic,
                               double trackWidth, double wheelBase, double lateralMultiplier) {
@@ -23,6 +25,7 @@ public class RRMecanumDriveImpl extends MecanumDrive {
         mDirect = motors;
     }
 
+    /** Returns empty list as wheels don't have any odometry associated with them. */
     @NonNull
     public List<Double> getWheelPositions() {
         // Must be returned in the same order as seen in `setMotorPowers().`
@@ -34,9 +37,10 @@ public class RRMecanumDriveImpl extends MecanumDrive {
 //        );
 
         // I don't understand the need to get wheel positions. Don't we already have a localizer?
-        return Arrays.asList(); // Yes this is intended.
+        return Arrays.asList(); // This is intended.
     }
 
+    /** Sets motor powers. starting from the front left motor and going counter-clockwise. */
     public void setMotorPowers(double v, double v1, double v2, double v3) {
             mDirect.frontLeft.set(v);
             mDirect.backLeft.set(v1);
@@ -44,6 +48,7 @@ public class RRMecanumDriveImpl extends MecanumDrive {
             mDirect.frontRight.set(v3);
     }
 
+    /** Returns heading from odometry computer (hopefully. (I know very helpful.)) */
     protected double getRawExternalHeading() {
         // This is bad, and assumes you are using OdometryPodLocalizer. TOO BAD!
         return getLocalizer().getPoseEstimate().getHeading();

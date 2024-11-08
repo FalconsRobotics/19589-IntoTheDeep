@@ -27,12 +27,15 @@ import java.util.Arrays;
 
 /** Utility object for implementing roadrunner into the project. */
 public class RRDriveUtility {
+    /** Drive base data required by Road Runner. */
     public final RRMecanumDriveImpl mecanumDrive;
+    /** Object used to follow user specified path. */
     public final HolonomicPIDVAFollower follower;
 
     private final TrajectoryVelocityConstraint velocityConstraint;
     private final TrajectoryAccelerationConstraint accelerationConstraint;
 
+    /** Initializes utility using passed `motors` and `odometry` module. */
     public RRDriveUtility(DriveBaseMotors motors, GoBildaPinpointDriver odometry) {
         mecanumDrive = new RRMecanumDriveImpl(
                 motors, new OdometryPodLocalizer(odometry),
@@ -67,6 +70,7 @@ public class RRDriveUtility {
         accelerationConstraint = new ProfileAccelerationConstraint(ControlConstants.RoadRunner.MAX_ACCELERATION);
     }
 
+    /** Sets drive base to follow passed 'path.' */
     public void followPath(Path path) {
         Trajectory trajectory = TrajectoryGenerator.INSTANCE.generateTrajectory(
                 path, velocityConstraint, accelerationConstraint
@@ -75,6 +79,7 @@ public class RRDriveUtility {
         follower.followTrajectory(trajectory);
     }
 
+    /** Stuff to be ran every cycle. */
     public void periodic() {
         DriveSignal signal = follower.update(mecanumDrive.getLocalizer().getPoseEstimate());
         mecanumDrive.setDriveSignal(signal);

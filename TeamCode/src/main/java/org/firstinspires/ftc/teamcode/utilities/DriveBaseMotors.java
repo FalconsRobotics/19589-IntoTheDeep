@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 public class DriveBaseMotors {
     public final Motor frontLeft, frontRight, backLeft, backRight;
 
+    /** Sets all motors to reference those provided. */
     public DriveBaseMotors(Motor frontLeft, Motor frontRight, Motor backLeft, Motor backRight) {
         this.frontLeft = frontLeft;
         this.frontRight = frontRight;

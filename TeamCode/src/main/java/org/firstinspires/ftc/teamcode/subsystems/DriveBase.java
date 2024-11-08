@@ -22,9 +22,7 @@ public class DriveBase extends SubsystemBase {
     public final GoBildaPinpointDriver odometry;
 //    public final Limelight3A limelight;
 
-    /**
-     * Initializes all members using 'map.'
-     */
+    /** Initializes all members using 'map.' */
     public DriveBase(HardwareMap map) {
         mDirect = new DriveBaseMotors(
                 new Motor(map, "DriveBase-FrontLeft", Motor.GoBILDA.RPM_435),

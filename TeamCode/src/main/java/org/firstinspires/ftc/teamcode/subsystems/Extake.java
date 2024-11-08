@@ -36,6 +36,7 @@ public class Extake extends SubsystemBase { ;
     /** Left and right servos controlling the bucket arm. */
     public final Servo leftArm, rightArm;
 
+    /** Initializes all members using 'map.' */
     public Extake(HardwareMap map) {
         lift = new MotorWithPIDFController(
                 map, "Extake-Lift",

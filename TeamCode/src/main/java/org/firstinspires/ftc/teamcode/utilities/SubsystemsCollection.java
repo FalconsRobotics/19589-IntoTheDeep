@@ -43,12 +43,16 @@ public class SubsystemsCollection {
         return instance;
     }
 
+    /** Executes every command needed to be ran every cycle. Should not be called if you're using
+     *  a command OpMode */
     public void periodic() {
         driveBase.periodic();
         intake.periodic();
         extake.periodic();
+        // Question: How does FTCLib know to call these inside a CommandOpMode??????
     }
 
+    /** Resets everything to be initialized once again. */
     public static void deinit() {
         instance = null;
     }

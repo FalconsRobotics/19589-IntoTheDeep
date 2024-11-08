@@ -44,6 +44,7 @@ public class Intake extends SubsystemBase {
      *  not power. */
     public final MotorWithController arm;
 
+    /** Initializes all members using 'map.' */
     public Intake(HardwareMap map) {
         // SimpleServo are not actually simpler in like any way.
         leftSlide = map.get(Servo.class, "Intake-LeftSlide");
