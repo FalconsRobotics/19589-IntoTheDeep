@@ -7,7 +7,6 @@ import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.utilities.DriveBaseMotors;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /** Mecanum drive implementation to be used with RoadRunner. */
@@ -16,7 +15,7 @@ public class RRMecanumDriveImpl extends MecanumDrive {
 
     /** Initializes data using `motors` a `localizer` and associated required multipliers for
      *  feedforward mecanum drive tuning. */
-    public RRMecanumDriveImpl(DriveBaseMotors motors, OdometryPodLocalizer localizer,
+    public RRMecanumDriveImpl(DriveBaseMotors motors, RROdometryPodLocalizer localizer,
                               double kV, double kA, double kStatic,
                               double trackWidth, double wheelBase, double lateralMultiplier) {
         super(kV, kA, kStatic, trackWidth, wheelBase, lateralMultiplier);

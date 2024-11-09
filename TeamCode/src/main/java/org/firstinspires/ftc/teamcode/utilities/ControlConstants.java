@@ -57,12 +57,12 @@ public final class ControlConstants {
 
         // TODO: Find these values, as well as the units Road Runner expects them in.
         //  (likely inches) (because of how I've done things maybe millimeters)
-        public static double TRACK_WIDTH = 0.0;
-        public static double WHEEL_BASE = 0.0;
-        public static double LATERAL_MULTIPLIER = 1.0;
+        public static double TRACK_WIDTH = 280;
+        public static double WHEEL_BASE = 240; // Double check these!
+        public static double LATERAL_MULTIPLIER = 1.1;
 
-        public static double MAX_TRANSLATIONAL_VELOCITY = 80.0;
-        public static double MAX_ANGLE_VELOCITY = 1.0;
+        public static double MAX_TRANSLATIONAL_VELOCITY = 40.0;
+        public static double MAX_ANGLE_VELOCITY = 0.7854;
 
         public static double MAX_ACCELERATION = 50;
     }

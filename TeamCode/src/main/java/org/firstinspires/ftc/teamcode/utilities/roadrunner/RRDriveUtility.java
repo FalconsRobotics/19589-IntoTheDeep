@@ -1,11 +1,8 @@
 package org.firstinspires.ftc.teamcode.utilities.roadrunner;
 
-import androidx.annotation.NonNull;
-
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.drive.DriveSignal;
 import com.acmerobotics.roadrunner.followers.HolonomicPIDVAFollower;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.path.Path;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.TrajectoryGenerator;
@@ -38,7 +35,7 @@ public class RRDriveUtility {
     /** Initializes utility using passed `motors` and `odometry` module. */
     public RRDriveUtility(DriveBaseMotors motors, GoBildaPinpointDriver odometry) {
         mecanumDrive = new RRMecanumDriveImpl(
-                motors, new OdometryPodLocalizer(odometry),
+                motors, new RROdometryPodLocalizer(odometry),
                 ControlConstants.RoadRunner.Feedforward.KV,
                 ControlConstants.RoadRunner.Feedforward.KA,
                 ControlConstants.RoadRunner.Feedforward.K_STATIC,

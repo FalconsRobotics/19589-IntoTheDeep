@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.utilities.roadrunner;
 
 import androidx.annotation.NonNull;
 
-import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.localization.Localizer;
 
@@ -14,12 +13,12 @@ import org.jetbrains.annotations.NotNull;
 
 
 /** Formats odometry data to be used with Road Runner. */
-public class OdometryPodLocalizer implements Localizer {
+public class RROdometryPodLocalizer implements Localizer {
     public final GoBildaPinpointDriver odometryModule;
 
     /** @note This class does not manage any initialization procedures relating to the odometry
      *  module */
-    public OdometryPodLocalizer(GoBildaPinpointDriver odometryModule) {
+    public RROdometryPodLocalizer(GoBildaPinpointDriver odometryModule) {
         this.odometryModule = odometryModule;
     }
 
