@@ -3,13 +3,12 @@ package org.firstinspires.ftc.teamcode.opmodes.commands;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import java.util.function.BooleanSupplier;
-import java.util.function.Supplier;
 
-public class CommandRunContinuous extends CommandBase {
+public class CommandRun extends CommandBase {
     private final BooleanSupplier lambda;
     private boolean returned;
 
-    public CommandRunContinuous(BooleanSupplier lambda) {
+    public CommandRun(BooleanSupplier lambda) {
         this.lambda = lambda;
     }
 

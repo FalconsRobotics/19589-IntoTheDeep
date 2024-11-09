@@ -4,11 +4,13 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
+import java.util.function.DoubleSupplier;
+
 public class CommandIntakeMoveSlide extends CommandBase {
     private final SubsystemsCollection sys;
-    private final double position;
+    private final DoubleSupplier position;
 
-    public CommandIntakeMoveSlide(double position) {
+    public CommandIntakeMoveSlide(DoubleSupplier position) {
         sys = SubsystemsCollection.getInstance(null);
         // addRequirements(sys.intake);
 
@@ -16,7 +18,7 @@ public class CommandIntakeMoveSlide extends CommandBase {
     }
 
     public void initialize() {
-        sys.intake.setSlidePosition(position);
+        sys.intake.setSlidePosition(position.getAsDouble());
     }
 
     public boolean isFinished() {

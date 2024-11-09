@@ -10,7 +10,7 @@ public class CommandDriveBaseDriveRobotCentric extends CommandBase {
     private final SubsystemsCollection sys;
     private final DoubleSupplier forward, strafe, rotation;
 
-    public CommandDriveBaseDriveRobotCentric(DoubleSupplier forward, DoubleSupplier strafe, DoubleSupplier rotation) {
+    public CommandDriveBaseDriveRobotCentric(DoubleSupplier strafe, DoubleSupplier forward, DoubleSupplier rotation) {
         sys = SubsystemsCollection.getInstance(null);
         // addRequirements(sys.driveBase);
 

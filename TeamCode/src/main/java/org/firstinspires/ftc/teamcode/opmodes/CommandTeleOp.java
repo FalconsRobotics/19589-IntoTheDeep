@@ -9,17 +9,10 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.util.MathUtils;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.opmodes.commands.CommandDriveBaseBrake;
-import org.firstinspires.ftc.teamcode.opmodes.commands.CommandDriveBaseDriveFieldCentric;
-import org.firstinspires.ftc.teamcode.opmodes.commands.CommandExtakeMoveLift;
-import org.firstinspires.ftc.teamcode.opmodes.commands.CommandExtakeRotateArm;
-import org.firstinspires.ftc.teamcode.opmodes.commands.CommandIntakeRotateArm;
-import org.firstinspires.ftc.teamcode.opmodes.commands.CommandIntakeRotateWheels;
-import org.firstinspires.ftc.teamcode.opmodes.commands.CommandRunContinuous;
-import org.firstinspires.ftc.teamcode.opmodes.commands.CommandTimer;
-import org.firstinspires.ftc.teamcode.subsystems.Extake;
-import org.firstinspires.ftc.teamcode.subsystems.Intake;
+import org.firstinspires.ftc.teamcode.opmodes.commands.*;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
+import org.firstinspires.ftc.teamcode.subsystems.Intake;
+import org.firstinspires.ftc.teamcode.subsystems.Extake;
 
 /** Main Tele-Op to be used during competition matches and drive practice. */
 @TeleOp(name = "Command TeleOp")
@@ -27,13 +20,66 @@ public class CommandTeleOp extends CommandOpMode {
     private SubsystemsCollection sys;
     private GamepadEx driverGamepad, utilityGamepad;
 
-    // For finer drive base control.
-    private double driveRotationMultiplier = 1.0, driveSpeedMultiplier = 1.0;
+    // For finer drive base control
+    // WARNING: DO NOT CHANGE THESE VALES UNLESS YOUR NAME IS "BRODIE EVANS." JUST DON'T DO IT!!!
+    private double driveSpeedMultiplier = 1.0;
+
+    private double driveRotationMultiplier = 1.0;
 
     // For controlling intake slides
     private double intakeSlideAccumulator = Intake.SlidePosition.RETRACTED;
     private final double INTAKE_SLIDE_MAX_ACCUMULATION = 0.01;
 
+
+    // TODO: Better way to do this, at least more understandable.
+
+    /** @note: false applied to `stepDown` implies you want to step up. */
+    private void updateDriveSpeedAndRotationMultipliers(boolean stepDown) {
+        final double DRIVE_ROTATION_MINIMUM = 0.6;
+        final double DRIVE_SPEED_MINIMUM = 0.5;
+        final int DRIVE_MULTIPLIER_DECREMENT_STAGES = 4;
+
+        // Since both decrement values for rotation and speed multipliers will equal
+        // one minus their respective minimum speeds after 4 iterations, we need to only check one.
+        if (stepDown && driveRotationMultiplier == DRIVE_ROTATION_MINIMUM) {
+            driveRotationMultiplier = 1.0;
+            driveSpeedMultiplier = 1.0;
+            return;
+        }
+
+        if (!stepDown && driveRotationMultiplier == 1.0) {
+            driveRotationMultiplier = DRIVE_ROTATION_MINIMUM;
+            driveSpeedMultiplier = DRIVE_SPEED_MINIMUM;
+            return;
+        }
+
+        double speedDec = 1.0 - DRIVE_SPEED_MINIMUM / DRIVE_MULTIPLIER_DECREMENT_STAGES;
+        double rotationDec = 1.0 - DRIVE_ROTATION_MINIMUM / DRIVE_MULTIPLIER_DECREMENT_STAGES;
+        driveRotationMultiplier -= (stepDown) ? speedDec : -speedDec;
+        driveSpeedMultiplier -= (stepDown) ? speedDec : -rotationDec;
+
+        int blips = (int) ((driveRotationMultiplier - DRIVE_ROTATION_MINIMUM) / rotationDec);
+        driverGamepad.gamepad.rumbleBlips(blips);
+    }
+
+    /** Updates slide accumulator according to inputs from driverGamepad. */
+    private void updateSlideAccumulator() {
+        intakeSlideAccumulator += INTAKE_SLIDE_MAX_ACCUMULATION * utilityGamepad.getRightY();
+        // Intake slide is retracted at ~0.9 and extended at ~0.4, hence why retracted is considered
+        // its maximum position.
+        intakeSlideAccumulator = MathUtils.clamp(intakeSlideAccumulator,
+                Intake.SlidePosition.EXTENDED, Intake.SlidePosition.RETRACTED
+        );
+
+        if (utilityGamepad.getButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)) {
+            intakeSlideAccumulator = Intake.SlidePosition.RETRACTED;
+        }
+    }
+
+
+    /**
+     *  Entry point of OpMode.
+     */
     public void initialize() {
         SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
@@ -42,90 +88,46 @@ public class CommandTeleOp extends CommandOpMode {
 
         // All code that needs to run continuously
         // Genuinely the most unreadable code I've ever made. TOO BAD!
-        schedule(new CommandRunContinuous(() -> {
-            // Driver gamepad controls
+        schedule(new ParallelCommandGroup(
+                new CommandRun(() -> {
+                        updateSlideAccumulator();
+                        sys.driveBase.brake(
+                                (driverGamepad.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) == 1)
+                        );
 
-            driveRotationMultiplier = 1.0;
-            driveSpeedMultiplier = 1.0;
+                        telemetry.addData("X (mm)", sys.driveBase.odometry.getPosX());
+                        telemetry.addData("Y (mm)", sys.driveBase.odometry.getPosY());
+                        telemetry.addData("Heading (deg)",
+                                sys.driveBase.odometry.getHeading() * (180 / Math.PI));
+                        telemetry.update();
 
-            if (driverGamepad.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) == 1) {
-                driveRotationMultiplier = 0.75;
-            } else if (driverGamepad.getButton(GamepadKeys.Button.RIGHT_BUMPER)) {
-                driveRotationMultiplier = 0.5;
-            }
+                        return false; // This should never finish.
+                }),
 
-            if (driverGamepad.getButton(GamepadKeys.Button.Y)) {
-                driveSpeedMultiplier = 0.75;
-            } else if (driverGamepad.getButton(GamepadKeys.Button.X)) {
-                driveSpeedMultiplier = 0.5;
-            } else if (driverGamepad.getButton(GamepadKeys.Button.A)) {
-                driveSpeedMultiplier = 0.25;
-            }
+                new CommandDriveBaseDriveRobotCentric(
+                        () -> driverGamepad.getLeftX() * driveSpeedMultiplier,
+                        () -> driverGamepad.getLeftY() * driveSpeedMultiplier,
+                        () -> driverGamepad.getRightX() * driveRotationMultiplier
+                ),
 
-            if (driverGamepad.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) == 1) {
-                driveSpeedMultiplier = 0.65;
-                driveRotationMultiplier = 0.65;
-            }
+                new CommandIntakeMoveSlide(
+                        () -> intakeSlideAccumulator
+                )
+        ));
 
-            // Equations for driving
-            double driveX = driverGamepad.getLeftX() * driveSpeedMultiplier;
-            double driveY = driverGamepad.getLeftY() * driveSpeedMultiplier;
-
-            sys.driveBase.motors.driveRobotCentric(
-                    driveX, driveY,
-                    driverGamepad.getRightX() * driveRotationMultiplier,
-                    true
-            );
-
-            // Utility gamepad controls
-
-            intakeSlideAccumulator += INTAKE_SLIDE_MAX_ACCUMULATION * utilityGamepad.getRightY();
-            // Intake slide is retracted at ~0.9 and extended at ~0.4, hence why retracted is
-            // considered its maximum position.
-            intakeSlideAccumulator = MathUtils.clamp(intakeSlideAccumulator,
-                    Intake.SlidePosition.EXTENDED, Intake.SlidePosition.RETRACTED
-            );
-
-            if (utilityGamepad.getButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)) {
-                intakeSlideAccumulator = Intake.SlidePosition.RETRACTED;
-            }
-
-            sys.intake.setSlidePosition(intakeSlideAccumulator);
-
-            telemetry.addData("Slide Accumulator", intakeSlideAccumulator);
-            telemetry.addData("Y Pos", utilityGamepad.getLeftY());
-            telemetry.update();
-
-            return false; // This should never finish.
-        }));
-
-        // Driver gamepad controls
+        // Driver gamepad buttons
 
         driverGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whileActiveContinuous(new CommandDriveBaseBrake(true))
-                .whenInactive(new CommandDriveBaseBrake(false));
+                .whileActiveOnce(new CommandRun(() -> {
+                    updateDriveSpeedAndRotationMultipliers(true);
+                    return true;
+                }));
 
-        driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-                        .whileActiveContinuous(new CommandDriveBaseDriveFieldCentric(
-                                () -> driveSpeedMultiplier, () -> 0, () -> 0,
-                                () -> sys.driveBase.odometry.getHeading()
-                        ));
-        driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whileActiveContinuous(new CommandDriveBaseDriveFieldCentric(
-                        () -> -driveSpeedMultiplier, () -> 0, () -> 0,
-                        () -> sys.driveBase.odometry.getHeading()
-                ));
-
-        driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whileActiveContinuous(new CommandDriveBaseDriveFieldCentric(
-                        () -> 0, () -> driveSpeedMultiplier, () -> 0,
-                        () -> sys.driveBase.odometry.getHeading()
-                ));
-        driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whileActiveContinuous(new CommandDriveBaseDriveFieldCentric(
-                        () -> 0, () -> -driveSpeedMultiplier, () -> 0,
-                        () -> sys.driveBase.odometry.getHeading()
-                ));
+        driverGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                .whileActiveOnce(new CommandRun(() -> {
+                    updateDriveSpeedAndRotationMultipliers(false);
+                    return true;
+                }));
 
 
         // Utility gamepad controls
