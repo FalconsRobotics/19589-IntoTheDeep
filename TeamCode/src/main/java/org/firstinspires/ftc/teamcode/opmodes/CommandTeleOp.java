@@ -129,6 +129,9 @@ public class CommandTeleOp extends CommandOpMode {
                     return true;
                 }));
 
+        driverGamepad.getGamepadButton(GamepadKeys.Button.START)
+                        .whileActiveOnce(new CommandDriveBaseRecalibrateIMU(), false);
+        
 
         // Utility gamepad controls
 
