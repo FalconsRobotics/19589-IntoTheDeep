@@ -5,6 +5,16 @@ import com.acmerobotics.dashboard.config.Config;
 /** Constants used for control systems. All are placed here in order to used with FTC Dashboard. */
 @Config
 public final class ControlConstants {
+    /** Control constants relating to drive base automation during tele-op */
+    public static final class DriveBase {
+        public static final class Rotation {
+            public static double KP = 0.0;
+            public static double KI = 0.0;
+            public static double KD = 0.0;
+            public static double KF = 0.0;
+        }
+    }
+
     /** Control constants relating to the robots intake arm. */
     public static final class IntakeArm {
         // PIDF Controllers may be swapped with feedforward controllers in the future. If/when this

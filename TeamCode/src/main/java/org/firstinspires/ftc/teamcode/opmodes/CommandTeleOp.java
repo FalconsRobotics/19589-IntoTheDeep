@@ -21,14 +21,11 @@ public class CommandTeleOp extends CommandOpMode {
     private GamepadEx driverGamepad, utilityGamepad;
 
     // For finer drive base control
-    // WARNING: DO NOT CHANGE THESE VALES UNLESS YOUR NAME IS "BRODIE EVANS." JUST DON'T DO IT!!!
     private double driveSpeedMultiplier = 1.0;
-
     private double driveRotationMultiplier = 1.0;
 
     // For controlling intake slides
     private double intakeSlideAccumulator = Intake.SlidePosition.RETRACTED;
-    private final double INTAKE_SLIDE_MAX_ACCUMULATION = 0.01;
 
 
     // TODO: Better way to do this, at least more understandable.
@@ -64,6 +61,8 @@ public class CommandTeleOp extends CommandOpMode {
 
     /** Updates slide accumulator according to inputs from driverGamepad. */
     private void updateSlideAccumulator() {
+        final double INTAKE_SLIDE_MAX_ACCUMULATION = 0.01;
+
         intakeSlideAccumulator += INTAKE_SLIDE_MAX_ACCUMULATION * utilityGamepad.getRightY();
         // Intake slide is retracted at ~0.9 and extended at ~0.4, hence why retracted is considered
         // its maximum position.
