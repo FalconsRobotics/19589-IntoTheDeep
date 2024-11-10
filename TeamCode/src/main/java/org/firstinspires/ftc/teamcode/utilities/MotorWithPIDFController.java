@@ -10,6 +10,7 @@ public class MotorWithPIDFController extends MotorWithController {
     public final PIDFController controller;
     public final double maxPower;
 
+    /** Initializes a motor with a PID controller given the associated gains. */
     public MotorWithPIDFController(HardwareMap map, String name, double kp, double ki, double kd, double kf, int tolerance, double maxPower) {
         super(map, name);
         motor.setRunMode(Motor.RunMode.RawPower);

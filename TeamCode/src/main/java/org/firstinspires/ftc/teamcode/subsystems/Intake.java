@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -10,7 +9,7 @@ import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
 import org.firstinspires.ftc.teamcode.utilities.MotorWithController;
 import org.firstinspires.ftc.teamcode.utilities.MotorWithPIDFController;
 
-@Config
+
 public class Intake extends SubsystemBase {
     /** Pre-defined slide positions */
     public static final class SlidePosition { // Wish this could be an enum. Java says: "TOO BAD!"
@@ -44,6 +43,7 @@ public class Intake extends SubsystemBase {
      *  not power. */
     public final MotorWithController arm;
 
+    /** Initializes all members using 'map.' */
     public Intake(HardwareMap map) {
         // SimpleServo are not actually simpler in like any way.
         leftSlide = map.get(Servo.class, "Intake-LeftSlide");

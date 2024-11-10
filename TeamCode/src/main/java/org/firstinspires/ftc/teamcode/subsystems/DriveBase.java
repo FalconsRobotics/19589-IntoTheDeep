@@ -2,47 +2,29 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.qualcomm.hardware.limelightvision.Limelight3A;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.ext.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.external.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.utilities.DriveBaseMotors;
 
 
 /** Manages all mechanisms associated with robot drive base. */
 public class DriveBase extends SubsystemBase {
-    // Allows for direct access to the motors used by MecanumDrive. Used for braking.
-    private static class MotorsDirectAccess {
-        public final Motor frontLeft, frontRight, backLeft, backRight;
+    /** Provides direct access to drive base motors. */
+    public final DriveBaseMotors mDirect;
 
-        public MotorsDirectAccess(Motor frontLeft, Motor frontRight, Motor backLeft, Motor backRight) {
-            this.frontLeft = frontLeft;
-            this.frontRight = frontRight;
-            this.backLeft = backLeft;
-            this.backRight = backRight;
-        }
-    }
-
-    private final MotorsDirectAccess mDirect;
-
-    /**
-     * Collection of all drive base motors. Managed by FTCLib.
-     */
+    /** Collection of all drive base motors. Managed by FTCLib. */
     public final MecanumDrive motors;
-    /**
-     * Used to estimate robot position on field.
-     */
+
+    /** Used to estimate robot position on field. */
     public final GoBildaPinpointDriver odometry;
 //    public final Limelight3A limelight;
 
-    /**
-     * Initializes all members using 'map.'
-     */
+    /** Initializes all members using 'map.' */
     public DriveBase(HardwareMap map) {
-        mDirect = new MotorsDirectAccess(
+        mDirect = new DriveBaseMotors(
                 new Motor(map, "DriveBase-FrontLeft", Motor.GoBILDA.RPM_435),
                 new Motor(map, "DriveBase-FrontRight", Motor.GoBILDA.RPM_435),
                 new Motor(map, "DriveBase-BackLeft", Motor.GoBILDA.RPM_435),
@@ -56,10 +38,11 @@ public class DriveBase extends SubsystemBase {
 
         odometry = map.get(GoBildaPinpointDriver.class, "DriveBase-Odometry");
         odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED,
-                GoBildaPinpointDriver.EncoderDirection.FORWARD);
-        odometry.setOffsets(73, -100);
+        odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD,
+                GoBildaPinpointDriver.EncoderDirection.REVERSED);
+        odometry.setOffsets(0, 0); // TODO: Somethings gone wrong here?
 
+        odometry.recalibrateIMU();
         odometry.resetPosAndIMU();
 
 //        limelight = map.get(Limelight3A.class, "Limelight");
@@ -72,9 +55,7 @@ public class DriveBase extends SubsystemBase {
     }
 
     /**
-     * Brakes drive base if `toggle` is set to true.
-     *
-     * @note This must be called after any other driving functions to have any effect.
+     * Sets drive base motor behaviour to brake if `toggle` is set to true.
      */
     public void brake(boolean toggle) {
         if (toggle) {

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -9,7 +8,7 @@ import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
 import org.firstinspires.ftc.teamcode.utilities.MotorWithController;
 import org.firstinspires.ftc.teamcode.utilities.MotorWithPIDFController;
 
-@Config
+
 public class Extake extends SubsystemBase { ;
     /** Pre-defined arm positions. */
     public static class ArmPosition {
@@ -36,6 +35,7 @@ public class Extake extends SubsystemBase { ;
     /** Left and right servos controlling the bucket arm. */
     public final Servo leftArm, rightArm;
 
+    /** Initializes all members using 'map.' */
     public Extake(HardwareMap map) {
         lift = new MotorWithPIDFController(
                 map, "Extake-Lift",
