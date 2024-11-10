@@ -38,10 +38,11 @@ public class DriveBase extends SubsystemBase {
 
         odometry = map.get(GoBildaPinpointDriver.class, "DriveBase-Odometry");
         odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED,
-                GoBildaPinpointDriver.EncoderDirection.FORWARD);
-        odometry.setOffsets(73, -100);
+        odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD,
+                GoBildaPinpointDriver.EncoderDirection.REVERSED);
+        odometry.setOffsets(0, 0); // TODO: Somethings gone wrong here?
 
+        odometry.recalibrateIMU();
         odometry.resetPosAndIMU();
 
 //        limelight = map.get(Limelight3A.class, "Limelight");

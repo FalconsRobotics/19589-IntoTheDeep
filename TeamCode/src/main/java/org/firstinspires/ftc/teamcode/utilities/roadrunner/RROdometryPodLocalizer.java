@@ -24,7 +24,8 @@ public class RROdometryPodLocalizer implements Localizer {
 
     /** Should be ran every cycle. */
     public void update() {
-        odometryModule.update();
+        // No need to update as that is already done in the drive base subsystem.
+        // odometryModule.update();
     }
 
     /** Returns estimated position of robot. */

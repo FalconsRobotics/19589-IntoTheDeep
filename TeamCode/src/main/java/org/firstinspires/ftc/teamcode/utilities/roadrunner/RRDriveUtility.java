@@ -14,6 +14,7 @@ import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityCons
 import com.acmerobotics.roadrunner.trajectory.constraints.TranslationalVelocityConstraint;
 
 import org.firstinspires.ftc.teamcode.external.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.subsystems.DriveBase;
 import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
 import org.firstinspires.ftc.teamcode.utilities.DriveBaseMotors;
 
@@ -33,9 +34,9 @@ public class RRDriveUtility {
     private final TrajectoryAccelerationConstraint accelerationConstraint;
 
     /** Initializes utility using passed `motors` and `odometry` module. */
-    public RRDriveUtility(DriveBaseMotors motors, GoBildaPinpointDriver odometry) {
+    public RRDriveUtility(DriveBase driveBase) {
         mecanumDrive = new RRMecanumDriveImpl(
-                motors, new RROdometryPodLocalizer(odometry),
+                driveBase.mDirect, new RROdometryPodLocalizer(driveBase.odometry),
                 ControlConstants.RoadRunner.Feedforward.KV,
                 ControlConstants.RoadRunner.Feedforward.KA,
                 ControlConstants.RoadRunner.Feedforward.K_STATIC,
@@ -80,5 +81,7 @@ public class RRDriveUtility {
     public void periodic() {
         DriveSignal signal = follower.update(mecanumDrive.getLocalizer().getPoseEstimate());
         mecanumDrive.setDriveSignal(signal);
+
+        mecanumDrive.updatePoseEstimate();
     }
 }
