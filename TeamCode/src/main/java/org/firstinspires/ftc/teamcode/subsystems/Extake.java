@@ -4,7 +4,7 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
+import org.firstinspires.ftc.teamcode.utilities.Constants;
 import org.firstinspires.ftc.teamcode.utilities.MotorWithController;
 import org.firstinspires.ftc.teamcode.utilities.MotorWithPIDFController;
 
@@ -39,12 +39,12 @@ public class Extake extends SubsystemBase { ;
     public Extake(HardwareMap map) {
         lift = new MotorWithPIDFController(
                 map, "Extake-Lift",
-                ControlConstants.ExtakeLift.PIDF.KP,
-                ControlConstants.ExtakeLift.PIDF.KI,
-                ControlConstants.ExtakeLift.PIDF.KD,
-                ControlConstants.ExtakeLift.PIDF.KF,
-                ControlConstants.ExtakeLift.TOLERANCE,
-                ControlConstants.ExtakeLift.MAX_POWER
+                Constants.ExtakeLift.KP,
+                Constants.ExtakeLift.KI,
+                Constants.ExtakeLift.KD,
+                Constants.ExtakeLift.KF,
+                Constants.ExtakeLift.TOLERANCE,
+                Constants.ExtakeLift.MAX_POWER
         );
         setLiftPosition(LiftPosition.DOWN);
 

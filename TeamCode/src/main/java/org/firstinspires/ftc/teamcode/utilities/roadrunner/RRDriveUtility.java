@@ -13,10 +13,8 @@ import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAcceleration
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TranslationalVelocityConstraint;
 
-import org.firstinspires.ftc.teamcode.external.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.subsystems.DriveBase;
-import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
-import org.firstinspires.ftc.teamcode.utilities.DriveBaseMotors;
+import org.firstinspires.ftc.teamcode.utilities.Constants;
 
 import java.util.Arrays;
 
@@ -37,35 +35,35 @@ public class RRDriveUtility {
     public RRDriveUtility(DriveBase driveBase) {
         mecanumDrive = new RRMecanumDriveImpl(
                 driveBase.mDirect, new RROdometryPodLocalizer(driveBase.odometry),
-                ControlConstants.RoadRunner.Feedforward.KV,
-                ControlConstants.RoadRunner.Feedforward.KA,
-                ControlConstants.RoadRunner.Feedforward.K_STATIC,
-                ControlConstants.RoadRunner.TRACK_WIDTH,
-                ControlConstants.RoadRunner.WHEEL_BASE,
-                ControlConstants.RoadRunner.LATERAL_MULTIPLIER
+                Constants.RoadRunner.KV,
+                Constants.RoadRunner.KA,
+                Constants.RoadRunner.KS,
+                Constants.RoadRunner.TRACK_WIDTH,
+                Constants.RoadRunner.WHEEL_BASE,
+                Constants.RoadRunner.LATERAL_MULTIPLIER
         );
 
 
         PIDCoefficients translation = new PIDCoefficients(
-                ControlConstants.RoadRunner.Translation.KP,
-                ControlConstants.RoadRunner.Translation.KI,
-                ControlConstants.RoadRunner.Translation.KD
+                Constants.RoadRunner.TRANSLATION_KP,
+                Constants.RoadRunner.TRANSLATION_KI,
+                Constants.RoadRunner.TRANSLATION_KD
         );
 
         PIDCoefficients heading = new PIDCoefficients(
-                ControlConstants.RoadRunner.Heading.KP,
-                ControlConstants.RoadRunner.Heading.KI,
-                ControlConstants.RoadRunner.Heading.KD
+                Constants.RoadRunner.HEADING_KP,
+                Constants.RoadRunner.HEADING_KI,
+                Constants.RoadRunner.HEADING_KD
         );
 
         follower = new HolonomicPIDVAFollower(translation, translation, heading);
 
         velocityConstraint = new MinVelocityConstraint(Arrays.asList(
-                new TranslationalVelocityConstraint(ControlConstants.RoadRunner.MAX_TRANSLATIONAL_VELOCITY),
-                new AngularVelocityConstraint(ControlConstants.RoadRunner.MAX_ANGLE_VELOCITY)
+                new TranslationalVelocityConstraint(Constants.RoadRunner.MAX_TRANSLATIONAL_VELOCITY),
+                new AngularVelocityConstraint(Constants.RoadRunner.MAX_ANGLE_VELOCITY)
         ));
 
-        accelerationConstraint = new ProfileAccelerationConstraint(ControlConstants.RoadRunner.MAX_ACCELERATION);
+        accelerationConstraint = new ProfileAccelerationConstraint(Constants.RoadRunner.MAX_ACCELERATION);
     }
 
     /** Sets drive base to follow passed 'path.' */

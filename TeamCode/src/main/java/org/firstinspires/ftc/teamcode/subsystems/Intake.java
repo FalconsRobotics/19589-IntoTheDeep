@@ -5,7 +5,7 @@ import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
+import org.firstinspires.ftc.teamcode.utilities.Constants;
 import org.firstinspires.ftc.teamcode.utilities.MotorWithController;
 import org.firstinspires.ftc.teamcode.utilities.MotorWithPIDFController;
 
@@ -52,12 +52,12 @@ public class Intake extends SubsystemBase {
 
         arm = new MotorWithPIDFController(
                 map, "Intake-Arm",
-                ControlConstants.IntakeArm.PIDF.KP,
-                ControlConstants.IntakeArm.PIDF.KI,
-                ControlConstants.IntakeArm.PIDF.KD,
-                ControlConstants.IntakeArm.PIDF.KF,
-                ControlConstants.IntakeArm.TOLERANCE,
-                ControlConstants.IntakeArm.MAX_POWER
+                Constants.IntakeArm.KP,
+                Constants.IntakeArm.KI,
+                Constants.IntakeArm.KD,
+                Constants.IntakeArm.KF,
+                Constants.IntakeArm.TOLERANCE,
+                Constants.IntakeArm.MAX_POWER
         );
         setArmPosition(ArmPosition.UNLOAD);
 

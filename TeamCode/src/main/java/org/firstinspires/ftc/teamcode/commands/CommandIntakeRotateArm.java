@@ -1,16 +1,16 @@
-package org.firstinspires.ftc.teamcode.opmodes.commands;
+package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
-import java.util.function.DoubleSupplier;
+public class CommandIntakeRotateArm extends CommandBase {
+    private static final int MAX_DISTANCE = 10;
 
-public class CommandIntakeMoveSlide extends CommandBase {
     private final SubsystemsCollection sys;
-    private final DoubleSupplier position;
+    private final int position;
 
-    public CommandIntakeMoveSlide(DoubleSupplier position) {
+    public CommandIntakeRotateArm(int position) {
         sys = SubsystemsCollection.getInstance(null);
         // addRequirements(sys.intake);
 
@@ -18,10 +18,10 @@ public class CommandIntakeMoveSlide extends CommandBase {
     }
 
     public void initialize() {
-        sys.intake.setSlidePosition(position.getAsDouble());
+        sys.intake.setArmPosition(position);
     }
 
     public boolean isFinished() {
-        return true;
+        return sys.intake.arm.atTarget();
     }
 }

@@ -1,14 +1,16 @@
-package org.firstinspires.ftc.teamcode.opmodes.commands;
+package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
-public class CommandExtakeRotateArm extends CommandBase {
-    private final SubsystemsCollection sys;
-    private final double position;
+public class CommandExtakeMoveLift extends CommandBase {
+    private static final int MAX_DISTANCE = 10;
 
-    public CommandExtakeRotateArm(double position) {
+    private final SubsystemsCollection sys;
+    private final int position;
+
+    public CommandExtakeMoveLift(int position) {
         sys = SubsystemsCollection.getInstance(null);
         // addRequirements(sys.extake);
 
@@ -16,10 +18,10 @@ public class CommandExtakeRotateArm extends CommandBase {
     }
 
     public void initialize() {
-        sys.extake.setArmPosition(position);
+        sys.extake.setLiftPosition(position);
     }
 
     public boolean isFinished() {
-        return true;
+        return sys.extake.lift.atTarget();
     }
 }
