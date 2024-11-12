@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.ext.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.external.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
 

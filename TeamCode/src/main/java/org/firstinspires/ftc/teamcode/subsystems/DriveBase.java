@@ -38,13 +38,9 @@ public class DriveBase extends SubsystemBase {
         mDirect.frontLeft.setInverted(true);
 
         odometry = map.get(GoBildaPinpointDriver.class, "DriveBase-Odometry");
-        // Could not find this in documentation or the GoBILDA provided example code, but looking
-        // at the function itself it seems like it wouldn't do any harm putting it in here just in
-        // case.
-        odometry.initialize();
 
         odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD,
+        odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED,
                 GoBildaPinpointDriver.EncoderDirection.REVERSED);
         odometry.setOffsets(Constants.DriveBase.ODOMETRY_X_OFFSET,
                 Constants.DriveBase.ODOMETRY_Y_OFFSET); // TODO: Somethings gone wrong here?
