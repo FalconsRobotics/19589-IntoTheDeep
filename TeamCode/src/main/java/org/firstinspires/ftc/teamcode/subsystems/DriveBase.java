@@ -34,17 +34,21 @@ public class DriveBase extends SubsystemBase {
 
         motors = new MecanumDrive(false, mDirect.frontLeft, mDirect.frontRight,
                 mDirect.backLeft, mDirect.backRight);
-        // For some odd reason: Sometimes this works, sometimes it doesn't.
+        // For some odd reason sometimes this works and sometimes it doesn't.
         mDirect.frontLeft.setInverted(true);
 
         odometry = map.get(GoBildaPinpointDriver.class, "DriveBase-Odometry");
+        // Could not find this in documentation or the GoBILDA provided example code, but looking
+        // at the function itself it seems like it wouldn't do any harm putting it in here just in
+        // case.
+        odometry.initialize();
+
         odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD,
                 GoBildaPinpointDriver.EncoderDirection.REVERSED);
         odometry.setOffsets(Constants.DriveBase.ODOMETRY_X_OFFSET,
                 Constants.DriveBase.ODOMETRY_Y_OFFSET); // TODO: Somethings gone wrong here?
 
-        odometry.recalibrateIMU();
         odometry.resetPosAndIMU();
 
 //        limelight = map.get(Limelight3A.class, "Limelight");
