@@ -22,16 +22,29 @@ public class FeedforwardTuningTest extends LinearOpMode {
         sys.driveBase.brake(true);
         RRDriveUtility driveUtil = new RRDriveUtility(sys.driveBase);
 
+        while (opModeInInit()) {
+            speed += SPEED_INCREMENT * -gamepad1.right_stick_y;
+
+            if (gamepad1.a) speed = 0.0;
+            else if (gamepad1.x) speed = Constants.RoadRunner.KV;
+            else if (gamepad1.y) speed = Constants.RoadRunner.KA;
+            else if (gamepad1.b) speed = Constants.RoadRunner.KS;
+
+            telemetry.addData("Wheel Speed", speed);
+            telemetry.update();
+        }
+
         waitForStart();
 
         while (opModeIsActive()) {
-            speed += SPEED_INCREMENT * -gamepad1.left_stick_y;
-
-            if (gamepad1.a) {
-                speed = 0.0;
-            }
+            speed += SPEED_INCREMENT * -gamepad1.right_stick_y;
 
             sys.driveBase.motors.driveWithMotorPowers(speed, speed, speed, speed);
+            if (gamepad1.left_bumper || gamepad1.right_bumper) {
+                sys.driveBase.motors.driveRobotCentric(
+                        gamepad1.left_stick_x * 0.5, -gamepad1.left_stick_y * 0.5, gamepad1.right_stick_x * 0.5
+                );
+            }
 
             driveUtil.printPoseEstimate(telemetry);
             telemetry.addData("Wheel Speed", speed);
