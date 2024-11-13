@@ -30,7 +30,7 @@ public class RROdometryPodLocalizer implements Localizer {
 
     /** Returns estimated position of robot. */
     public @NotNull Pose2d getPoseEstimate() {
-        return new Pose2d(odometryModule.getPosX(), odometryModule.getPosY(), odometryModule.getHeading());
+        return new Pose2d(-odometryModule.getPosX(), -odometryModule.getPosY(), odometryModule.getHeading());
     }
 
     /** Sets position of robot. */
@@ -45,6 +45,6 @@ public class RROdometryPodLocalizer implements Localizer {
 
     /** Returns estimated velocity of robot. */
     public Pose2d getPoseVelocity() {
-        return new Pose2d(odometryModule.getVelX(), odometryModule.getVelX(), odometryModule.getHeadingVelocity());
+        return new Pose2d(-odometryModule.getVelX(), -odometryModule.getVelX(), odometryModule.getHeadingVelocity());
     }
 }

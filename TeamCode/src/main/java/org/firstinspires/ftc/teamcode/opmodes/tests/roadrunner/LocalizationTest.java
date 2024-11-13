@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.external.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.RRDriveUtility;
 
-@TeleOp(name = "Test - Localization", group = "Road Runner")
+@TeleOp(name = "Test - Road Runner - Localization", group = "Road Runner")
 public class LocalizationTest extends LinearOpMode {
     public void runOpMode() {
         SubsystemsCollection.deinit();
@@ -28,9 +28,8 @@ public class LocalizationTest extends LinearOpMode {
             if (gamepad1.a) sys.driveBase.odometry.recalibrateIMU();
             if (gamepad1.b) sys.driveBase.odometry.resetPosAndIMU();
 
-            telemetry.addData("X (mm)", driveUtil.mecanumDrive.getPoseEstimate().getX());
-            telemetry.addData("Y (mm)", driveUtil.mecanumDrive.getPoseEstimate().getY());
-            telemetry.addData("Heading (deg)", driveUtil.mecanumDrive.getPoseEstimate().getHeading() * (180 / Math.PI));
+
+            driveUtil.printPoseEstimate(telemetry);
             telemetry.addLine("== Odometry Module Data ==");
             telemetry.addData("X (mm)", sys.driveBase.odometry.getPosX());
             telemetry.addData("Y (mm)", sys.driveBase.odometry.getPosY());
@@ -39,6 +38,7 @@ public class LocalizationTest extends LinearOpMode {
 
             sys.periodic();
             driveUtil.mecanumDrive.updatePoseEstimate();
+            // driveUtil.periodic() would send drive signals to drive base. NOT GOOD HERE!
         }
     }
 }

@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.RRDriveUtility;
 
-@Autonomous(name = "Test - Straight Line", group = "Road Runner")
+@Autonomous(name = "Test - Road Runner - Straight Line", group = "Road Runner")
 public class StraightLineTest extends LinearOpMode {
     public void runOpMode() {
         SubsystemsCollection.deinit();

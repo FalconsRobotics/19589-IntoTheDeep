@@ -13,6 +13,7 @@ import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAcceleration
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TranslationalVelocityConstraint;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.DriveBase;
 import org.firstinspires.ftc.teamcode.utilities.Constants;
 
@@ -66,6 +67,14 @@ public class RRDriveUtility {
         accelerationConstraint = new ProfileAccelerationConstraint(Constants.RoadRunner.MAX_ACCELERATION);
     }
 
+    /** Stuff to be ran every cycle. */
+    public void periodic() {
+        DriveSignal signal = follower.update(mecanumDrive.getLocalizer().getPoseEstimate());
+        mecanumDrive.setDriveSignal(signal);
+
+        mecanumDrive.updatePoseEstimate();
+    }
+
     /** Sets drive base to follow passed 'path.' */
     public void followPath(Path path) {
         Trajectory trajectory = TrajectoryGenerator.INSTANCE.generateTrajectory(
@@ -75,11 +84,12 @@ public class RRDriveUtility {
         follower.followTrajectory(trajectory);
     }
 
-    /** Stuff to be ran every cycle. */
-    public void periodic() {
-        DriveSignal signal = follower.update(mecanumDrive.getLocalizer().getPoseEstimate());
-        mecanumDrive.setDriveSignal(signal);
-
-        mecanumDrive.updatePoseEstimate();
+    /** Prints pose estimate to telemetry console. */
+    public void printPoseEstimate(Telemetry telemetry) {
+        telemetry.addLine("== RRDriveUtility Pose Estimate ==");
+        telemetry.addData("X (mm)", mecanumDrive.getPoseEstimate().getX());
+        telemetry.addData("Y (mm)", mecanumDrive.getPoseEstimate().getY());
+        telemetry.addData("Heading (deg)", mecanumDrive.getPoseEstimate().getHeading() * (180 / Math.PI));
+        telemetry.addLine();
     }
 }

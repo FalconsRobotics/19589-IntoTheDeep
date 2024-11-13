@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.subsystems.Extake;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 
-@TeleOp(name = "Lift - Test - Simple")
+@TeleOp(name = "Lift - Test - Simple", group = "Test")
 public class LiftTestSimple extends LinearOpMode {
     public void runOpMode() {
         DcMotor lift = hardwareMap.get(DcMotor.class, "Extake-Lift");

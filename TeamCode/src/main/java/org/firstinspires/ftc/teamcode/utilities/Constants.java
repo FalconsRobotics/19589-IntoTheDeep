@@ -52,7 +52,7 @@ public final class Constants {
         // TODO: Find these first!
         public static double KV = 0.00;
         public static double KA = 0.00;
-        public static double KS = 0.00;
+        public static double KS = 0.118;
 
         // TODO: Find these values, as well as the units Road Runner expects them in.
         //  (likely inches) (because of how I've done things maybe millimeters)

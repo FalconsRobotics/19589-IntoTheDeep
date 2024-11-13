@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
-@TeleOp(name = "Test - Intake")
+@TeleOp(name = "Test - Intake", group = "Test")
 public class IntakeTest extends LinearOpMode {
     public void runOpMode() {
         SubsystemsCollection.deinit();
