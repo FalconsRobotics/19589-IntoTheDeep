@@ -36,34 +36,36 @@ public class CommandTeleOp extends CommandOpMode {
         final double DRIVE_SPEED_MINIMUM = 0.5;
         final int DRIVE_MULTIPLIER_DECREMENT_STAGES = 4;
 
+        final double SPEED_DECREMENT = (1.0 - DRIVE_SPEED_MINIMUM) / DRIVE_MULTIPLIER_DECREMENT_STAGES;
+        final double ROTATION_DECREMENT = (1.0 - DRIVE_ROTATION_MINIMUM) / DRIVE_MULTIPLIER_DECREMENT_STAGES;
+
         // Since both decrement values for rotation and speed multipliers will equal
         // one minus their respective minimum speeds after 4 iterations, we need to only check one.
-        if (stepDown && driveRotationMultiplier == DRIVE_ROTATION_MINIMUM) {
+        if (stepDown && driveRotationMultiplier <= DRIVE_ROTATION_MINIMUM) {
             driveRotationMultiplier = 1.0;
             driveSpeedMultiplier = 1.0;
             return;
         }
 
-        if (!stepDown && driveRotationMultiplier == 1.0) {
+        if (!stepDown && driveRotationMultiplier >= 1.0) {
             driveRotationMultiplier = DRIVE_ROTATION_MINIMUM;
             driveSpeedMultiplier = DRIVE_SPEED_MINIMUM;
             return;
         }
 
-        double speedDec = 1.0 - DRIVE_SPEED_MINIMUM / DRIVE_MULTIPLIER_DECREMENT_STAGES;
-        double rotationDec = 1.0 - DRIVE_ROTATION_MINIMUM / DRIVE_MULTIPLIER_DECREMENT_STAGES;
-        driveRotationMultiplier -= (stepDown) ? speedDec : -speedDec;
-        driveSpeedMultiplier -= (stepDown) ? speedDec : -rotationDec;
+        driveRotationMultiplier -= (stepDown) ? ROTATION_DECREMENT : -ROTATION_DECREMENT;
+        driveSpeedMultiplier -= (stepDown) ? SPEED_DECREMENT : -SPEED_DECREMENT;
 
-        int blips = (int) ((driveRotationMultiplier - DRIVE_ROTATION_MINIMUM) / rotationDec);
-        driverGamepad.gamepad.rumbleBlips(blips);
+        int blips = (int) ((driveRotationMultiplier - DRIVE_ROTATION_MINIMUM) / ROTATION_DECREMENT);
+
+        telemetry.speak("Blips: " + blips); // For debugging.
     }
 
     /** Updates slide accumulator according to inputs from driverGamepad. */
     private void updateSlideAccumulator() {
         final double INTAKE_SLIDE_MAX_ACCUMULATION = 0.01;
 
-        intakeSlideAccumulator += INTAKE_SLIDE_MAX_ACCUMULATION * utilityGamepad.getRightY();
+        intakeSlideAccumulator += INTAKE_SLIDE_MAX_ACCUMULATION * -utilityGamepad.getRightY();
         // Intake slide is retracted at ~0.9 and extended at ~0.4, hence why retracted is considered
         // its maximum position.
         intakeSlideAccumulator = MathUtils.clamp(intakeSlideAccumulator,
