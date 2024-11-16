@@ -20,7 +20,7 @@ public class CommandDriveBaseDriveRobotCentric extends CommandBase {
     }
 
     public void execute() {
-        sys.driveBase.motors.driveRobotCentric(forward.getAsDouble(),
-                strafe.getAsDouble(), rotation.getAsDouble(), true);
+        sys.driveBase.motors.driveRobotCentric(
+                strafe.getAsDouble(), forward.getAsDouble(), rotation.getAsDouble(), true);
     }
 }
