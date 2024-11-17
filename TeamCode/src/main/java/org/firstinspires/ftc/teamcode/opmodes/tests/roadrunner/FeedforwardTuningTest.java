@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
-import org.firstinspires.ftc.teamcode.utilities.Constants;
+import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.RRDriveUtility;
 
 @Config
@@ -14,7 +14,7 @@ public class FeedforwardTuningTest extends LinearOpMode {
     public static double SPEED_INCREMENT = 0.001;
 
     public void runOpMode() {
-        double speed = Constants.RoadRunner.KS;
+        double speed = ControlConstants.RoadRunner.KS;
 
         SubsystemsCollection.deinit();
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
@@ -26,9 +26,9 @@ public class FeedforwardTuningTest extends LinearOpMode {
             speed += SPEED_INCREMENT * -gamepad1.right_stick_y;
 
             if (gamepad1.a) speed = 0.0;
-            else if (gamepad1.x) speed = Constants.RoadRunner.KV;
-            else if (gamepad1.y) speed = Constants.RoadRunner.KA;
-            else if (gamepad1.b) speed = Constants.RoadRunner.KS;
+            else if (gamepad1.x) speed = ControlConstants.RoadRunner.KV;
+            else if (gamepad1.y) speed = ControlConstants.RoadRunner.KA;
+            else if (gamepad1.b) speed = ControlConstants.RoadRunner.KS;
 
             telemetry.addData("Wheel Speed", speed);
             telemetry.update();

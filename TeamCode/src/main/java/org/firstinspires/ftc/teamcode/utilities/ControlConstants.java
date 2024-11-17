@@ -3,7 +3,8 @@ package org.firstinspires.ftc.teamcode.utilities;
 import com.acmerobotics.dashboard.config.Config;
 
 
-public final class Constants {
+/** Constants used for tuning motor controllers. */
+public final class ControlConstants {
     /** Control constants relating to the robots intake arm. */
     @Config
     public static final class IntakeArm {
@@ -34,8 +35,7 @@ public final class Constants {
     @Config
     /** Constants relating to drive base (excluding Road Runner). */
     public static final class DriveBase {
-        public static double ODOMETRY_X_OFFSET = 0;
-        public static double ODOMETRY_Y_OFFSET = 0;
+        // TODO
     }
 
     /** Constants to be used by Road Runner. */

@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
 import org.firstinspires.ftc.teamcode.external.GoBildaPinpointDriver;
-import org.firstinspires.ftc.teamcode.utilities.Constants;
 import org.firstinspires.ftc.teamcode.utilities.DriveBaseMotors;
 
 
@@ -42,8 +41,7 @@ public class DriveBase extends SubsystemBase {
         odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED,
                 GoBildaPinpointDriver.EncoderDirection.REVERSED);
-        odometry.setOffsets(Constants.DriveBase.ODOMETRY_X_OFFSET,
-                Constants.DriveBase.ODOMETRY_Y_OFFSET); // TODO: Somethings gone wrong here?
+        odometry.setOffsets(97.0, 72.5);
 
         odometry.resetPosAndIMU();
 

@@ -15,7 +15,7 @@ import com.acmerobotics.roadrunner.trajectory.constraints.TranslationalVelocityC
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.DriveBase;
-import org.firstinspires.ftc.teamcode.utilities.Constants;
+import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
 
 import java.util.Arrays;
 
@@ -36,35 +36,35 @@ public class RRDriveUtility {
     public RRDriveUtility(DriveBase driveBase) {
         mecanumDrive = new RRMecanumDriveImpl(
                 driveBase.mDirect, new RROdometryPodLocalizer(driveBase.odometry),
-                Constants.RoadRunner.KV,
-                Constants.RoadRunner.KA,
-                Constants.RoadRunner.KS,
-                Constants.RoadRunner.TRACK_WIDTH,
-                Constants.RoadRunner.WHEEL_BASE,
-                Constants.RoadRunner.LATERAL_MULTIPLIER
+                ControlConstants.RoadRunner.KV,
+                ControlConstants.RoadRunner.KA,
+                ControlConstants.RoadRunner.KS,
+                ControlConstants.RoadRunner.TRACK_WIDTH,
+                ControlConstants.RoadRunner.WHEEL_BASE,
+                ControlConstants.RoadRunner.LATERAL_MULTIPLIER
         );
 
 
         PIDCoefficients translation = new PIDCoefficients(
-                Constants.RoadRunner.TRANSLATION_KP,
-                Constants.RoadRunner.TRANSLATION_KI,
-                Constants.RoadRunner.TRANSLATION_KD
+                ControlConstants.RoadRunner.TRANSLATION_KP,
+                ControlConstants.RoadRunner.TRANSLATION_KI,
+                ControlConstants.RoadRunner.TRANSLATION_KD
         );
 
         PIDCoefficients heading = new PIDCoefficients(
-                Constants.RoadRunner.HEADING_KP,
-                Constants.RoadRunner.HEADING_KI,
-                Constants.RoadRunner.HEADING_KD
+                ControlConstants.RoadRunner.HEADING_KP,
+                ControlConstants.RoadRunner.HEADING_KI,
+                ControlConstants.RoadRunner.HEADING_KD
         );
 
         follower = new HolonomicPIDVAFollower(translation, translation, heading);
 
         velocityConstraint = new MinVelocityConstraint(Arrays.asList(
-                new TranslationalVelocityConstraint(Constants.RoadRunner.MAX_TRANSLATIONAL_VELOCITY),
-                new AngularVelocityConstraint(Constants.RoadRunner.MAX_ANGLE_VELOCITY)
+                new TranslationalVelocityConstraint(ControlConstants.RoadRunner.MAX_TRANSLATIONAL_VELOCITY),
+                new AngularVelocityConstraint(ControlConstants.RoadRunner.MAX_ANGLE_VELOCITY)
         ));
 
-        accelerationConstraint = new ProfileAccelerationConstraint(Constants.RoadRunner.MAX_ACCELERATION);
+        accelerationConstraint = new ProfileAccelerationConstraint(ControlConstants.RoadRunner.MAX_ACCELERATION);
     }
 
     /** Stuff to be ran every cycle. */
