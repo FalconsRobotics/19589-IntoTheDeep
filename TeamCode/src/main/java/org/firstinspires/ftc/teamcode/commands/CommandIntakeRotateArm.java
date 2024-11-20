@@ -18,7 +18,7 @@ public class CommandIntakeRotateArm extends CommandBase {
     }
 
     public void initialize() {
-        sys.intake.setArmPosition(position);
+        sys.intake.arm.setTarget(position);
     }
 
     public boolean isFinished() {

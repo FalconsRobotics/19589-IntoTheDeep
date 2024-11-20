@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
-@TeleOp(name = "Test - Drive Base", group = "Test")
+@TeleOp(name = "Test - Drive Base", group = "Tests")
 public class DriveBaseTest extends LinearOpMode {
     public void runOpMode() {
         SubsystemsCollection.deinit();

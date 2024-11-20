@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.subsystems.Extake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
-@TeleOp(name = "Test - Extake", group = "Test")
+@TeleOp(name = "Test - Extake", group = "Tests")
 public class ExtakeTest extends LinearOpMode {
     public void runOpMode() {
         SubsystemsCollection.deinit();
@@ -16,13 +16,13 @@ public class ExtakeTest extends LinearOpMode {
 
         while (opModeIsActive()) {
             if (gamepad1.a) {
-               sys.extake.setLiftPosition(Extake.LiftPosition.TOP_BUCKET);
+               sys.extake.lift.setTarget(Extake.LiftPosition.TOP_BUCKET);
             } else if (gamepad1.x) {
-                sys.extake.setLiftPosition(Extake.LiftPosition.LOWER_BAR);
+                sys.extake.lift.setTarget(Extake.LiftPosition.LOWER_BAR);
             } else if (gamepad1.y) {
-                sys.extake.setLiftPosition(Extake.LiftPosition.TOP_BAR);
+                sys.extake.lift.setTarget(Extake.LiftPosition.TOP_BAR);
             } else if (gamepad1.b) {
-                sys.extake.setLiftPosition(Extake.LiftPosition.DOWN);
+                sys.extake.lift.setTarget(Extake.LiftPosition.DOWN);
             }
 
             if (gamepad1.dpad_up) {

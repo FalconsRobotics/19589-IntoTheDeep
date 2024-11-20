@@ -8,24 +8,23 @@ import java.util.function.DoubleSupplier;
 
 public class CommandDriveBaseDriveFieldCentric extends CommandBase {
     private final SubsystemsCollection sys;
-    private final DoubleSupplier forward, strafe, rotation, angle;
+    private final DoubleSupplier forward, strafe, rotation;
 
-    public CommandDriveBaseDriveFieldCentric(DoubleSupplier forward, DoubleSupplier strafe,
-                                             DoubleSupplier rotation, DoubleSupplier angle) {
+    public CommandDriveBaseDriveFieldCentric(DoubleSupplier strafe, DoubleSupplier forward,
+                                             DoubleSupplier rotation) {
         sys = SubsystemsCollection.getInstance(null);
         // addRequirements(sys.driveBase);
 
         this.forward = forward;
         this.strafe = strafe;
         this.rotation = rotation;
-        this.angle = angle;
     }
 
     public void execute() {
         sys.driveBase.motors.driveFieldCentric(
-                forward.getAsDouble(), strafe.getAsDouble(), rotation.getAsDouble(),
+                strafe.getAsDouble(), forward.getAsDouble(), rotation.getAsDouble(),
                 // For some reason FTCLib requires degrees, but does not tell you this fact.
-                angle.getAsDouble() * (180 / Math.PI),
+                sys.driveBase.odometry.getHeading() * (180 / Math.PI),
                 true
         );
     }

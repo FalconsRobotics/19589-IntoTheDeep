@@ -6,11 +6,11 @@ import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
 import java.util.function.DoubleSupplier;
 
-public class CommandIntakeMoveSlide extends CommandBase {
+public class CommandIntakeSetSlide extends CommandBase {
     private final SubsystemsCollection sys;
-    private final DoubleSupplier position;
+    private final double position;
 
-    public CommandIntakeMoveSlide(DoubleSupplier position) {
+    public CommandIntakeSetSlide(double position) {
         sys = SubsystemsCollection.getInstance(null);
         // addRequirements(sys.intake);
 
@@ -18,7 +18,7 @@ public class CommandIntakeMoveSlide extends CommandBase {
     }
 
     public void initialize() {
-        sys.intake.setSlidePosition(position.getAsDouble());
+        sys.intake.setSlidePosition(position);
     }
 
     public boolean isFinished() {

@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
-import org.firstinspires.ftc.teamcode.utilities.MotorWithController;
-import org.firstinspires.ftc.teamcode.utilities.MotorWithPIDFController;
+import org.firstinspires.ftc.teamcode.utilities.controllers.MotorWithController;
+import org.firstinspires.ftc.teamcode.utilities.controllers.MotorWithPIDFController;
 
 
 public class Extake extends SubsystemBase { ;
@@ -46,7 +46,7 @@ public class Extake extends SubsystemBase { ;
                 ControlConstants.ExtakeLift.TOLERANCE,
                 ControlConstants.ExtakeLift.MAX_POWER
         );
-        setLiftPosition(LiftPosition.DOWN);
+        lift.setTarget(LiftPosition.DOWN);
 
         leftArm = map.get(Servo.class, "Extake-LeftArm");
         rightArm = map.get(Servo.class, "Extake-RightArm");
@@ -65,10 +65,5 @@ public class Extake extends SubsystemBase { ;
     public void setArmPosition(double position) {
         leftArm.setPosition(position);
         rightArm.setPosition(position);
-    }
-
-    /** Sets `position` (in ticks) of lift. */
-    public void setLiftPosition(int position) {
-        lift.setTarget(position);
     }
 }

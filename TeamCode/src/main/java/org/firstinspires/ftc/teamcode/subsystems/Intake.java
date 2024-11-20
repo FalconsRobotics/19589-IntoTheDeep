@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
-import org.firstinspires.ftc.teamcode.utilities.MotorWithController;
-import org.firstinspires.ftc.teamcode.utilities.MotorWithPIDFController;
+import org.firstinspires.ftc.teamcode.utilities.controllers.MotorWithController;
+import org.firstinspires.ftc.teamcode.utilities.controllers.MotorWithPIDFController;
+import org.firstinspires.ftc.teamcode.utilities.controllers.ServoWithController;
 
 
 public class Intake extends SubsystemBase {
@@ -19,23 +19,35 @@ public class Intake extends SubsystemBase {
         public static final double EXTENDED = 0.7758;
     }
 
+    /** Pre-defined intake pivoting positions */
+    public static final class PivotPosition {
+        public static final double RIGHT = 0.15;
+        public static final double LEFT = 0.815;
+        public static final double MIDDLE = 0.5;
+    }
+
     /** Pre-defined arm positions. */
     public static final class ArmPosition {
-        public static final int UNLOAD = -615;
-        public static final int IDLE = -510;
-        public static final int HOVER = -150;
+        public static final int UNLOAD = -1010;
+        public static final int IDLE = -814;
+        public static final int HOVER = -200;
         public static final int PICKUP = 0;
     }
 
     /** Pre-defined power for intake wheels. */
     public static final class WheelPower {
         public static final double LOAD = 1.0;
-        public static final double UNLOAD = -1.0;
+        public static final double UNLOAD = -0.6;
         public static final double STOP = 0.0;
     }
 
-    /** Servo object for the left and right linear linkage extension servos. */
-    public final Servo leftSlide, rightSlide;
+    /** Servo object for the left and right linear linkage extension servos. Specific class used
+     *  for manual control. */
+    public final ServoWithController leftSlide, rightSlide;
+
+    /** Servo object for the intake pivot. manual control required in TeleOp. */
+    public final ServoWithController pivot;
+
     /** Servo object for the front and back wheels. */
     public final CRServo frontWheel, backWheel;
 
@@ -45,10 +57,12 @@ public class Intake extends SubsystemBase {
 
     /** Initializes all members using 'map.' */
     public Intake(HardwareMap map) {
-        // SimpleServo are not actually simpler in like any way.
-        leftSlide = map.get(Servo.class, "Intake-LeftSlide");
-        rightSlide = map.get(Servo.class, "Intake-RightSlide");
+        leftSlide = new ServoWithController(map, "Intake-LeftSlide");
+        rightSlide = new ServoWithController(map, "Intake-RightSlide");
         setSlidePosition(SlidePosition.FULLY_RETRACTED);
+
+        pivot = new ServoWithController(map, "Intake-Pivot");
+        pivot.servo.setPosition(PivotPosition.MIDDLE);
 
         arm = new MotorWithPIDFController(
                 map, "Intake-Arm",
@@ -59,7 +73,7 @@ public class Intake extends SubsystemBase {
                 ControlConstants.IntakeArm.TOLERANCE,
                 ControlConstants.IntakeArm.MAX_POWER
         );
-        setArmPosition(ArmPosition.UNLOAD);
+        arm.setTarget(ArmPosition.UNLOAD);
 
         frontWheel = new CRServo(map, "Intake-FrontWheel");
         backWheel = new CRServo(map, "Intake-BackWheel");
@@ -75,18 +89,19 @@ public class Intake extends SubsystemBase {
 
     /** Sets the `position` of both slide servos */
     public void setSlidePosition(double position) {
-        leftSlide.setPosition(position);
-        rightSlide.setPosition(position);
+        leftSlide.servo.setPosition(position);
+        rightSlide.servo.setPosition(position);
+    }
+
+    /** moves slide servos relative to their last position. */
+    public void moveSlidePosition(double offset) {
+        leftSlide.moveServoPosition(offset);
+        rightSlide.moveServoPosition(offset);
     }
 
     /** Sets `power` for both wheels */
     public void setWheelPower(double power) {
         frontWheel.set(power);
         backWheel.set(power);
-    }
-
-    /** Sets 'position' (in ticks) of arm. */
-    public void setArmPosition(int position) {
-        arm.setTarget(position);
     }
 }

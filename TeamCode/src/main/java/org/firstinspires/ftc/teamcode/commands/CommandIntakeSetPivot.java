@@ -4,24 +4,23 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
-public class CommandExtakeMoveLift extends CommandBase {
-    private static final int MAX_DISTANCE = 10;
 
+public class CommandIntakeSetPivot extends CommandBase {
     private final SubsystemsCollection sys;
-    private final int position;
+    private final double position;
 
-    public CommandExtakeMoveLift(int position) {
+    public CommandIntakeSetPivot(double position) {
         sys = SubsystemsCollection.getInstance(null);
-        // addRequirements(sys.extake);
+        // addRequirements(sys.intake);
 
         this.position = position;
     }
 
     public void initialize() {
-        sys.extake.lift.setTarget(position);
+        sys.intake.pivot.servo.setPosition(position);
     }
 
     public boolean isFinished() {
-        return sys.extake.lift.atTarget();
+        return true;
     }
 }
