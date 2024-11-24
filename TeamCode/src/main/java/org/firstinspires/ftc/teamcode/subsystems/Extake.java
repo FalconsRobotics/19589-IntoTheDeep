@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -9,7 +10,8 @@ import org.firstinspires.ftc.teamcode.utilities.controllers.MotorWithController;
 import org.firstinspires.ftc.teamcode.utilities.controllers.MotorWithPIDFController;
 
 
-public class Extake extends SubsystemBase { ;
+/** Manages all mechanisms associated with unloading samples and specimens. */
+public class Extake extends SubsystemBase {
     /** Pre-defined arm positions. */
     public static class ArmPosition {
         public static final double LOAD = 0.89;
@@ -39,10 +41,12 @@ public class Extake extends SubsystemBase { ;
     public Extake(HardwareMap map) {
         lift = new MotorWithPIDFController(
                 map, "Extake-Lift",
-                ControlConstants.ExtakeLift.KP,
-                ControlConstants.ExtakeLift.KI,
-                ControlConstants.ExtakeLift.KD,
-                ControlConstants.ExtakeLift.KF,
+                new PIDFController(
+                    ControlConstants.ExtakeLift.KP,
+                    ControlConstants.ExtakeLift.KI,
+                    ControlConstants.ExtakeLift.KD,
+                    ControlConstants.ExtakeLift.KF
+                ),
                 ControlConstants.ExtakeLift.TOLERANCE,
                 ControlConstants.ExtakeLift.MAX_POWER
         );

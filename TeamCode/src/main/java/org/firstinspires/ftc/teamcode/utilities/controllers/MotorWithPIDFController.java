@@ -11,14 +11,14 @@ public class MotorWithPIDFController extends MotorWithController {
     public final double maxPower;
 
     /** Initializes a motor with a PID controller given the associated gains. */
-    public MotorWithPIDFController(HardwareMap map, String name, double kp, double ki, double kd, double kf, int tolerance, double maxPower) {
+    public MotorWithPIDFController(HardwareMap map, String name, PIDFController controller, int tolerance, double maxPower) {
         super(map, name);
         motor.setRunMode(Motor.RunMode.RawPower);
         motor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
-        controller = new PIDFController(kp, ki, kd, kf);
-        controller.setTolerance(tolerance);
-        controller.setSetPoint(0);
+        this.controller = controller;
+        this.controller.setTolerance(tolerance);
+        this.controller.setSetPoint(0);
 
         this.maxPower = maxPower;
     }

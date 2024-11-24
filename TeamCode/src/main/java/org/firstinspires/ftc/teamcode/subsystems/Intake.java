@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
@@ -10,6 +12,7 @@ import org.firstinspires.ftc.teamcode.utilities.controllers.MotorWithPIDFControl
 import org.firstinspires.ftc.teamcode.utilities.controllers.ServoWithController;
 
 
+/** Manages all mechanisms associated with loading samples. */
 public class Intake extends SubsystemBase {
     /** Pre-defined slide positions */
     public static final class SlidePosition { // Wish this could be an enum. Java says: "TOO BAD!"
@@ -51,6 +54,9 @@ public class Intake extends SubsystemBase {
     /** Servo object for the front and back wheels. */
     public final CRServo frontWheel, backWheel;
 
+    /** Color sensor used to determine the color of a loaded sample. */
+    public final ColorSensor sampleColor;
+
     /** Motor object for the pivoting arm. This should be used explicitly with target positions and
      *  not power. */
     public final MotorWithController arm;
@@ -64,12 +70,17 @@ public class Intake extends SubsystemBase {
         pivot = new ServoWithController(map, "Intake-Pivot");
         pivot.servo.setPosition(PivotPosition.MIDDLE);
 
+        sampleColor = map.get(ColorSensor.class, "Intake-SampleColor"); // TODO
+        sampleColor.enableLed(true);
+
         arm = new MotorWithPIDFController(
                 map, "Intake-Arm",
-                ControlConstants.IntakeArm.KP,
-                ControlConstants.IntakeArm.KI,
-                ControlConstants.IntakeArm.KD,
-                ControlConstants.IntakeArm.KF,
+                new PIDFController(
+                    ControlConstants.IntakeArm.KP,
+                    ControlConstants.IntakeArm.KI,
+                    ControlConstants.IntakeArm.KD,
+                    ControlConstants.IntakeArm.KF
+                ),
                 ControlConstants.IntakeArm.TOLERANCE,
                 ControlConstants.IntakeArm.MAX_POWER
         );

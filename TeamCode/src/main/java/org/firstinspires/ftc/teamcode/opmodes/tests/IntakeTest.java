@@ -30,6 +30,11 @@ public class IntakeTest extends LinearOpMode {
 
             telemetry.addData("Pivoting Motor Position", sys.intake.arm.motor.getCurrentPosition());
             telemetry.addData("Pivoting Motor Power", sys.intake.arm.motor.get());
+            telemetry.addLine();
+            telemetry.addData("Sample Color", sys.intake.sampleColor.red() + "\t" +
+                    sys.intake.sampleColor.green() + "\t" +
+                    sys.intake.sampleColor.blue() + "\t" +
+                    sys.intake.sampleColor.alpha());
             telemetry.update();
 
             sys.intake.periodic();
