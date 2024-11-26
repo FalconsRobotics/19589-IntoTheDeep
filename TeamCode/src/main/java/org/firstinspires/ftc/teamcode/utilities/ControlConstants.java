@@ -32,10 +32,13 @@ public final class ControlConstants {
         public static int TOLERANCE = 20;
     }
 
+    /** Constants relating to drive base rotation in tele-op (independent of Road Runner). */
     @Config
-    /** Constants relating to drive base (excluding Road Runner). */
-    public static final class DriveBase {
-        // TODO
+    public static final class DriveBaseRotation {
+        // TODO: Implement this
+        public static double KP = 0.0;
+        public static double KI = 0.0;
+        public static double KD = 0.0;
     }
 
     /** Constants to be used by Road Runner. */

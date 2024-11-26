@@ -23,9 +23,9 @@ import java.util.Arrays;
 // TODO: HELP! So many things could have been implemented wrong here!
 
 /** Utility object for implementing roadrunner into the project. */
-public class RRDriveUtility {
+public class AutoDriveUtility {
     /** Drive base data required by Road Runner. */
-    public final RRMecanumDriveImpl mecanumDrive;
+    public final MecanumDriveKinematics mecanumDrive;
     /** Object used to follow user specified path. */
     public final HolonomicPIDVAFollower follower;
 
@@ -33,9 +33,9 @@ public class RRDriveUtility {
     private final TrajectoryAccelerationConstraint accelerationConstraint;
 
     /** Initializes utility using passed `motors` and `odometry` module. */
-    public RRDriveUtility(DriveBase driveBase) {
-        mecanumDrive = new RRMecanumDriveImpl(
-                driveBase.mDirect, new RROdometryPodLocalizer(driveBase.odometry),
+    public AutoDriveUtility(DriveBase driveBase) {
+        mecanumDrive = new MecanumDriveKinematics(
+                driveBase.mDirect, new OdometryPodLocalizer(driveBase.odometry),
                 ControlConstants.RoadRunner.KV,
                 ControlConstants.RoadRunner.KA,
                 ControlConstants.RoadRunner.KS,

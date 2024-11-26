@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
-import org.firstinspires.ftc.teamcode.utilities.roadrunner.RRDriveUtility;
+import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
 @Config
 @TeleOp(name = "Test - Road Runner - Feedforward Tuning", group = "Road Runner")
@@ -20,7 +20,7 @@ public class FeedforwardTuningTest extends LinearOpMode {
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
 
         sys.driveBase.brake(true);
-        RRDriveUtility driveUtil = new RRDriveUtility(sys.driveBase);
+        AutoDriveUtility driveUtil = new AutoDriveUtility(sys.driveBase);
 
         while (opModeInInit()) {
             speed += SPEED_INCREMENT * -gamepad1.right_stick_y;

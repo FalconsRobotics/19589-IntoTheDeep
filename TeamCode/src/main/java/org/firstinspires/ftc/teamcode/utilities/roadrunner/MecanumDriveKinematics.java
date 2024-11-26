@@ -10,14 +10,14 @@ import java.util.Arrays;
 import java.util.List;
 
 /** Mecanum drive implementation to be used with RoadRunner. */
-public class RRMecanumDriveImpl extends MecanumDrive {
+public class MecanumDriveKinematics extends MecanumDrive {
     private final DriveBaseMotors mDirect;
 
     /** Initializes data using `motors` a `localizer` and associated required multipliers for
      *  feedforward mecanum drive tuning. */
-    public RRMecanumDriveImpl(DriveBaseMotors motors, RROdometryPodLocalizer localizer,
-                              double kV, double kA, double kStatic,
-                              double trackWidth, double wheelBase, double lateralMultiplier) {
+    public MecanumDriveKinematics(DriveBaseMotors motors, OdometryPodLocalizer localizer,
+                                  double kV, double kA, double kStatic,
+                                  double trackWidth, double wheelBase, double lateralMultiplier) {
         super(kV, kA, kStatic, trackWidth, wheelBase, lateralMultiplier);
         setLocalizer(localizer);
 
@@ -47,9 +47,8 @@ public class RRMecanumDriveImpl extends MecanumDrive {
             mDirect.frontRight.set(v3);
     }
 
-    /** Returns heading from odometry computer (hopefully. (I know very helpful.)) */
+    /** Returns heading from odometry computer */
     protected double getRawExternalHeading() {
-        // This is bad, and assumes you are using OdometryPodLocalizer. TOO BAD!
         return getLocalizer().getPoseEstimate().getHeading();
     }
 }

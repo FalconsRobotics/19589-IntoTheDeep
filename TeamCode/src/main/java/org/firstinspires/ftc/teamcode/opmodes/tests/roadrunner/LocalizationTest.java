@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.external.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
-import org.firstinspires.ftc.teamcode.utilities.roadrunner.RRDriveUtility;
+import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
 @TeleOp(name = "Test - Road Runner - Localization", group = "Road Runner")
 public class LocalizationTest extends LinearOpMode {
@@ -14,7 +14,7 @@ public class LocalizationTest extends LinearOpMode {
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
 
         sys.driveBase.brake(true);
-        RRDriveUtility driveUtil = new RRDriveUtility(sys.driveBase);
+        AutoDriveUtility driveUtil = new AutoDriveUtility(sys.driveBase);
 
         waitForStart();
 

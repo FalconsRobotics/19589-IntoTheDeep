@@ -13,12 +13,12 @@ import org.jetbrains.annotations.NotNull;
 
 
 /** Formats odometry data to be used with Road Runner. */
-public class RROdometryPodLocalizer implements Localizer {
+public class OdometryPodLocalizer implements Localizer {
     public final GoBildaPinpointDriver odometryModule;
 
     /** @note This class does not manage any initialization procedures relating to the odometry
      *  module */
-    public RROdometryPodLocalizer(GoBildaPinpointDriver odometryModule) {
+    public OdometryPodLocalizer(GoBildaPinpointDriver odometryModule) {
         this.odometryModule = odometryModule;
     }
 
