@@ -46,12 +46,12 @@ public class MecanumDriveKinematics extends MecanumDrive {
     /** Sets motor powers. starting from the front left motor and going counter-clockwise. */
     public void setMotorPowers(double v, double v1, double v2, double v3) {
         double BATTERY_CHARGED_VOLTAGE = 12.0;
-        double correctedVoltage = BATTERY_CHARGED_VOLTAGE / voltage.getVoltage();
+        double correctedVoltageMultiplier = BATTERY_CHARGED_VOLTAGE / voltage.getVoltage();
 
-        mDirect.frontLeft.set(v);
-        mDirect.backLeft.set(v1);
-        mDirect.backRight.set(v2);
-        mDirect.frontRight.set(v3);
+        mDirect.frontLeft.set(v * correctedVoltageMultiplier);
+        mDirect.backLeft.set(v1 * correctedVoltageMultiplier);
+        mDirect.backRight.set(v2 * correctedVoltageMultiplier);
+        mDirect.frontRight.set(v3 * correctedVoltageMultiplier);
     }
 
     /** Returns heading from odometry computer */
