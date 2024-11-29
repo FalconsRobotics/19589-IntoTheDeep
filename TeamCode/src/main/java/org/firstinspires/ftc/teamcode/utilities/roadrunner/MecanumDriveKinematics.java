@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.utilities.roadrunner;
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.roadrunner.drive.MecanumDrive;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.teamcode.utilities.DriveBaseMotors;
 
@@ -12,16 +14,18 @@ import java.util.List;
 /** Mecanum drive implementation to be used with RoadRunner. */
 public class MecanumDriveKinematics extends MecanumDrive {
     private final DriveBaseMotors mDirect;
+    private final VoltageSensor voltage;
 
     /** Initializes data using `motors` a `localizer` and associated required multipliers for
      *  feedforward mecanum drive tuning. */
-    public MecanumDriveKinematics(DriveBaseMotors motors, OdometryPodLocalizer localizer,
+    public MecanumDriveKinematics(HardwareMap map, DriveBaseMotors motors, OdometryPodLocalizer localizer,
                                   double kV, double kA, double kStatic,
                                   double trackWidth, double wheelBase, double lateralMultiplier) {
         super(kV, kA, kStatic, trackWidth, wheelBase, lateralMultiplier);
         setLocalizer(localizer);
 
         mDirect = motors;
+        voltage = map.get(VoltageSensor.class, "Control Hub");
     }
 
     /** Returns empty list as wheels don't have any odometry associated with them. */
@@ -41,10 +45,13 @@ public class MecanumDriveKinematics extends MecanumDrive {
 
     /** Sets motor powers. starting from the front left motor and going counter-clockwise. */
     public void setMotorPowers(double v, double v1, double v2, double v3) {
-            mDirect.frontLeft.set(v);
-            mDirect.backLeft.set(v1);
-            mDirect.backRight.set(v2);
-            mDirect.frontRight.set(v3);
+        double BATTERY_CHARGED_VOLTAGE = 12.0;
+        double correctedVoltage = BATTERY_CHARGED_VOLTAGE / voltage.getVoltage();
+
+        mDirect.frontLeft.set(v);
+        mDirect.backLeft.set(v1);
+        mDirect.backRight.set(v2);
+        mDirect.frontRight.set(v3);
     }
 
     /** Returns heading from odometry computer */

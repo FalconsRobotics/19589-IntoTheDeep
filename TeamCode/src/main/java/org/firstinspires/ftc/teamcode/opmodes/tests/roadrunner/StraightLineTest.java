@@ -5,18 +5,19 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.path.PathBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
-@Autonomous(name = "Test - Road Runner - Straight Line", group = "Road Runner")
+@TeleOp(name = "Test - Road Runner - Straight Line", group = "Road Runner")
 public class StraightLineTest extends LinearOpMode {
     public void runOpMode() {
         SubsystemsCollection.deinit();
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
 
         sys.driveBase.brake(true);
-        AutoDriveUtility driveUtil = new AutoDriveUtility(sys.driveBase);
+        AutoDriveUtility driveUtil = new AutoDriveUtility(hardwareMap, sys.driveBase);
 
         waitForStart();
 
@@ -29,6 +30,9 @@ public class StraightLineTest extends LinearOpMode {
         while (opModeIsActive()) {
             sys.periodic();
             driveUtil.periodic();
+            telemetry.update();
+
+            driveUtil.printPoseEstimate(telemetry);
         }
     }
 }

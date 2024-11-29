@@ -70,8 +70,9 @@ public class Intake extends SubsystemBase {
         pivot = new ServoWithController(map, "Intake-Pivot");
         pivot.servo.setPosition(PivotPosition.MIDDLE);
 
-        sampleColor = map.get(ColorSensor.class, "Intake-SampleColor"); // TODO
-        sampleColor.enableLed(true);
+        sampleColor = null;
+//        sampleColor = map.get(ColorSensor.class, "Intake-SampleColor"); // TODO
+//        sampleColor.enableLed(true);
 
         arm = new MotorWithPIDFController(
                 map, "Intake-Arm",

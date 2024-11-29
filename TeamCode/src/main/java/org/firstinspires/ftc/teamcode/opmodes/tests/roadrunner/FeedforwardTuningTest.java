@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.utilities.DriveBaseMotors;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
@@ -13,6 +14,8 @@ import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 public class FeedforwardTuningTest extends LinearOpMode {
     public static double SPEED_INCREMENT = 0.001;
 
+    // TODO: Messy.
+
     public void runOpMode() {
         double speed = ControlConstants.RoadRunner.KS;
 
@@ -20,7 +23,7 @@ public class FeedforwardTuningTest extends LinearOpMode {
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
 
         sys.driveBase.brake(true);
-        AutoDriveUtility driveUtil = new AutoDriveUtility(sys.driveBase);
+        AutoDriveUtility driveUtil = new AutoDriveUtility(hardwareMap, sys.driveBase);
 
         while (opModeInInit()) {
             speed += SPEED_INCREMENT * -gamepad1.right_stick_y;
@@ -39,7 +42,7 @@ public class FeedforwardTuningTest extends LinearOpMode {
         while (opModeIsActive()) {
             speed += SPEED_INCREMENT * -gamepad1.right_stick_y;
 
-            sys.driveBase.motors.driveWithMotorPowers(speed, speed, speed, speed);
+            driveUtil.mecanumDrive.setMotorPowers(speed, speed, speed, speed);
             if (gamepad1.left_bumper || gamepad1.right_bumper) {
                 sys.driveBase.motors.driveRobotCentric(
                         gamepad1.left_stick_x * 0.5, -gamepad1.left_stick_y * 0.5, gamepad1.right_stick_x * 0.5
@@ -47,7 +50,8 @@ public class FeedforwardTuningTest extends LinearOpMode {
             }
 
             driveUtil.printPoseEstimate(telemetry);
-            telemetry.addData("Wheel Speed", speed);
+            telemetry.addData("Wheel Speed (normalized power)", speed);
+            telemetry.addData("Wheel Velocity (mm)", sys.driveBase.odometry.getVelX());
             telemetry.update();
 
             sys.periodic();

@@ -14,7 +14,7 @@ public class LocalizationTest extends LinearOpMode {
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
 
         sys.driveBase.brake(true);
-        AutoDriveUtility driveUtil = new AutoDriveUtility(sys.driveBase);
+        AutoDriveUtility driveUtil = new AutoDriveUtility(hardwareMap, sys.driveBase);
 
         waitForStart();
 
