@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.*;
+import org.firstinspires.ftc.teamcode.utilities.DeltaTime;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Extake;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Extake;
 public class CommandTeleOp extends CommandOpMode {
     private SubsystemsCollection sys;
     private GamepadEx driverGamepad, utilityGamepad;
+    private DeltaTime deltaTime;
 
     // For finer drive base control
     private double driveSpeedMultiplier = 1.0;
@@ -56,16 +58,16 @@ public class CommandTeleOp extends CommandOpMode {
 
     /** updates slide position according to `input`. */
     private void updateSlidePosition(double input) {
-        final double SPEED_MULTIPLIER = 0.015;
-        sys.intake.moveSlidePosition(input * SPEED_MULTIPLIER);
+        final double SPEED_MULTIPLIER = (Intake.SlidePosition.RETRACTED - Intake.SlidePosition.EXTENDED) / 1.5;
+        sys.intake.moveSlidePosition(input * SPEED_MULTIPLIER * deltaTime.get());
         // Extended position is a lower number than retracted.
         sys.intake.setSlidePosition(sys.intake.leftSlide.clamp(Intake.SlidePosition.EXTENDED, Intake.SlidePosition.RETRACTED));
     }
 
     /** updates pivot position according to `input`. */
     private void updatePivotPosition(double input) {
-        final double SPEED_MULTIPLIER = 0.03;
-        sys.intake.pivot.moveServoPosition(input * SPEED_MULTIPLIER);
+        final double SPEED_MULTIPLIER = (Intake.PivotPosition.LEFT - Intake.PivotPosition.RIGHT) / 1.5;
+        sys.intake.pivot.moveServoPosition(input * SPEED_MULTIPLIER * deltaTime.get());
         sys.intake.pivot.clamp(Intake.PivotPosition.RIGHT, Intake.PivotPosition.LEFT);
     }
 
@@ -77,32 +79,34 @@ public class CommandTeleOp extends CommandOpMode {
         sys = SubsystemsCollection.getInstance(hardwareMap);
         driverGamepad = new GamepadEx(gamepad1);
         utilityGamepad = new GamepadEx(gamepad2);
+        deltaTime = new DeltaTime();
 
         schedule(new CommandRun(() -> {
-                if (!(driverGamepad.getButton(GamepadKeys.Button.DPAD_UP) || driverGamepad.getButton(GamepadKeys.Button.DPAD_DOWN)
-                        || driverGamepad.getButton(GamepadKeys.Button.DPAD_LEFT) || driverGamepad.getButton(GamepadKeys.Button.DPAD_RIGHT))) {
-                    sys.driveBase.motors.driveRobotCentric(
-                            driverGamepad.getLeftX() * driveSpeedMultiplier,
-                            driverGamepad.getLeftY() * driveSpeedMultiplier,
-                            driverGamepad.getRightX() * driveRotationMultiplier,
-                            true
-                    );
-                }
-
-                sys.driveBase.brake(
-                        driverGamepad.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) == 1
+            if (!(driverGamepad.getButton(GamepadKeys.Button.DPAD_UP) || driverGamepad.getButton(GamepadKeys.Button.DPAD_DOWN)
+                    || driverGamepad.getButton(GamepadKeys.Button.DPAD_LEFT) || driverGamepad.getButton(GamepadKeys.Button.DPAD_RIGHT))) {
+                sys.driveBase.motors.driveRobotCentric(
+                        driverGamepad.getLeftX() * driveSpeedMultiplier,
+                        driverGamepad.getLeftY() * driveSpeedMultiplier,
+                        driverGamepad.getRightX() * driveRotationMultiplier,
+                        true
                 );
+            }
 
-                updateSlidePosition(utilityGamepad.getRightY());
-                updatePivotPosition(utilityGamepad.getLeftX());
+            sys.driveBase.brake(
+                    driverGamepad.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) == 1
+            );
 
-                telemetry.addData("X (mm)", sys.driveBase.odometry.getPosX());
-                telemetry.addData("Y (mm)", sys.driveBase.odometry.getPosY());
-                telemetry.addData("Heading (deg)",
-                        sys.driveBase.odometry.getHeading() * (180 / Math.PI));
-                telemetry.update();
+            updateSlidePosition(utilityGamepad.getRightY());
+            updatePivotPosition(utilityGamepad.getLeftX());
 
-                return false; // This should never finish.
+            telemetry.addData("X (mm)", sys.driveBase.odometry.getPosX());
+            telemetry.addData("Y (mm)", sys.driveBase.odometry.getPosY());
+            telemetry.addData("Heading (deg)",
+                    sys.driveBase.odometry.getHeading() * (180 / Math.PI));
+            telemetry.update();
+
+            deltaTime.update();
+            return false; // This should never finish.
             }
         ));
 
