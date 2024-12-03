@@ -23,7 +23,8 @@ public class StraightLineTest extends LinearOpMode {
 
         driveUtil.followPath(
                 new PathBuilder(new Pose2d(0.0, 0.0, 0.0))
-                        .lineTo(new Vector2d(610, 0.0))
+                        .forward(610)
+                        .back(610)
                         .build()
         );
 

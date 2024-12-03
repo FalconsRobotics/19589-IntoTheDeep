@@ -44,7 +44,7 @@ public final class ControlConstants {
     /** Constants to be used by Road Runner. */
     @Config
     public static final class RoadRunner {
-        public static double TRANSLATION_KP = 0.01;
+        public static double TRANSLATION_KP = 0.0;
         public static double TRANSLATION_KI = 0.0;
         public static double TRANSLATION_KD = 0.0;
 
@@ -53,9 +53,9 @@ public final class ControlConstants {
         public static double HEADING_KD = 0.0;
 
         // TODO: Find these first!
-        public static double KV = 0.00;
-        public static double KA = 0.00;
-        public static double KS = 0.00;
+        public static double KV = 0.0376;
+        public static double KA = 0.091;
+        public static double KS = 0.1;
 
         // TODO: Find these values, as well as the units Road Runner expects them in.
         //  (likely millimeters.) (maybe inches.)
@@ -63,9 +63,9 @@ public final class ControlConstants {
         public static double WHEEL_BASE = 254; // Double check these!
         public static double LATERAL_MULTIPLIER = 1.1;
 
-        public static double MAX_TRANSLATIONAL_VELOCITY = 40.0;
+        public static double MAX_TRANSLATIONAL_VELOCITY = 2.0;
         public static double MAX_ANGLE_VELOCITY = 0.7854;
 
-        public static double MAX_ACCELERATION = 50;
+        public static double MAX_ACCELERATION = 2.0;
     }
 }
