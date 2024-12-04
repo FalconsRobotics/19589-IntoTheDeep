@@ -34,11 +34,19 @@ public final class ControlConstants {
 
     /** Constants relating to drive base rotation in tele-op (independent of Road Runner). */
     @Config
-    public static final class DriveBaseRotation {
-        // TODO: Implement this
-        public static double KP = 0.0;
-        public static double KI = 0.0;
-        public static double KD = 0.0;
+    public static final class DriveUtil {
+        public static double TRANSLATION_KP = 0.0;
+        public static double TRANSLATION_KI = 0.0;
+        public static double TRANSLATION_KD = 0.0;
+
+        public static double ROTATION_KP = 0.0;
+        public static double ROTATION_KI = 0.0;
+        public static double ROTATION_KD = 0.0;
+
+        public static double STRAFE_MULTIPLIER = 1.1;
+
+        public static double MAX_POWER = 0.5;
+        public static double TOLERANCE = 2.0; // mm
     }
 
     /** Constants to be used by Road Runner. */

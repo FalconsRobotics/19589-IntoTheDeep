@@ -4,6 +4,8 @@ import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.utilities.Clamp;
+
 // TODO: ALL OF THIS NEEDS CLEANED UP AFTER 1ST COMPETITION
 
 public class MotorWithPIDFController extends MotorWithController {
@@ -24,10 +26,10 @@ public class MotorWithPIDFController extends MotorWithController {
     }
 
     public void setMotorPower() {
-            motor.set(Math.min(
-                    maxPower,
-                    controller.calculate(motor.getCurrentPosition()) * maxPower)
-            );
+            motor.set(Clamp.clamp(
+                    controller.calculate(motor.getCurrentPosition()),
+                    -maxPower, maxPower
+            ));
     }
 
     public void setTarget(int target) {

@@ -47,4 +47,9 @@ public class OdometryPodLocalizer implements Localizer {
     public Pose2d getPoseVelocity() {
         return new Pose2d(-odometryModule.getVelX(), -odometryModule.getVelX(), odometryModule.getHeadingVelocity());
     }
+
+    /** Returns heading in degrees. */
+    public double getHeadingDegrees() {
+        return odometryModule.getHeading() * (180 / Math.PI);
+    }
 }

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.utilities;
 
+/** Class used for getting time between "frames." */
 public class DeltaTime {
     private double delta;
     private double lastTimestamp;
