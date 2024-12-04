@@ -58,7 +58,7 @@ public class CommandTeleOp extends CommandOpMode {
 
     /** updates slide position according to `input`. */
     private void updateSlidePosition(double input) {
-        final double SPEED_MULTIPLIER = (Intake.SlidePosition.RETRACTED - Intake.SlidePosition.EXTENDED) / 1.5;
+        final double SPEED_MULTIPLIER = (Intake.SlidePosition.RETRACTED - Intake.SlidePosition.EXTENDED) / 0.8;
         sys.intake.moveSlidePosition(input * SPEED_MULTIPLIER * deltaTime.get());
         // Extended position is a lower number than retracted.
         sys.intake.setSlidePosition(sys.intake.leftSlide.clamp(Intake.SlidePosition.EXTENDED, Intake.SlidePosition.RETRACTED));
@@ -66,7 +66,7 @@ public class CommandTeleOp extends CommandOpMode {
 
     /** updates pivot position according to `input`. */
     private void updatePivotPosition(double input) {
-        final double SPEED_MULTIPLIER = (Intake.PivotPosition.LEFT - Intake.PivotPosition.RIGHT) / 1.5;
+        final double SPEED_MULTIPLIER = (Intake.PivotPosition.LEFT - Intake.PivotPosition.RIGHT) / 1.0;
         sys.intake.pivot.moveServoPosition(input * SPEED_MULTIPLIER * deltaTime.get());
         sys.intake.pivot.clamp(Intake.PivotPosition.RIGHT, Intake.PivotPosition.LEFT);
     }
