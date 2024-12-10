@@ -17,7 +17,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.DriveBase;
 import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
-import org.firstinspires.ftc.teamcode.utilities.DriveBaseMotors;
 
 import java.util.Arrays;
 
@@ -37,7 +36,7 @@ public class AutoDriveUtility {
     /** Initializes utility using passed `motors` and `odometry` module. */
     public AutoDriveUtility(HardwareMap map, DriveBase driveBase) {
         mecanumDrive = new MecanumDriveKinematics(
-                map, driveBase.mDirect, new OdometryPodLocalizer(driveBase.odometry),
+                map, driveBase.mDirect, new OdometryLimelightLocalizer(),
                 ControlConstants.RoadRunner.KV,
                 ControlConstants.RoadRunner.KA,
                 ControlConstants.RoadRunner.KS,

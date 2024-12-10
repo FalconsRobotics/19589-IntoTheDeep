@@ -18,7 +18,7 @@ public class MecanumDriveKinematics extends MecanumDrive {
 
     /** Initializes data using `motors` a `localizer` and associated required multipliers for
      *  feedforward mecanum drive tuning. */
-    public MecanumDriveKinematics(HardwareMap map, DriveBaseMotors motors, OdometryPodLocalizer localizer,
+    public MecanumDriveKinematics(HardwareMap map, DriveBaseMotors motors, OdometryLimelightLocalizer localizer,
                                   double kV, double kA, double kStatic,
                                   double trackWidth, double wheelBase, double lateralMultiplier) {
         super(kV, kA, kStatic, trackWidth, wheelBase, lateralMultiplier);

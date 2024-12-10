@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
 import org.firstinspires.ftc.teamcode.external.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
 import org.firstinspires.ftc.teamcode.utilities.DriveBaseMotors;
 
 
@@ -20,7 +22,9 @@ public class DriveBase extends SubsystemBase {
 
     /** Used to estimate robot position on field. */
     public final GoBildaPinpointDriver odometry;
-//    public final Limelight3A limelight;
+
+    /** For lockRotation() */
+    private final PIDController rotation;
 
     /** Initializes all members using 'map.' */
     public DriveBase(HardwareMap map) {
@@ -45,9 +49,11 @@ public class DriveBase extends SubsystemBase {
 
         odometry.resetPosAndIMU();
 
-//        limelight = map.get(Limelight3A.class, "Limelight");
-//        limelight.setPollRateHz(30);
-//        limelight.start();
+        rotation = new PIDController(
+                ControlConstants.DriveUtil.ROTATION_KP,
+                ControlConstants.DriveUtil.ROTATION_KI,
+                ControlConstants.DriveUtil.ROTATION_KD
+        );
     }
 
     public void periodic() {
@@ -64,11 +70,24 @@ public class DriveBase extends SubsystemBase {
             mDirect.frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
             mDirect.backLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
             mDirect.backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        } else {
-            mDirect.frontLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
-            mDirect.frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
-            mDirect.backLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
-            mDirect.backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
+            return;
         }
+
+        mDirect.frontLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
+        mDirect.frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
+        mDirect.backLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
+        mDirect.backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
+    }
+
+    /** Attempts to lock rotation to a certain heading depending, based on DriveUtil rotation
+     *  constants. Must be called every frame to have any affect. */
+    public void lockRotation(double heading) {
+        double power = rotation.calculate(odometry.getHeading());
+
+        // Positive headings start counter-clockwise.
+        mDirect.frontLeft.set(-power);
+        mDirect.backLeft.set(-power);
+        mDirect.frontRight.set(power);
+        mDirect.backRight.set(power);
     }
 }
