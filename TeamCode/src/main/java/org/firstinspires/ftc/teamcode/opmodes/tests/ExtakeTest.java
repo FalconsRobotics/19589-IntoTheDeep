@@ -11,8 +11,16 @@ public class ExtakeTest extends LinearOpMode {
     public void runOpMode() {
         SubsystemsCollection.deinit();
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
+
+        while (opModeInInit()) {
+            telemetry.addData("Lift Motor Position", sys.extake.lift.motor.getCurrentPosition());
+            telemetry.update();
+        }
+
         waitForStart();
-        sys.extake.setArmPosition(Extake.ArmPosition.UNLOAD);
+        sys.extake.setArmPosition(Extake.ArmPosition.LOAD);
+
+
 
         while (opModeIsActive()) {
             if (gamepad1.a) {

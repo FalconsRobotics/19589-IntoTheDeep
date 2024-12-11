@@ -14,7 +14,12 @@ public class IntakeTest extends LinearOpMode {
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
         GamepadEx testingGamepad = new GamepadEx(this.gamepad1);
 
-        sys.extake.setArmPosition(Intake.ArmPosition.IDLE);
+        while (opModeInInit()) {
+            telemetry.addData("Pivoting Motor Position", sys.intake.arm.motor.getCurrentPosition());
+            telemetry.update();
+        }
+
+        sys.intake.arm.setTarget(Intake.ArmPosition.IDLE);
         waitForStart();
 
         while (opModeIsActive()) {
@@ -31,10 +36,10 @@ public class IntakeTest extends LinearOpMode {
             telemetry.addData("Pivoting Motor Position", sys.intake.arm.motor.getCurrentPosition());
             telemetry.addData("Pivoting Motor Power", sys.intake.arm.motor.get());
             telemetry.addLine();
-            telemetry.addData("Sample Color", sys.intake.sampleColor.red() + "\t" +
-                    sys.intake.sampleColor.green() + "\t" +
-                    sys.intake.sampleColor.blue() + "\t" +
-                    sys.intake.sampleColor.alpha());
+//            telemetry.addData("Sample Color", sys.intake.sampleColor.red() + "\t" +
+//                    sys.intake.sampleColor.green() + "\t" +
+//                    sys.intake.sampleColor.blue() + "\t" +
+//                    sys.intake.sampleColor.alpha());
             telemetry.update();
 
             sys.intake.periodic();

@@ -17,7 +17,6 @@ public final class ControlConstants {
 
         public static double MAX_POWER = 0.5;
         public static int TOLERANCE = 8;
-
     }
 
     /** Control constants relating to the robots extake lift. */
