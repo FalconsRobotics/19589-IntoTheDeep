@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -18,12 +19,23 @@ public class DriveBase extends SubsystemBase {
     public final DriveBaseMotors mDirect;
 
     /** Collection of all drive base motors. Managed by FTCLib. */
-    public final MecanumDrive motors;
+    private final MecanumDrive motors;
+
+    /** Set powers applied to motors at the end of frame. Will reset back to zero by the start of
+     *  each frame. Using this instead of calling FTCLib's drive robot functions directly will
+     *  avoid any jittering on the drive base. */
+    public Pose2d motorPowers; // Roadrunner
+    /** Whether or not the drive base should be driven robot-centric (true) or field-centric (false). */
+    public boolean driveRobotCentric;
+
+    /** Whether or not robot driving should be handled directly by this object or not. Defaults to
+     *  false. for handling drive powers on your own, set to true. */
+    public boolean useExternalDriveCommands;
 
     /** Used to estimate robot position on field. */
     public final GoBildaPinpointDriver odometry;
 
-    /** For lockRotation() */
+    // For lockRotation().
     private final PIDController rotation;
 
     /** Initializes all members using 'map.' */
@@ -49,6 +61,10 @@ public class DriveBase extends SubsystemBase {
 
         odometry.resetPosAndIMU();
 
+        motorPowers = new Pose2d(0.0, 0.0, 0.0);
+        driveRobotCentric = true;
+        useExternalDriveCommands = false;
+
         rotation = new PIDController(
                 ControlConstants.DriveUtil.ROTATION_KP,
                 ControlConstants.DriveUtil.ROTATION_KI,
@@ -58,7 +74,19 @@ public class DriveBase extends SubsystemBase {
 
     public void periodic() {
         odometry.update();
+        if (useExternalDriveCommands) return;
+
+        if (driveRobotCentric) {
+            motors.driveRobotCentric(motorPowers.getY(), motorPowers.getX(), motorPowers.getHeading(),
+                    true);
+        } else {
+            motors.driveFieldCentric(motorPowers.getY(), motorPowers.getX(), motorPowers.getHeading(),
+                    odometry.getHeading() * (180 / Math.PI), true);
+        }
+
+        motorPowers = new Pose2d(0.0, 0.0, 0.0);
     }
+
 
     /**
      * Sets drive base motor behaviour to brake if `toggle` is set to true.

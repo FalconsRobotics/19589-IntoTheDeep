@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
@@ -58,7 +59,7 @@ public class CommandTeleOp extends CommandOpMode {
 
     /** updates slide position according to `input`. */
     private void updateSlidePosition(double input) {
-        final double SPEED_MULTIPLIER = (Intake.SlidePosition.RETRACTED - Intake.SlidePosition.EXTENDED) / 0.8;
+        final double SPEED_MULTIPLIER = (Intake.SlidePosition.RETRACTED - Intake.SlidePosition.EXTENDED) / 0.3;
         sys.intake.moveSlidePosition(input * SPEED_MULTIPLIER * deltaTime.get());
         // Extended position is a lower number than retracted.
         sys.intake.setSlidePosition(sys.intake.leftSlide.clamp(Intake.SlidePosition.EXTENDED, Intake.SlidePosition.RETRACTED));
@@ -66,7 +67,7 @@ public class CommandTeleOp extends CommandOpMode {
 
     /** updates pivot position according to `input`. */
     private void updatePivotPosition(double input) {
-        final double SPEED_MULTIPLIER = (Intake.PivotPosition.LEFT - Intake.PivotPosition.RIGHT) / 1.0;
+        final double SPEED_MULTIPLIER = (Intake.PivotPosition.LEFT - Intake.PivotPosition.RIGHT) / 0.8;
         sys.intake.pivot.moveServoPosition(input * SPEED_MULTIPLIER * deltaTime.get());
         sys.intake.pivot.clamp(Intake.PivotPosition.RIGHT, Intake.PivotPosition.LEFT);
     }
@@ -82,31 +83,28 @@ public class CommandTeleOp extends CommandOpMode {
         deltaTime = new DeltaTime();
 
         schedule(new CommandRun(() -> {
-            if (!(driverGamepad.getButton(GamepadKeys.Button.DPAD_UP) || driverGamepad.getButton(GamepadKeys.Button.DPAD_DOWN)
-                    || driverGamepad.getButton(GamepadKeys.Button.DPAD_LEFT) || driverGamepad.getButton(GamepadKeys.Button.DPAD_RIGHT))) {
-                sys.driveBase.motors.driveRobotCentric(
-                        driverGamepad.getLeftX() * driveSpeedMultiplier,
+                sys.driveBase.driveRobotCentric = true;
+                sys.driveBase.motorPowers = new Pose2d(
                         driverGamepad.getLeftY() * driveSpeedMultiplier,
-                        driverGamepad.getRightX() * driveRotationMultiplier,
-                        true
+                        driverGamepad.getLeftX() * driveSpeedMultiplier,
+                        driverGamepad.getRightX() * driveRotationMultiplier
                 );
-            }
 
-            sys.driveBase.brake(
-                    driverGamepad.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) == 1
-            );
+                sys.driveBase.brake(
+                        driverGamepad.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) == 1
+                );
 
-            updateSlidePosition(utilityGamepad.getRightY());
-            updatePivotPosition(utilityGamepad.getLeftX());
+                updateSlidePosition(utilityGamepad.getRightY());
+                updatePivotPosition(utilityGamepad.getLeftX());
 
-            telemetry.addData("X (mm)", sys.driveBase.odometry.getPosX());
-            telemetry.addData("Y (mm)", sys.driveBase.odometry.getPosY());
-            telemetry.addData("Heading (deg)",
-                    sys.driveBase.odometry.getHeading() * (180 / Math.PI));
-            telemetry.update();
+                telemetry.addData("X (mm)", sys.driveBase.odometry.getPosX());
+                telemetry.addData("Y (mm)", sys.driveBase.odometry.getPosY());
+                telemetry.addData("Heading (deg)",
+                        sys.driveBase.odometry.getHeading() * (180 / Math.PI));
+                telemetry.update();
 
-            deltaTime.update();
-            return false; // This should never finish.
+                deltaTime.update();
+                return false; // This should never finish.
             }
         ));
 
@@ -128,7 +126,7 @@ public class CommandTeleOp extends CommandOpMode {
                 .whileActiveContinuous(
                         new CommandDriveBaseDriveFieldCentric(
                                 () -> 0,
-                                () -> driveSpeedMultiplier,
+                                () -> -driveSpeedMultiplier,
                                 () -> 0
                         )
                 );
@@ -136,7 +134,7 @@ public class CommandTeleOp extends CommandOpMode {
                 .whileActiveContinuous(
                         new CommandDriveBaseDriveFieldCentric(
                                 () -> 0,
-                                () -> -driveSpeedMultiplier,
+                                () -> driveSpeedMultiplier,
                                 () -> 0
                         )
                 );

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
@@ -21,16 +22,10 @@ public class CommandDriveBaseDriveFieldCentric extends CommandBase {
     }
 
     public void execute() {
-        sys.driveBase.motors.driveFieldCentric(
-                strafe.getAsDouble(), forward.getAsDouble(), rotation.getAsDouble(),
-                // For some reason FTCLib requires degrees, but does not tell you this fact.
-                sys.driveBase.odometry.getHeading() * (180 / Math.PI),
-                true
+        sys.driveBase.driveRobotCentric = false;
+        sys.driveBase.motorPowers = new Pose2d(
+                forward.getAsDouble(), strafe.getAsDouble(), rotation.getAsDouble()
         );
-    }
-
-    public void end() {
-        sys.driveBase.brake(true);
     }
 }
 

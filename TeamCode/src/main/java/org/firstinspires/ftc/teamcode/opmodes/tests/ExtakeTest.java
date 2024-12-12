@@ -20,8 +20,6 @@ public class ExtakeTest extends LinearOpMode {
         waitForStart();
         sys.extake.setArmPosition(Extake.ArmPosition.LOAD);
 
-
-
         while (opModeIsActive()) {
             if (gamepad1.a) {
                sys.extake.lift.setTarget(Extake.LiftPosition.TOP_BUCKET);

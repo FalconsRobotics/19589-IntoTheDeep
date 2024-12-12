@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
@@ -20,7 +21,9 @@ public class CommandDriveBaseDriveRobotCentric extends CommandBase {
     }
 
     public void execute() {
-        sys.driveBase.motors.driveRobotCentric(
-                strafe.getAsDouble(), forward.getAsDouble(), rotation.getAsDouble(), true);
+        sys.driveBase.driveRobotCentric = true;
+        sys.driveBase.motorPowers = new Pose2d(
+                forward.getAsDouble(), strafe.getAsDouble(), rotation.getAsDouble()
+        );
     }
 }
