@@ -107,7 +107,7 @@ public class DriveBase extends SubsystemBase {
         mDirect.backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
     }
 
-    /** Attempts to lock rotation to a certain heading depending, based on DriveUtil rotation
+    /** Attempts to lock rotation to a certain heading (radians). Based on DriveUtil rotation
      *  constants. Must be called every frame to have any affect. */
     public void lockRotation(double heading) {
         double power = rotation.calculate(odometry.getHeading());

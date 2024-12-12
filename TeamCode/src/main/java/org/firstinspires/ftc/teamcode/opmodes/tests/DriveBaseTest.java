@@ -1,6 +1,7 @@
 
 package org.firstinspires.ftc.teamcode.opmodes.tests;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 
@@ -21,7 +22,8 @@ public class DriveBaseTest extends LinearOpMode {
         while (opModeIsActive()) {
             sys.periodic();
 
-            sys.driveBase.motors.driveRobotCentric(pad.getLeftX(), pad.getLeftY(), pad.getRightX());
+            sys.driveBase.motorPowers = new Pose2d(pad.getLeftX(), pad.getLeftY(), 0.0);
+            sys.driveBase.lockRotation(45.0 * (Math.PI / 180.0));
 
             if (pad.wasJustPressed(GamepadKeys.Button.X)) {
                 sys.driveBase.odometry.recalibrateIMU();
