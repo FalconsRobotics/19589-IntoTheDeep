@@ -113,8 +113,8 @@ public class DriveBase extends SubsystemBase {
         final double FULL_ROTATION = Math.PI * 2;
 
         // TODO: Test this.
-        rotation.setSetPoint(heading % FULL_ROTATION - Math.PI);
-        double power = rotation.calculate(heading % FULL_ROTATION - Math.PI);
+        rotation.setSetPoint(heading % FULL_ROTATION);
+        double power = rotation.calculate(heading % FULL_ROTATION);
 
         // Positive headings start counter-clockwise.
         motorPowers = new Pose2d(motorPowers.getX(), motorPowers.getY(), -power);
