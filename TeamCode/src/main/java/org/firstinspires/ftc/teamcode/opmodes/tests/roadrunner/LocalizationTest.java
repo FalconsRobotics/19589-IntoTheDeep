@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests.roadrunner;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -20,7 +21,7 @@ public class LocalizationTest extends LinearOpMode {
 
         while (opModeIsActive()) {
             if (sys.driveBase.odometry.getDeviceStatus() == GoBildaPinpointDriver.DeviceStatus.READY) {
-                sys.driveBase.motors.driveRobotCentric(
+                sys.driveBase.motorPowers = new Pose2d(
                         gamepad1.left_stick_x * 0.5, -gamepad1.left_stick_y * 0.5, gamepad1.right_stick_x * 0.5
                 );
             }

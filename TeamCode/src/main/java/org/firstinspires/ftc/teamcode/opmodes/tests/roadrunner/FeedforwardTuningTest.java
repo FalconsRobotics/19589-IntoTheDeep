@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests.roadrunner;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -49,7 +50,7 @@ public class FeedforwardTuningTest extends LinearOpMode {
 
             driveUtil.mecanumDrive.setMotorPowers(speed, speed, speed, speed);
             if (gamepad1.left_bumper || gamepad1.right_bumper) {
-                sys.driveBase.motors.driveRobotCentric(
+                sys.driveBase.motorPowers = new Pose2d(
                         gamepad1.left_stick_x * 0.5, -gamepad1.left_stick_y * 0.5, gamepad1.right_stick_x * 0.5
                 );
             }

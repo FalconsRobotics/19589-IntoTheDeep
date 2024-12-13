@@ -31,9 +31,9 @@ public class Intake extends SubsystemBase {
 
     /** Pre-defined arm positions. */
     public static final class ArmPosition {
-        public static final int UNLOAD = -1010;
+        public static final int UNLOAD = -1035;
         public static final int IDLE = -814;
-        public static final int HOVER = -200;
+        public static final int HOVER = -285;
         public static final int PICKUP = 0;
     }
 
@@ -85,7 +85,7 @@ public class Intake extends SubsystemBase {
                 ControlConstants.IntakeArm.TOLERANCE,
                 ControlConstants.IntakeArm.MAX_POWER
         );
-        arm.setTarget(ArmPosition.UNLOAD);
+        arm.setTarget(ArmPosition.IDLE);
 
         frontWheel = new CRServo(map, "Intake-FrontWheel");
         backWheel = new CRServo(map, "Intake-BackWheel");

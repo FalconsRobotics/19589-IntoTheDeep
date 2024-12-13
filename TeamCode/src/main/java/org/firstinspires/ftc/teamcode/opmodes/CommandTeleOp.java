@@ -59,7 +59,7 @@ public class CommandTeleOp extends CommandOpMode {
 
     /** updates slide position according to `input`. */
     private void updateSlidePosition(double input) {
-        final double SPEED_MULTIPLIER = (Intake.SlidePosition.RETRACTED - Intake.SlidePosition.EXTENDED) / 0.3;
+        final double SPEED_MULTIPLIER = (Intake.SlidePosition.RETRACTED - Intake.SlidePosition.EXTENDED) / 0.22;
         sys.intake.moveSlidePosition(input * SPEED_MULTIPLIER * deltaTime.get());
         // Extended position is a lower number than retracted.
         sys.intake.setSlidePosition(sys.intake.leftSlide.clamp(Intake.SlidePosition.EXTENDED, Intake.SlidePosition.RETRACTED));
@@ -67,7 +67,7 @@ public class CommandTeleOp extends CommandOpMode {
 
     /** updates pivot position according to `input`. */
     private void updatePivotPosition(double input) {
-        final double SPEED_MULTIPLIER = (Intake.PivotPosition.LEFT - Intake.PivotPosition.RIGHT) / 0.8;
+        final double SPEED_MULTIPLIER = (Intake.PivotPosition.LEFT - Intake.PivotPosition.RIGHT) / 0.6;
         sys.intake.pivot.moveServoPosition(input * SPEED_MULTIPLIER * deltaTime.get());
         sys.intake.pivot.clamp(Intake.PivotPosition.RIGHT, Intake.PivotPosition.LEFT);
     }
@@ -95,7 +95,7 @@ public class CommandTeleOp extends CommandOpMode {
                 );
 
                 updateSlidePosition(utilityGamepad.getRightY());
-                updatePivotPosition(utilityGamepad.getLeftX());
+                updatePivotPosition(-utilityGamepad.getLeftX());
 
                 telemetry.addData("X (mm)", sys.driveBase.odometry.getPosX());
                 telemetry.addData("Y (mm)", sys.driveBase.odometry.getPosY());
@@ -154,6 +154,8 @@ public class CommandTeleOp extends CommandOpMode {
                                 () -> 0
                         )
                 );
+
+        driverGamepad.getGamepadButton(GamepadKeys.Button)
         
 
         // Utility gamepad controls
@@ -175,7 +177,7 @@ public class CommandTeleOp extends CommandOpMode {
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whileActiveOnce(
-                        new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 800), false
+                        new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 500), false
                 );
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
@@ -188,6 +190,7 @@ public class CommandTeleOp extends CommandOpMode {
                                 new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE)
                         ),
                         new CommandIntakeRotateArm(Intake.ArmPosition.UNLOAD),
+                        new CommandTimer(100),
                         new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500)
                 ), false);
 
@@ -197,7 +200,7 @@ public class CommandTeleOp extends CommandOpMode {
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whileActiveOnce(new SequentialCommandGroup(
                         new ParallelDeadlineGroup(
-                                new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 1200),
+                                new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 800),
                                 new CommandIntakeRotateArm(Intake.ArmPosition.PICKUP)
                         ),
                         new CommandIntakeRotateArm(Intake.ArmPosition.HOVER)

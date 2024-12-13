@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Extake;
+import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
 @TeleOp(name = "Test - Extake", group = "Tests")
@@ -18,6 +19,7 @@ public class ExtakeTest extends LinearOpMode {
         }
 
         waitForStart();
+        sys.intake.arm.setTarget(Intake.ArmPosition.IDLE);
         sys.extake.setArmPosition(Extake.ArmPosition.LOAD);
 
         while (opModeIsActive()) {

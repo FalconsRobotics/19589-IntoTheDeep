@@ -15,7 +15,7 @@ public final class ControlConstants {
         public static double KD = 0.003;
         public static double KF = 0.0;
 
-        public static double MAX_POWER = 0.8;
+        public static double MAX_POWER = 0.85;
         public static int TOLERANCE = 8;
     }
 
@@ -24,7 +24,7 @@ public final class ControlConstants {
     public static final class ExtakeLift {
         public static double KP = 0.0605;
         public static double KI = 0.0;
-        public static double KD = 0.002;
+        public static double KD = 0.002125;
         public static double KF = 0.0;
 
         public static double MAX_POWER = 0.9;
@@ -38,9 +38,9 @@ public final class ControlConstants {
         public static double TRANSLATION_KI = 0.0;
         public static double TRANSLATION_KD = 0.0;
 
-        public static double ROTATION_KP = 0.0;
+        public static double ROTATION_KP = 0.72;
         public static double ROTATION_KI = 0.0;
-        public static double ROTATION_KD = 0.0;
+        public static double ROTATION_KD = 0.06;
 
         public static double STRAFE_MULTIPLIER = 1.1;
 

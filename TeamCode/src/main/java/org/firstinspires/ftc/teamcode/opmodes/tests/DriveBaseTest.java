@@ -22,8 +22,8 @@ public class DriveBaseTest extends LinearOpMode {
         while (opModeIsActive()) {
             sys.periodic();
 
-            sys.driveBase.motorPowers = new Pose2d(pad.getLeftX(), pad.getLeftY(), 0.0);
-            sys.driveBase.lockRotation(45.0 * (Math.PI / 180.0));
+            sys.driveBase.motorPowers = new Pose2d(pad.getLeftY(), pad.getLeftX(), 0.0);
+            sys.driveBase.lockRotation(Math.PI / 2);
 
             if (pad.wasJustPressed(GamepadKeys.Button.X)) {
                 sys.driveBase.odometry.recalibrateIMU();
@@ -31,11 +31,10 @@ public class DriveBaseTest extends LinearOpMode {
                 sleep(1000);
             }
 
-            sys.driveBase.brake(pad.getButton(GamepadKeys.Button.LEFT_BUMPER));
-
             telemetry.addData("X Position", sys.driveBase.odometry.getPosX());
             telemetry.addData("Y Position", sys.driveBase.odometry.getPosY());
             telemetry.addData("Heading", sys.driveBase.odometry.getHeading());
+            telemetry.addData("Target Heading", Math.PI / 2);
             telemetry.update();
         }
     }

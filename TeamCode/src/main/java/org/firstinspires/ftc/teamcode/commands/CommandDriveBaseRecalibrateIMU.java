@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.external.GoBildaPinpointDriver;
@@ -19,7 +20,7 @@ public class CommandDriveBaseRecalibrateIMU extends CommandBase {
 
     public void execute() {
         // Ensure no movement while waiting for odometry module.
-        sys.driveBase.motors.driveWithMotorPowers(0, 0, 0, 0);
+        sys.driveBase.motorPowers = new Pose2d(0, 0, 0);
     }
 
     public boolean isFinished() {

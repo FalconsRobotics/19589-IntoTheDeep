@@ -55,7 +55,8 @@ public class CustomAutoDriveUtil {
             rotationPwr = Clamp.clamp(rotation.calculate(pose.getHeading()), -maxPower, maxPower);
         }
 
-        driveBase.motors.driveFieldCentric(strafePwr, forwardPwr, rotationPwr, localizer.getHeadingDegrees(), true);
+        driveBase.driveRobotCentric = false;
+        driveBase.motorPowers = new Pose2d(forwardPwr, strafePwr, rotationPwr);
     }
 
     // For later
