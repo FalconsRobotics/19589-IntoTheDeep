@@ -110,8 +110,11 @@ public class DriveBase extends SubsystemBase {
     /** Attempts to lock rotation to a certain heading (radians). Based on DriveUtil rotation
      *  constants. Must be called every frame to have any affect. */
     public void lockRotation(double heading) {
-        rotation.setSetPoint(heading);
-        double power = rotation.calculate(odometry.getHeading());
+        final double FULL_ROTATION = Math.PI * 2;
+
+        // TODO: Test this.
+        rotation.setSetPoint(heading % FULL_ROTATION - Math.PI);
+        double power = rotation.calculate(heading % FULL_ROTATION - Math.PI);
 
         // Positive headings start counter-clockwise.
         motorPowers = new Pose2d(motorPowers.getX(), motorPowers.getY(), -power);
