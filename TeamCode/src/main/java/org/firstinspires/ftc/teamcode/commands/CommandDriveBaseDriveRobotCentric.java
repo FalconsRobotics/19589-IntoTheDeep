@@ -1,5 +1,6 @@
-package org.firstinspires.ftc.teamcode.opmodes.commands;
+package org.firstinspires.ftc.teamcode.commands;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
@@ -10,7 +11,7 @@ public class CommandDriveBaseDriveRobotCentric extends CommandBase {
     private final SubsystemsCollection sys;
     private final DoubleSupplier forward, strafe, rotation;
 
-    public CommandDriveBaseDriveRobotCentric(DoubleSupplier forward, DoubleSupplier strafe, DoubleSupplier rotation) {
+    public CommandDriveBaseDriveRobotCentric(DoubleSupplier strafe, DoubleSupplier forward, DoubleSupplier rotation) {
         sys = SubsystemsCollection.getInstance(null);
         // addRequirements(sys.driveBase);
 
@@ -20,7 +21,9 @@ public class CommandDriveBaseDriveRobotCentric extends CommandBase {
     }
 
     public void execute() {
-        sys.driveBase.motors.driveRobotCentric(forward.getAsDouble(),
-                strafe.getAsDouble(), rotation.getAsDouble(), true);
+        sys.driveBase.driveRobotCentric = true;
+        sys.driveBase.motorPowers = new Pose2d(
+                forward.getAsDouble(), strafe.getAsDouble(), rotation.getAsDouble()
+        );
     }
 }

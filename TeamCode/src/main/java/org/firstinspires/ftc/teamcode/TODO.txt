@@ -1,0 +1,17 @@
+TODO: Re-tune intake arm PID Controller.
+    - Probably good to add Arm feedforward control.
+
+TODO: Re-tune extake lift PIDF Controller
+    - Add kF constant to ensure lighter collision with robot moving down
+
+TODO: Road Runner tuning
+    - Feedforward and PID
+    - Build basic path as proof of concept
+    - Complete before Thanksgiving
+
+TODO: Get field position using Limelight
+    - Feed this into odometry to correct for any positional error
+
+TODO: Pickup objects from submersible automatically using limelight
+
+TODO: Implement lift code if available.

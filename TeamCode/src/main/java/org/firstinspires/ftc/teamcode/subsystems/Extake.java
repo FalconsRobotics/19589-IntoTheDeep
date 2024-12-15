@@ -1,16 +1,20 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.controller.PIDFController;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
-import org.firstinspires.ftc.teamcode.utilities.MotorWithController;
-import org.firstinspires.ftc.teamcode.utilities.MotorWithPIDFController;
+import org.firstinspires.ftc.teamcode.utilities.controllers.MotorWithController;
+import org.firstinspires.ftc.teamcode.utilities.controllers.MotorWithPIDFController;
 
-@Config
-public class Extake extends SubsystemBase { ;
+import java.util.ResourceBundle;
+
+
+/** Manages all mechanisms associated with unloading samples and specimens. */
+public class Extake extends SubsystemBase {
     /** Pre-defined arm positions. */
     public static class ArmPosition {
         public static final double LOAD = 0.89;
@@ -36,17 +40,20 @@ public class Extake extends SubsystemBase { ;
     /** Left and right servos controlling the bucket arm. */
     public final Servo leftArm, rightArm;
 
+    /** Initializes all members using 'map.' */
     public Extake(HardwareMap map) {
         lift = new MotorWithPIDFController(
-                map, "Extake-Lift",
-                ControlConstants.ExtakeLift.PIDF.KP,
-                ControlConstants.ExtakeLift.PIDF.KI,
-                ControlConstants.ExtakeLift.PIDF.KD,
-                ControlConstants.ExtakeLift.PIDF.KF,
+                map, "Extake-Lift", Motor.GoBILDA.RPM_435,
+                new PIDFController(
+                    ControlConstants.ExtakeLift.KP,
+                    ControlConstants.ExtakeLift.KI,
+                    ControlConstants.ExtakeLift.KD,
+                    ControlConstants.ExtakeLift.KF
+                ),
                 ControlConstants.ExtakeLift.TOLERANCE,
                 ControlConstants.ExtakeLift.MAX_POWER
         );
-        setLiftPosition(LiftPosition.DOWN);
+        lift.setTarget(LiftPosition.DOWN);
 
         leftArm = map.get(Servo.class, "Extake-LeftArm");
         rightArm = map.get(Servo.class, "Extake-RightArm");
@@ -57,7 +64,8 @@ public class Extake extends SubsystemBase { ;
     public void periodic() {
         lift.setMotorPower();
         if (lift.atTarget()) {
-            lift.motor.set(lift.motor.get() * 0.25);
+            // TODO: Stupid hack, please fix.
+            lift.motor.set(lift.motor.get() * ControlConstants.ExtakeLift.TARGET_MULTIPLIER);
         }
     }
 
@@ -65,10 +73,5 @@ public class Extake extends SubsystemBase { ;
     public void setArmPosition(double position) {
         leftArm.setPosition(position);
         rightArm.setPosition(position);
-    }
-
-    /** Sets `position` (in ticks) of lift. */
-    public void setLiftPosition(int position) {
-        lift.setTarget(position);
     }
 }

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.utilities;
+package org.firstinspires.ftc.teamcode.utilities.controllers;
 
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -8,8 +8,8 @@ public abstract class MotorWithController {
     public final Motor motor;
 
     // Protected to ensure this class cannot be created as itself.
-    protected MotorWithController(HardwareMap map, String name) {
-        motor = new Motor(map, name);
+    protected MotorWithController(HardwareMap map, String name, Motor.GoBILDA type) {
+        motor = new Motor(map, name, type);
     }
 
     /** Implemented to set motor power with control system. */

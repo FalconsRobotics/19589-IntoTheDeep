@@ -1,22 +1,23 @@
-package org.firstinspires.ftc.teamcode.opmodes.commands;
+package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
-public class CommandDriveBaseBrake extends CommandBase {
-    private final SubsystemsCollection sys;
-    private final boolean toggle;
 
-    public CommandDriveBaseBrake(boolean toggle) {
+public class CommandDriveBaseLockRotation extends CommandBase {
+    private final SubsystemsCollection sys;
+    private final double heading;
+
+    public CommandDriveBaseLockRotation(double heading) {
         sys = SubsystemsCollection.getInstance(null);
         // addRequirements(sys.driveBase);
 
-        this.toggle = toggle;
+        this.heading = heading;
     }
 
-    public void initialize() {
-        sys.driveBase.brake(toggle);
+    public void execute() {
+        sys.driveBase.lockRotation(heading);
     }
 
     public boolean isFinished() {

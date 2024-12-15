@@ -1,22 +1,24 @@
-package org.firstinspires.ftc.teamcode.opmodes.commands;
+package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
-public class CommandExtakeRotateArm extends CommandBase {
+import java.util.function.DoubleSupplier;
+
+public class CommandIntakeSetSlide extends CommandBase {
     private final SubsystemsCollection sys;
     private final double position;
 
-    public CommandExtakeRotateArm(double position) {
+    public CommandIntakeSetSlide(double position) {
         sys = SubsystemsCollection.getInstance(null);
-        // addRequirements(sys.extake);
+        // addRequirements(sys.intake);
 
         this.position = position;
     }
 
     public void initialize() {
-        sys.extake.setArmPosition(position);
+        sys.intake.setSlidePosition(position);
     }
 
     public boolean isFinished() {
