@@ -126,7 +126,7 @@ public class CommandTeleOp extends CommandOpMode {
                 .whileActiveContinuous(
                         new CommandDriveBaseDriveFieldCentric(
                                 () -> 0,
-                                () -> -driveSpeedMultiplier,
+                                () -> driveSpeedMultiplier,
                                 () -> 0
                         )
                 );
@@ -134,7 +134,7 @@ public class CommandTeleOp extends CommandOpMode {
                 .whileActiveContinuous(
                         new CommandDriveBaseDriveFieldCentric(
                                 () -> 0,
-                                () -> driveSpeedMultiplier,
+                                () -> -driveSpeedMultiplier,
                                 () -> 0
                         )
                 );
@@ -155,29 +155,50 @@ public class CommandTeleOp extends CommandOpMode {
                         )
                 );
 
-        driverGamepad.getGamepadButton(GamepadKeys.Button)
-        
+        driverGamepad.getGamepadButton(GamepadKeys.Button.Y)
+                        .whileActiveContinuous(
+                                new CommandDriveBaseLockRotation(0.0)
+                        );
+        driverGamepad.getGamepadButton(GamepadKeys.Button.X)
+                        .whileActiveContinuous(
+                                new CommandDriveBaseLockRotation(Math.PI / 2)
+                        );
+        driverGamepad.getGamepadButton(GamepadKeys.Button.A)
+                        .whileActiveContinuous(
+                                new CommandDriveBaseLockRotation(Math.PI)
+                        );
+        driverGamepad.getGamepadButton(GamepadKeys.Button.B)
+                        .whileActiveContinuous(
+                                new CommandDriveBaseLockRotation(Math.PI * 3 / 2)
+                        );
+
+        driverGamepad.getGamepadButton(GamepadKeys.Button.START)
+                        .whileActiveOnce(
+                                new CommandDriveBaseRecalibrate(),
+                                false
+                        );
+
 
         // Utility gamepad controls
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
                 .whileActiveOnce(
-                        new CommandIntakeSetSlide(Intake.SlidePosition.RETRACTED), false
+                        new CommandIntakeSetSlide(Intake.SlidePosition.RETRACTED)
                 );
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
                 .whileActiveOnce(
-                        new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE), false
+                        new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE)
                 );
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whileActiveOnce(
-                        new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500), false
+                        new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500)
                 );
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whileActiveOnce(
-                        new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 500), false
+                        new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 500)
                 );
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
@@ -190,22 +211,20 @@ public class CommandTeleOp extends CommandOpMode {
                                 new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE)
                         ),
                         new CommandIntakeRotateArm(Intake.ArmPosition.UNLOAD),
-                        new CommandTimer(100),
                         new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500)
                 ), false);
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-                .whileActiveOnce(new CommandIntakeRotateArm(Intake.ArmPosition.HOVER), false);
+                .whileActiveOnce(new CommandIntakeRotateArm(Intake.ArmPosition.HOVER));
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whileActiveOnce(new SequentialCommandGroup(
                         new ParallelDeadlineGroup(
-                                new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 800),
+                                new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 500),
                                 new CommandIntakeRotateArm(Intake.ArmPosition.PICKUP)
                         ),
                         new CommandIntakeRotateArm(Intake.ArmPosition.HOVER)
-                ), false);
-
+                ));
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whileActiveOnce(new ParallelCommandGroup(
                         new CommandExtakeRotateArm(Extake.ArmPosition.LOAD),

@@ -7,15 +7,15 @@ import org.firstinspires.ftc.teamcode.external.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
 
-public class CommandDriveBaseRecalibrateIMU extends CommandBase {
+public class CommandDriveBaseRecalibrate extends CommandBase {
     private final SubsystemsCollection sys;
 
-    public CommandDriveBaseRecalibrateIMU() {
+    public CommandDriveBaseRecalibrate() {
         sys = SubsystemsCollection.getInstance(null);
     }
 
     public void initialize() {
-        sys.driveBase.odometry.recalibrateIMU();
+        sys.driveBase.odometry.resetPosAndIMU();
     }
 
     public void execute() {

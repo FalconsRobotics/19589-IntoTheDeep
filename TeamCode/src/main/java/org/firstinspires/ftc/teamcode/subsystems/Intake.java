@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -33,7 +34,7 @@ public class Intake extends SubsystemBase {
     public static final class ArmPosition {
         public static final int UNLOAD = -1035;
         public static final int IDLE = -814;
-        public static final int HOVER = -285;
+        public static final int HOVER = -305;
         public static final int PICKUP = 0;
     }
 
@@ -75,7 +76,7 @@ public class Intake extends SubsystemBase {
 //        sampleColor.enableLed(true);
 
         arm = new MotorWithPIDFController(
-                map, "Intake-Arm",
+                map, "Intake-Arm", Motor.GoBILDA.RPM_84,
                 new PIDFController(
                     ControlConstants.IntakeArm.KP,
                     ControlConstants.IntakeArm.KI,
@@ -95,7 +96,9 @@ public class Intake extends SubsystemBase {
     public void periodic() {
         arm.setMotorPower();
         if (arm.atTarget()) {
-            arm.motor.set(arm.motor.get() * 0.2);
+            // TODO: Another stupid hack, please fix.
+            double angle = arm.motor.getCurrentPosition() / arm.motor.getCPR() * Math.PI * 2;
+            arm.motor.set(arm.motor.get() * Math.cos(angle) * ControlConstants.IntakeArm.TARGET_MULTIPLIER);
         }
     }
 

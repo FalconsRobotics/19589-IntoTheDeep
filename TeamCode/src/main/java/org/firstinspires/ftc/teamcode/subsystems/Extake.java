@@ -2,12 +2,15 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
 import org.firstinspires.ftc.teamcode.utilities.controllers.MotorWithController;
 import org.firstinspires.ftc.teamcode.utilities.controllers.MotorWithPIDFController;
+
+import java.util.ResourceBundle;
 
 
 /** Manages all mechanisms associated with unloading samples and specimens. */
@@ -40,7 +43,7 @@ public class Extake extends SubsystemBase {
     /** Initializes all members using 'map.' */
     public Extake(HardwareMap map) {
         lift = new MotorWithPIDFController(
-                map, "Extake-Lift",
+                map, "Extake-Lift", Motor.GoBILDA.RPM_435,
                 new PIDFController(
                     ControlConstants.ExtakeLift.KP,
                     ControlConstants.ExtakeLift.KI,
@@ -61,7 +64,8 @@ public class Extake extends SubsystemBase {
     public void periodic() {
         lift.setMotorPower();
         if (lift.atTarget()) {
-            lift.motor.set(lift.motor.get() * 0.25);
+            // TODO: Stupid hack, please fix.
+            lift.motor.set(lift.motor.get() * ControlConstants.ExtakeLift.TARGET_MULTIPLIER);
         }
     }
 

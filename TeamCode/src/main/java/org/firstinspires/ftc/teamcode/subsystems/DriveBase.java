@@ -112,9 +112,8 @@ public class DriveBase extends SubsystemBase {
     public void lockRotation(double heading) {
         final double FULL_ROTATION = Math.PI * 2;
 
-        // TODO: Test this.
         rotation.setSetPoint(heading % FULL_ROTATION);
-        double power = rotation.calculate(heading % FULL_ROTATION);
+        double power = rotation.calculate(odometry.getHeading() % FULL_ROTATION);
 
         // Positive headings start counter-clockwise.
         motorPowers = new Pose2d(motorPowers.getX(), motorPowers.getY(), -power);

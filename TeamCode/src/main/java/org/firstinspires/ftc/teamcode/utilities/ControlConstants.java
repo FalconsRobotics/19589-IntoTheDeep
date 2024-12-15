@@ -10,25 +10,29 @@ public final class ControlConstants {
     public static final class IntakeArm {
         // PIDF Controllers may be swapped with feedforward controllers in the future. If/when this
         // happens please be sure to keep these values here anyways.
-        public static double KP = 0.05;
-        public static double KI = 0.015;
-        public static double KD = 0.003;
+        public static double KP = 0.04875;
+        public static double KI = 0.00106;
+        public static double KD = 0.00351;
         public static double KF = 0.0;
 
-        public static double MAX_POWER = 0.85;
+        public static double MAX_POWER = 0.878;
         public static int TOLERANCE = 8;
+
+        public static double TARGET_MULTIPLIER = 0.165; // 0.2 worked best when not using cosine.
     }
 
     /** Control constants relating to the robots extake lift. */
     @Config
     public static final class ExtakeLift {
-        public static double KP = 0.0605;
+        public static double KP = 0.06051;
         public static double KI = 0.0;
-        public static double KD = 0.002125;
+        public static double KD = 0.0021325;
         public static double KF = 0.0;
 
-        public static double MAX_POWER = 0.9;
+        public static double MAX_POWER = 1.0;
         public static int TOLERANCE = 20;
+
+        public static double TARGET_MULTIPLIER = 0.25;
     }
 
     /** Constants relating to drive base rotation in tele-op (independent of Road Runner). */
@@ -38,7 +42,7 @@ public final class ControlConstants {
         public static double TRANSLATION_KI = 0.0;
         public static double TRANSLATION_KD = 0.0;
 
-        public static double ROTATION_KP = 0.72;
+        public static double ROTATION_KP = 0.73;
         public static double ROTATION_KI = 0.0;
         public static double ROTATION_KD = 0.06;
 
