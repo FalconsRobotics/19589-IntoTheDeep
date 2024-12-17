@@ -9,7 +9,6 @@ import java.security.InvalidParameterException;
 /** Collection of subsystems and associated procedures intended to be used by all OpModes. */
 public class SubsystemsCollection {
     private static SubsystemsCollection instance = null;
-    private HardwareMap map = null; // Also tracks if instance was already initialized.
 
     /** Robot subsystems. */
     public final DriveBase driveBase;
@@ -18,12 +17,10 @@ public class SubsystemsCollection {
     public final Lift lift;
 
     private SubsystemsCollection(HardwareMap map) {
-        this.map = map;
-
-        driveBase = new DriveBase(this.map);
-        intake = new Intake(this.map);
-        extake = new Extake(this.map);
-        lift = new Lift(this.map);
+        driveBase = new DriveBase(map);
+        intake = new Intake(map);
+        extake = new Extake(map);
+        lift = new Lift(map);
     }
 
     /** Returns singleton instance of SubsystemsCollection. If this instance does not yet exist, it

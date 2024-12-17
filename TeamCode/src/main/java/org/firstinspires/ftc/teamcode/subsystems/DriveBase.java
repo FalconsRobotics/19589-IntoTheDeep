@@ -112,6 +112,8 @@ public class DriveBase extends SubsystemBase {
     public void lockRotation(double heading) {
         final double FULL_ROTATION = Math.PI * 2;
 
+        // TODO: Will cause robot to sometimes make an inefficient rotation from positions above 180
+        //  to those just above zero. I've wanted to fix this but it isn't a priority right now.
         rotation.setSetPoint(heading % FULL_ROTATION);
         double power = rotation.calculate(odometry.getHeading() % FULL_ROTATION);
 

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
 import org.firstinspires.ftc.teamcode.utilities.controllers.MotorWithController;
+import org.firstinspires.ftc.teamcode.utilities.controllers.MotorWithPIDController;
 import org.firstinspires.ftc.teamcode.utilities.controllers.MotorWithPIDFController;
 
 import java.util.ResourceBundle;
@@ -40,16 +42,17 @@ public class Extake extends SubsystemBase {
     /** Left and right servos controlling the bucket arm. */
     public final Servo leftArm, rightArm;
 
+
     /** Initializes all members using 'map.' */
     public Extake(HardwareMap map) {
         lift = new MotorWithPIDFController(
                 map, "Extake-Lift", Motor.GoBILDA.RPM_435,
-                new PIDFController(
+                new PIDController(
                     ControlConstants.ExtakeLift.KP,
                     ControlConstants.ExtakeLift.KI,
-                    ControlConstants.ExtakeLift.KD,
-                    ControlConstants.ExtakeLift.KF
+                    ControlConstants.ExtakeLift.KD
                 ),
+                ControlConstants.ExtakeLift.KF,
                 ControlConstants.ExtakeLift.TOLERANCE,
                 ControlConstants.ExtakeLift.MAX_POWER
         );
@@ -61,13 +64,17 @@ public class Extake extends SubsystemBase {
         // Servo face opposite directions, thankfully this was addressed in servo programming.
     }
 
+
     public void periodic() {
         lift.setMotorPower();
+        // TODO: Stupid hack, please fix.
         if (lift.atTarget()) {
-            // TODO: Stupid hack, please fix.
-            lift.motor.set(lift.motor.get() * ControlConstants.ExtakeLift.TARGET_MULTIPLIER);
+            // Works if kF is designed to keep the robot (roughly) static.
+            lift.motor.set(lift.motor.get() *
+                    ControlConstants.ExtakeLift.TARGET_MULTIPLIER + ControlConstants.ExtakeLift.KF);
         }
     }
+
 
     /** Sets `position` of both arm servos. */
     public void setArmPosition(double position) {

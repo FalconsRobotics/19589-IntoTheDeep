@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -9,7 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.utilities.ControlConstants;
 import org.firstinspires.ftc.teamcode.utilities.controllers.MotorWithController;
-import org.firstinspires.ftc.teamcode.utilities.controllers.MotorWithPIDFController;
+import org.firstinspires.ftc.teamcode.utilities.controllers.MotorWithPIDController;
 import org.firstinspires.ftc.teamcode.utilities.controllers.ServoWithController;
 
 
@@ -75,13 +76,12 @@ public class Intake extends SubsystemBase {
 //        sampleColor = map.get(ColorSensor.class, "Intake-SampleColor"); // TODO
 //        sampleColor.enableLed(true);
 
-        arm = new MotorWithPIDFController(
+        arm = new MotorWithPIDController(
                 map, "Intake-Arm", Motor.GoBILDA.RPM_84,
-                new PIDFController(
+                new PIDController(
                     ControlConstants.IntakeArm.KP,
                     ControlConstants.IntakeArm.KI,
-                    ControlConstants.IntakeArm.KD,
-                    ControlConstants.IntakeArm.KF
+                    ControlConstants.IntakeArm.KD
                 ),
                 ControlConstants.IntakeArm.TOLERANCE,
                 ControlConstants.IntakeArm.MAX_POWER

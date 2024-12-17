@@ -97,10 +97,14 @@ public class CommandTeleOp extends CommandOpMode {
                 updateSlidePosition(utilityGamepad.getRightY());
                 updatePivotPosition(-utilityGamepad.getLeftX());
 
-                telemetry.addData("X (mm)", sys.driveBase.odometry.getPosX());
-                telemetry.addData("Y (mm)", sys.driveBase.odometry.getPosY());
+                // Telemetry
+                telemetry.addData("X Pos (mm)", sys.driveBase.odometry.getPosX());
+                telemetry.addData("Y Pos (mm)", sys.driveBase.odometry.getPosY());
                 telemetry.addData("Heading (deg)",
                         sys.driveBase.odometry.getHeading() * (180 / Math.PI));
+                telemetry.addLine();
+                telemetry.addData("Intake Arm Motor Power", sys.intake.arm.motor.get());
+                telemetry.addData("Extake Lift Motor Power", sys.extake.lift.motor.get());
                 telemetry.update();
 
                 deltaTime.update();

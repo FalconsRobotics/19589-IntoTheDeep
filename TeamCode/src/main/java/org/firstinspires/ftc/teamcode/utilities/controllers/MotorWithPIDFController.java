@@ -1,42 +1,29 @@
 package org.firstinspires.ftc.teamcode.utilities.controllers;
 
-import com.arcrobotics.ftclib.controller.PIDFController;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.utilities.Clamp;
 
-// TODO: ALL OF THIS NEEDS CLEANED UP AFTER 1ST COMPETITION
+/** For some reason FTCLib's PIDF Controller wasn't working for me, hence why this exists. Kind
+ *  of a hack. TOO BAD! */
+public class MotorWithPIDFController extends MotorWithPIDController {
+    /** Feedforward constant - Added force applied to final PID Calculation, Accounts for sign. */
+    public final double kF;
 
-public class MotorWithPIDFController extends MotorWithController {
-    public final PIDFController controller;
-    public final double maxPower;
-
-    /** Initializes a motor with a PID controller given the associated gains. */
-    public MotorWithPIDFController(HardwareMap map, String name, Motor.GoBILDA type, PIDFController controller, int tolerance, double maxPower) {
-        super(map, name, type);
-        motor.setRunMode(Motor.RunMode.RawPower);
-        motor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-
-        this.controller = controller;
-        this.controller.setTolerance(tolerance);
-        this.controller.setSetPoint(0);
-
-        this.maxPower = maxPower;
+    public MotorWithPIDFController(HardwareMap map, String name, Motor.GoBILDA type, PIDController controller, double kF, int tolerance, double maxPower) {
+        super(map, name, type, controller, tolerance, maxPower);
+        this.kF = kF;
     }
+
 
     public void setMotorPower() {
-            motor.set(Clamp.clamp(
-                    controller.calculate(motor.getCurrentPosition()),
-                    -maxPower, maxPower
-            ));
-    }
+        double calculation = calculateMotorPower();
 
-    public void setTarget(int target) {
-        controller.setSetPoint(target);
-    }
-
-    public boolean atTarget() {
-        return controller.atSetPoint();
+        motor.set(Clamp.clamp(
+                calculation + (kF * Math.signum(calculation)),
+                -maxPower, maxPower
+        ));
     }
 }
