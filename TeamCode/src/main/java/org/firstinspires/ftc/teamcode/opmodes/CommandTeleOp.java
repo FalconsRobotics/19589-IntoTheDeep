@@ -85,34 +85,33 @@ public class CommandTeleOp extends CommandOpMode {
         deltaTime = new DeltaTime();
 
         schedule(new CommandRun(() -> {
-                sys.driveBase.driveRobotCentric = true;
-                sys.driveBase.motorPowers = new Pose2d(
-                        driverGamepad.getLeftY() * driveSpeedMultiplier,
-                        driverGamepad.getLeftX() * driveSpeedMultiplier,
-                        driverGamepad.getRightX() * driveRotationMultiplier
-                );
+            sys.driveBase.driveRobotCentric = true;
+            sys.driveBase.motorPowers = new Pose2d(
+                    driverGamepad.getLeftY() * driveSpeedMultiplier,
+                    driverGamepad.getLeftX() * driveSpeedMultiplier,
+                    driverGamepad.getRightX() * driveRotationMultiplier
+            );
 
-                sys.driveBase.brake(
-                        driverGamepad.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) == 1
-                );
+            sys.driveBase.brake(
+                    driverGamepad.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) == 1
+            );
 
-                updateSlidePosition(utilityGamepad.getRightY());
-                updatePivotPosition(-utilityGamepad.getLeftX());
+            updateSlidePosition(utilityGamepad.getRightY());
+            updatePivotPosition(-utilityGamepad.getLeftX());
 
-                // Telemetry
-                telemetry.addData("X Pos (mm)", sys.driveBase.odometry.getPosX());
-                telemetry.addData("Y Pos (mm)", sys.driveBase.odometry.getPosY());
-                telemetry.addData("Heading (deg)",
-                        sys.driveBase.odometry.getHeading() * (180 / Math.PI));
-                telemetry.addLine();
-                telemetry.addData("Intake Arm Motor Power", sys.intake.arm.motor.get());
-                telemetry.addData("Extake Lift Motor Power", sys.extake.lift.motor.get());
-                telemetry.update();
+            // Telemetry
+            telemetry.addData("X Pos (mm)", sys.driveBase.odometry.getPosX());
+            telemetry.addData("Y Pos (mm)", sys.driveBase.odometry.getPosY());
+            telemetry.addData("Heading (deg)",
+                    sys.driveBase.odometry.getHeading() * (180 / Math.PI));
+            telemetry.addLine();
+            telemetry.addData("Intake Arm Motor Power", sys.intake.arm.motor.get());
+            telemetry.addData("Extake Lift Motor Power", sys.extake.lift.motor.get());
+            telemetry.update();
 
-                deltaTime.update();
-                return false; // This should never finish.
-            }
-        ));
+            deltaTime.update();
+            return false; // This should never finish.
+        }));
 
         /*
          * Driver Controls
