@@ -24,7 +24,7 @@ public class SubsystemsCollection {
     }
 
     /** Returns singleton instance of SubsystemsCollection. If this instance does not yet exist, it
-     *  will be created. If this is the case `hMap` must be supplied an appropriate object,
+     *  will be created. If this is the case `map` must be supplied an appropriate object,
      *  otherwise it may be null. */
     public static SubsystemsCollection getInstance(HardwareMap map) {
         if (instance == null) {
