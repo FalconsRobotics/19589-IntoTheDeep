@@ -18,6 +18,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Extake;
 /** Main Tele-Op to be used during competition matches and drive practice. */
 @TeleOp(name = "Command TeleOp")
 public class CommandTeleOp extends CommandOpMode {
+    // NOTE TO SELF: whenActive() is NOT THE SAME AS whileActiveOnce()!!!!!!!
+
     private SubsystemsCollection sys;
     private GamepadEx driverGamepad, utilityGamepad;
     private DeltaTime deltaTime;
@@ -177,7 +179,7 @@ public class CommandTeleOp extends CommandOpMode {
                         );
 
         driverGamepad.getGamepadButton(GamepadKeys.Button.START)
-                        .whileActiveOnce(
+                        .whenActive(
                                 new CommandDriveBaseRecalibrate(),
                                 false
                         );
@@ -186,27 +188,27 @@ public class CommandTeleOp extends CommandOpMode {
         // Utility gamepad controls
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
-                .whileActiveOnce(
+                .whenActive(
                         new CommandIntakeSetSlide(Intake.SlidePosition.RETRACTED)
                 );
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
-                .whileActiveOnce(
+                .whenActive(
                         new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE)
                 );
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whileActiveOnce(
+                .whenActive(
                         new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500)
                 );
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whileActiveOnce(
+                .whenActive(
                         new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 500)
                 );
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whileActiveOnce(new SequentialCommandGroup(
+                .whenActive(new SequentialCommandGroup(
                         new ParallelDeadlineGroup(
                                 new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
                                 new CommandIntakeRotateArm(Intake.ArmPosition.IDLE),
@@ -219,10 +221,10 @@ public class CommandTeleOp extends CommandOpMode {
                 ), false);
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-                .whileActiveOnce(new CommandIntakeRotateArm(Intake.ArmPosition.HOVER));
+                .whenActive(new CommandIntakeRotateArm(Intake.ArmPosition.HOVER));
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whileActiveOnce(new SequentialCommandGroup(
+                .whenActive(new SequentialCommandGroup(
                         new ParallelDeadlineGroup(
                                 new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 500),
                                 new CommandIntakeRotateArm(Intake.ArmPosition.PICKUP)
@@ -230,22 +232,22 @@ public class CommandTeleOp extends CommandOpMode {
                         new CommandIntakeRotateArm(Intake.ArmPosition.HOVER)
                 ));
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whileActiveOnce(new ParallelCommandGroup(
+                .whenActive(new ParallelCommandGroup(
                         new CommandExtakeRotateArm(Extake.ArmPosition.LOAD),
                         new CommandIntakeRotateArm(Intake.ArmPosition.IDLE),
                         new CommandExtakeMoveLift(Extake.LiftPosition.DOWN)
-                ), false);
+                ));
 
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.A)
-                .whileActiveOnce(new ParallelCommandGroup(
+                .whenActive(new ParallelCommandGroup(
                         new CommandExtakeRotateArm(Extake.ArmPosition.LOAD),
                         new CommandIntakeRotateArm(Intake.ArmPosition.IDLE),
                         new CommandExtakeMoveLift(Extake.LiftPosition.LOWER_BAR)
                 ));
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.X)
-                .whileActiveOnce(new ParallelCommandGroup(
+                .whenActive(new ParallelCommandGroup(
                         new CommandExtakeRotateArm(Extake.ArmPosition.LOAD),
                         new CommandIntakeRotateArm(Intake.ArmPosition.IDLE),
                         new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BAR)
