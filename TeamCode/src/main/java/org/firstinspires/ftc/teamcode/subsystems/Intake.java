@@ -94,12 +94,15 @@ public class Intake extends SubsystemBase {
     }
 
     public void periodic() {
-        arm.setMotorPower();
         if (arm.atTarget()) {
             // TODO: Another stupid hack, please fix.
             double angle = arm.motor.getCurrentPosition() / arm.motor.getCPR() * Math.PI * 2;
-            arm.motor.set(arm.motor.get() * Math.cos(angle) * ControlConstants.IntakeArm.TARGET_MULTIPLIER);
+            arm.motor.set(arm.calculateMotorPower() * Math.cos(angle) *
+                    ControlConstants.IntakeArm.TARGET_MULTIPLIER * arm.regulator.getPowerMultiplier());
+            return;
         }
+
+        arm.setMotorPower();
     }
 
     /** Sets the `position` of both slide servos */

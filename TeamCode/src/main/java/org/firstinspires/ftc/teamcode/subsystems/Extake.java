@@ -66,13 +66,16 @@ public class Extake extends SubsystemBase {
 
 
     public void periodic() {
-        lift.setMotorPower();
         // TODO: Stupid hack, please fix.
         if (lift.atTarget()) {
             // Works if kF is designed to keep the robot (roughly) static.
-            lift.motor.set(lift.motor.get() *
-                    ControlConstants.ExtakeLift.TARGET_MULTIPLIER + ControlConstants.ExtakeLift.KF);
+            lift.motor.set((lift.calculateMotorPower() *
+                    ControlConstants.ExtakeLift.TARGET_MULTIPLIER + ControlConstants.ExtakeLift.KF) *
+                    lift.regulator.getPowerMultiplier());
+            return;
         }
+
+        lift.setMotorPower();
     }
 
 

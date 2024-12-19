@@ -25,11 +25,6 @@ public class MotorWithPIDController extends MotorWithController {
         this.maxPower = maxPower;
     }
 
-
-    public void setMotorPower() {
-            motor.set(calculateMotorPower());
-    }
-
     public void setTarget(int target) {
         controller.setSetPoint(target);
     }
@@ -39,7 +34,7 @@ public class MotorWithPIDController extends MotorWithController {
     }
 
     // For MotorWithPIDFController to use.
-    protected double calculateMotorPower() {
+    public double calculateMotorPower() {
         return Clamp.clamp(controller.calculate(motor.getCurrentPosition()), -maxPower, maxPower);
     }
 }

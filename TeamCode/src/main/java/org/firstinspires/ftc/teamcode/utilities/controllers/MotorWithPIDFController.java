@@ -18,12 +18,14 @@ public class MotorWithPIDFController extends MotorWithPIDController {
     }
 
 
-    public void setMotorPower() {
-        double calculation = calculateMotorPower();
+    public double calculateMotorPower() {
+        double calculation = super.calculateMotorPower();
 
-        motor.set(Clamp.clamp(
+        calculation = (Clamp.clamp(
                 calculation + (kF * Math.signum(calculation)),
                 -maxPower, maxPower
         ));
+
+        return calculation;
     }
 }
