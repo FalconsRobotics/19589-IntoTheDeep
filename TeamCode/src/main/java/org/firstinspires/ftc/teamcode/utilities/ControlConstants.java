@@ -10,14 +10,14 @@ public final class ControlConstants {
     public static final class IntakeArm {
         // PID(F) Controllers may be swapped with feedforward controllers in the future. If/when this
         // happens please be sure to keep these values here anyways.
-        public static double KP = 0.04875;
-        public static double KI = 0.00106;
-        public static double KD = 0.00351;
+        public static double KP = 0.0038;
+        public static double KI = 0.0;
+        public static double KD = 0.00008;
 
-        public static double MAX_POWER = 0.878;
+        public static double MAX_POWER = 0.865;
         public static int TOLERANCE = 15;
 
-        public static double TARGET_MULTIPLIER = 0.165; // 0.2 worked best when not using cosine.
+        public static double TARGET_MULTIPLIER = 0.12; // 0.2 worked best when not using cosine.
     }
 
     /** Control constants relating to the robots extake lift. */
@@ -26,7 +26,7 @@ public final class ControlConstants {
         public static double KP = 0.06051;
         public static double KI = 0.0;
         public static double KD = 0.0021325;
-        public static double KF = 0.0;
+        public static double KF = -0.008;
 
         public static double MAX_POWER = 1.0;
         public static int TOLERANCE = 20;

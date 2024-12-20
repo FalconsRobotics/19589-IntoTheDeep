@@ -49,7 +49,7 @@ public class DriveBase extends SubsystemBase {
 
         motors = new MecanumDrive(false, mDirect.frontLeft, mDirect.frontRight,
                 mDirect.backLeft, mDirect.backRight);
-        // For some odd reason sometimes this works and sometimes it doesn't.
+        // Sometimes this works and sometimes it doesn't!
         mDirect.frontLeft.setInverted(true);
 
         odometry = map.get(GoBildaPinpointDriver.class, "DriveBase-Odometry");

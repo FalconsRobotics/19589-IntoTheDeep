@@ -239,7 +239,7 @@ public class CommandTeleOp extends CommandOpMode {
             .whenActive(new ParallelCommandGroup(
                     new CommandIntakeRotateArm(Intake.ArmPosition.PICKUP),
                     new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 1000)
-            ))
+            ), false)
             .whenInactive(
                     new SequentialCommandGroup (
                         new CommandIntakeRotateArm(Intake.ArmPosition.HOVER),
@@ -255,7 +255,7 @@ public class CommandTeleOp extends CommandOpMode {
                             new CommandIntakeRotateArm(Intake.ArmPosition.UNLOAD),
                             new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500)
                         )
-                    ), true
+                    )
                 );
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP)
