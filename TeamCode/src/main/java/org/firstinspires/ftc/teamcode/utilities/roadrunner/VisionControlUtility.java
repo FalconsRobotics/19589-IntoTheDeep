@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.har
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -16,8 +17,6 @@ public class VisionControlUtility {
      public VisionControlUtility(HardwareMap map) {
           limelight = hardwareMap.get(Limelight3A.class, "limelight");
           telemetry.setMsTransmissionInterval(11);
-          limelight.pipelineSwitch(0);
-          limelight.start();
      }
 
 
@@ -30,8 +29,12 @@ public class VisionControlUtility {
      }
 
      public double processCorners(){
+         limelight.start();
          LLResult result = limelight.getLatestResult();
-         corners = result.getColorResults().get(0).getTargetCorners();
+         List<LLResultTypes.ColorResult> colorTargets = result.getColorResults();
+         for (LLResultTypes.ColorResult colorTarget : colorTargets) {
+             corners = colorTarget.getTargetCorners();
+         }
          List<Double> corner1 = corners.get(0);
          List<Double> corner2 = corners.get(1);
          List<Double> corner3 = corners.get(2);
