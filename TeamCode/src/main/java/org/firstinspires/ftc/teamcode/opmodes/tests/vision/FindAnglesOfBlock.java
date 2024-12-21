@@ -9,20 +9,14 @@ import org.firstinspires.ftc.teamcode.commands.CommandIntakeSetPivot;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.VisionControlUtility;
 
-@TeleOp(name = "Pivot to Block Test", group = "Tests")
-public class PivotToBlock extends LinearOpMode {
+@TeleOp(name = "Find Angle of Block", group = "Tests")
+public class FindAnglesOfBlock extends LinearOpMode {
     VisionControlUtility vision = new VisionControlUtility();
 
     public void runOpMode() {
         waitForStart();
         while (opModeIsActive()) {
-            if(vision.processCorners() <= 20) {
-                telemetry.addData("Angle:", vision.processCorners());
-            } else if(vision.processCorners() > 20 && vision.processCorners() < 45) {
-                telemetry.addData("Angle:", vision.processCorners());
-            } else if(vision.processCorners() >= 45) {
-                telemetry.addData("Angle:", vision.processCorners());
-            }
+            telemetry.addData("Angle:", vision.processCorners());
         }
     }
 }

@@ -14,9 +14,7 @@ public class VisionControlUtility {
 
      public Limelight3A limelight;
      List<List<Double>> corners;
-     public VisionControlUtility(HardwareMap map) {
-          limelight = hardwareMap.get(Limelight3A.class, "limelight");
-          telemetry.setMsTransmissionInterval(11);
+     public VisionControlUtility() {
      }
 
 
@@ -29,11 +27,14 @@ public class VisionControlUtility {
      }
 
      public double processCorners(){
+         limelight = hardwareMap.get(Limelight3A.class, "limelight");
+         telemetry.setMsTransmissionInterval(5);
+         limelight.pipelineSwitch(0);
          limelight.start();
          LLResult result = limelight.getLatestResult();
-         List<LLResultTypes.ColorResult> colorTargets = result.getColorResults();
-         for (LLResultTypes.ColorResult colorTarget : colorTargets) {
-             corners = colorTarget.getTargetCorners();
+         List<LLResultTypes.ColorResult> colorResults = result.getColorResults();
+         for (LLResultTypes.ColorResult colorResult : colorResults) {
+             List<List<Double>> corners = colorResult.getTargetCorners();
          }
          List<Double> corner1 = corners.get(0);
          List<Double> corner2 = corners.get(1);
@@ -41,6 +42,8 @@ public class VisionControlUtility {
 
           double l1 = findLength(corner1.get(0), corner1.get(1), corner2.get(0), corner2.get(1));
           double l2 = findLength(corner2.get(0), corner2.get(1), corner3.get(0), corner3.get(1));
+
+          telemetry.addData("Line Length 1: ", l1);
 
           if(l1 > l2){
               return findAngle(corner1.get(0), corner1.get(1), corner2.get(0), corner2.get(1));

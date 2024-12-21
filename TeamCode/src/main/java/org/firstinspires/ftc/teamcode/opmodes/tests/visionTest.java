@@ -6,15 +6,17 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.commands.CommandIntakeSetPivot;
+import org.firstinspires.ftc.teamcode.subsystems.Intake;
+
 import java.util.List;
 
 @TeleOp(name="Limelight Test")
 public class visionTest extends LinearOpMode {
 
-    private Limelight3A limelight;
 
     public void runOpMode() throws InterruptedException {
-        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        Limelight3A limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
         telemetry.setMsTransmissionInterval(11);
 
@@ -45,6 +47,8 @@ public class visionTest extends LinearOpMode {
                     telemetry.addData("Corner Count", colorResult.getTargetCorners().size());
                     int i = 0;
                     List<List<Double>> corners = colorResult.getTargetCorners();
+                    List<Double> corner1 = corners.get(0);
+                    List<Double> corner2 = corners.get(1);
                     for(List<Double> corner : colorResult.getTargetCorners()){
                         for(double c  : corner){
                             telemetry.addData("Corner " + i, c);
@@ -52,14 +56,18 @@ public class visionTest extends LinearOpMode {
                         }
                     }
 
-                    telemetry.addData("X pixels: ", colorResult.getTargetXPixels());
-                    telemetry.addData("X degrees: ", colorResult.getTargetXDegrees());
-                    telemetry.addData("Y pixels: ", colorResult.getTargetYPixels());
-                    telemetry.addData("Y degrees: ", colorResult.getTargetYDegrees());
+                   // telemetry.addData("X pixels: ", colorResult.getTargetXPixels());
+                   // telemetry.addData("X degrees: ", colorResult.getTargetXDegrees());
+                   // telemetry.addData("Y pixels: ", colorResult.getTargetYPixels());
+                   // telemetry.addData("Y degrees: ", colorResult.getTargetYDegrees());
+
+                    double angle = Math.toDegrees(Math.atan2(corner2.get(1) - corner1.get(1), corner2.get(0) - corner1.get(0)));
 
                     telemetry.addData("Target X", tx);
                     telemetry.addData("Target Y", ty);
                     telemetry.addData("Target Area", ta);
+                    telemetry.addData("Target Angle:", angle);
+
                     telemetry.update();
                 }
             } else {
