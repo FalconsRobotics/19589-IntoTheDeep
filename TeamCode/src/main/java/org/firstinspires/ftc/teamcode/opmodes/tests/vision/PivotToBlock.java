@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests.vision;
 
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -14,11 +16,11 @@ public class PivotToBlock extends LinearOpMode {
     public void runOpMode() {
         waitForStart();
         while (opModeIsActive()) {
-            if(vision.processCorners() <= 20){
+            if(vision.processCorners() <= 20) {
                 new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE);
-            } else if(vision.processCorners() > 20 && vision.processCorners() < 45){
+            } else if(vision.processCorners() > 20 && vision.processCorners() < 45) {
                 new CommandIntakeSetPivot(Intake.PivotPosition.LEFT);
-            } else if(vision.processCorners() >= 45){
+            } else if(vision.processCorners() >= 45) {
                 new CommandIntakeSetPivot(Intake.PivotPosition.LEFT);
             }
         }

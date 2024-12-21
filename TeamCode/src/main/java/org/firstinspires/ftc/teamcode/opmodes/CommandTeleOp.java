@@ -243,7 +243,7 @@ public class CommandTeleOp extends CommandOpMode {
             .whenInactive(
                     new SequentialCommandGroup (
                         new CommandIntakeRotateArm(Intake.ArmPosition.HOVER),
-                        new CommandTimer(250),
+                        new CommandTimer(100),
                         new SequentialCommandGroup(
                             new ParallelDeadlineGroup(
                                 new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),

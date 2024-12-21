@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.utilities.roadrunner;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
+import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -7,24 +11,27 @@ import java.util.List;
 
 public class VisionControlUtility {
 
-     public static Limelight3A limelight;
-     static List<List<Double>> corners;
+     public Limelight3A limelight;
+     List<List<Double>> corners;
      public VisionControlUtility(HardwareMap map) {
-          limelight = map.get(Limelight3A.class, "limelight");
+          limelight = hardwareMap.get(Limelight3A.class, "limelight");
+          telemetry.setMsTransmissionInterval(11);
           limelight.pipelineSwitch(0);
+          limelight.start();
      }
 
 
-    public static double findLength(double x1, double y1, double x2, double y2) {
+    public double findLength(double x1, double y1, double x2, double y2) {
           return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
      }
 
-     public static double findAngle(double x1, double y1, double x2, double y2) {
+     public double findAngle(double x1, double y1, double x2, double y2) {
           return Math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
      }
 
      public double processCorners(){
-         corners = limelight.getLatestResult().getColorResults().get(0).getTargetCorners();
+         LLResult result = limelight.getLatestResult();
+         corners = result.getColorResults().get(0).getTargetCorners();
          List<Double> corner1 = corners.get(0);
          List<Double> corner2 = corners.get(1);
          List<Double> corner3 = corners.get(2);
