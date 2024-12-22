@@ -12,6 +12,9 @@ import org.firstinspires.ftc.teamcode.subsystems.DriveBase;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.jetbrains.annotations.NotNull;
 
+
+// TODO: CONVERT MM TO INCHES EVERYWHERE!
+
 /** Formats odometry data to be used with Road Runner, attempts to correct position using
  *  limelight. */
 public class OdometryLimelightLocalizer implements Localizer {
@@ -60,10 +63,5 @@ public class OdometryLimelightLocalizer implements Localizer {
     /** Returns estimated velocity of robot. */
     public Pose2d getPoseVelocity() {
         return new Pose2d(-sys.driveBase.odometry.getVelX(), -sys.driveBase.odometry.getVelX(), sys.driveBase.odometry.getHeadingVelocity());
-    }
-
-    /** Returns heading in degrees. */
-    public double getHeadingDegrees() {
-        return sys.driveBase.odometry.getHeading() * (180 / Math.PI);
     }
 }

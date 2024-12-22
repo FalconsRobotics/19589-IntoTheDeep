@@ -1,27 +1,26 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests.vision;
 
-import com.qualcomm.hardware.limelightvision.LLResult;
-import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.commands.CommandIntakeSetPivot;
-import org.firstinspires.ftc.teamcode.subsystems.Intake;
-import org.firstinspires.ftc.teamcode.utilities.roadrunner.VisionControlUtility;
+import org.firstinspires.ftc.teamcode.utilities.vision.VisionUtility;
 
 @TeleOp(name = "Pivot to Block Test", group = "Tests")
 public class PivotToBlock extends LinearOpMode {
-    VisionControlUtility vision = new VisionControlUtility();
+    VisionUtility vision = new VisionUtility(hardwareMap);
 
     public void runOpMode() {
         waitForStart();
+
         while (opModeIsActive()) {
-            if(vision.processCorners() <= 20) {
-                telemetry.addData("Angle:", vision.processCorners());
-            } else if(vision.processCorners() > 20 && vision.processCorners() < 45) {
-                telemetry.addData("Angle:", vision.processCorners());
-            } else if(vision.processCorners() >= 45) {
-                telemetry.addData("Angle:", vision.processCorners());
+            double angle = vision.findBlockAngle();
+
+            if(angle <= 20) {
+                telemetry.addData("Angle (<= 20)", angle);
+            } else if(angle > 20 && angle < 45) {
+                telemetry.addData("Angle (> 20; < 45)", angle);
+            } else if(angle >= 45) {
+                telemetry.addData("Angle (>= 45)", angle);
             }
         }
     }

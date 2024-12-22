@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.teamcode.utilities.DriveBaseMotors;
+import org.firstinspires.ftc.teamcode.utilities.PowerRegulator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 /** Mecanum drive implementation to be used with RoadRunner. */
 public class MecanumDriveKinematics extends MecanumDrive {
     private final DriveBaseMotors mDirect;
-    private final VoltageSensor voltage;
+    private final PowerRegulator regulator;
 
     /** Initializes data using `motors` a `localizer` and associated required multipliers for
      *  feedforward mecanum drive tuning. */
@@ -25,7 +26,7 @@ public class MecanumDriveKinematics extends MecanumDrive {
         setLocalizer(localizer);
 
         mDirect = motors;
-        voltage = map.get(VoltageSensor.class, "Control Hub");
+        regulator = PowerRegulator.getInstance(map);
     }
 
     /** Returns empty list as wheels don't have any odometry associated with them. */
@@ -45,13 +46,12 @@ public class MecanumDriveKinematics extends MecanumDrive {
 
     /** Sets motor powers. starting from the front left motor and going counter-clockwise. */
     public void setMotorPowers(double v, double v1, double v2, double v3) {
-        double BATTERY_CHARGED_VOLTAGE = 12.0;
-        double correctedVoltageMultiplier = BATTERY_CHARGED_VOLTAGE / voltage.getVoltage();
+        double multiplier = regulator.getPowerMultiplier();
 
-        mDirect.frontLeft.set(v * correctedVoltageMultiplier);
-        mDirect.backLeft.set(v1 * correctedVoltageMultiplier);
-        mDirect.backRight.set(v2 * correctedVoltageMultiplier);
-        mDirect.frontRight.set(v3 * correctedVoltageMultiplier);
+        mDirect.frontLeft.set(v * multiplier);
+        mDirect.backLeft.set(v1 * multiplier);
+        mDirect.backRight.set(v2 * multiplier);
+        mDirect.frontRight.set(v3 * multiplier);
     }
 
     /** Returns heading from odometry computer */
