@@ -8,7 +8,6 @@ import com.acmerobotics.roadrunner.localization.Localizer;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.teamcode.subsystems.DriveBase;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,6 +19,10 @@ import org.jetbrains.annotations.NotNull;
 public class OdometryLimelightLocalizer implements Localizer {
     // For getting odometry.
     private final SubsystemsCollection sys;
+
+    // Used to convert to inches as roadrunner supposedly works best with those units.
+    private final double INCH_TO_MM = 25.4;
+    private final double MM_TO_INCH = 1 / INCH_TO_MM;
 
     /** @note This class does not manage any initialization procedures relating to the odometry
      *  module */
@@ -47,7 +50,11 @@ public class OdometryLimelightLocalizer implements Localizer {
 
     /** Returns estimated position of robot. */
     public @NotNull Pose2d getPoseEstimate() {
-        return new Pose2d(-sys.driveBase.odometry.getPosX(), -sys.driveBase.odometry.getPosY(), sys.driveBase.odometry.getHeading());
+        return new Pose2d(
+                -sys.driveBase.odometry.getPosX() * MM_TO_INCH,
+                -sys.driveBase.odometry.getPosY() * MM_TO_INCH,
+                sys.driveBase.odometry.getHeading()
+        );
     }
 
     /** Sets position of robot. */
@@ -55,13 +62,17 @@ public class OdometryLimelightLocalizer implements Localizer {
         sys.driveBase.odometry.setPosition(new Pose2D(
                 // If I remember correctly, road runner uses inches by default. If this isn't the
                 // case, or if there is some way to change such behaviour, this should be changed.
-                DistanceUnit.MM, pose.getY(), pose.getY(), // Gulp.
+                DistanceUnit.MM, pose.getY() * INCH_TO_MM, pose.getY() * INCH_TO_MM, // Gulp.
                 AngleUnit.RADIANS, pose.getHeading()
         ));
     }
 
     /** Returns estimated velocity of robot. */
     public Pose2d getPoseVelocity() {
-        return new Pose2d(-sys.driveBase.odometry.getVelX(), -sys.driveBase.odometry.getVelX(), sys.driveBase.odometry.getHeadingVelocity());
+        return new Pose2d(
+                -sys.driveBase.odometry.getVelX() * MM_TO_INCH,
+                -sys.driveBase.odometry.getVelX() * MM_TO_INCH,
+                sys.driveBase.odometry.getHeadingVelocity()
+        );
     }
 }
