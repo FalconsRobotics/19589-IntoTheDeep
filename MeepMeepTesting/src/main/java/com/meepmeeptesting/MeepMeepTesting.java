@@ -1,4 +1,4 @@
-package com.andrewbota.meepmeeptesting;
+package com.meepmeeptesting;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
