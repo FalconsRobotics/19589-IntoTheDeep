@@ -85,6 +85,8 @@ public class CommandTeleOp extends CommandOpMode {
         deltaTime = new DeltaTime();
 
         schedule(new CommandRun(() -> {
+            sys.driveBase.odometry.update();
+
             sys.driveBase.driveRobotCentric = true;
             sys.driveBase.motorPowers = new Pose2d(
                     driverGamepad.getLeftY() * driveSpeedMultiplier,

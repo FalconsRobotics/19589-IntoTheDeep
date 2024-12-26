@@ -1,33 +1,45 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests.roadrunner;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.path.PathBuilder;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.external.rrquickstart.drive.MecanumDriveKinematics;
+import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
-import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
-@TeleOp(name = "RRTrajectoryTest")
+@Autonomous(name = "RRTrajectoryTest")
 public class RRTrajectoryTest extends OpMode {
-    AutoDriveUtility autoDrive;
+    MecanumDriveKinematics drive;
     SubsystemsCollection sys;
 
-    @Override
-    public void init() {
-        sys = SubsystemsCollection.getInstance(hardwareMap);
-        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase);
+    Trajectory forward;
+    Trajectory backward;
 
-        autoDrive.followPath(
-                new PathBuilder(new Pose2d())
-                        .lineTo(new Vector2d(15, 0))
-                        .build()
-        );
+    public void init() {
+        SubsystemsCollection.deinit();
+        sys = SubsystemsCollection.getInstance(hardwareMap);
+        sys.intake.arm.setTarget(Intake.ArmPosition.IDLE);
+
+        drive = new MecanumDriveKinematics(hardwareMap);
+
+        forward = drive.trajectoryBuilder(new Pose2d())
+                .forward(25)
+                .build();
+
+        backward = drive.trajectoryBuilder(forward.end())
+                .back(25)
+                .build();
     }
 
     @Override
     public void loop() {
-        autoDrive.periodic();
+//        sys.intake.arm.setTarget(Intake.ArmPosition.IDLE);
+
+        drive.followTrajectory(forward);
+        drive.followTrajectory(backward);
+
+        sys.intake.periodic();
     }
 }

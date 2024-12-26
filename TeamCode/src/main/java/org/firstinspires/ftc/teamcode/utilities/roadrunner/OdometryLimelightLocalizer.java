@@ -32,8 +32,8 @@ public class OdometryLimelightLocalizer implements Localizer {
 
     /** Should be ran every cycle. */
     public void update() {
-        // No need to update as that is already done in the drive base subsystem.
-        // odometryModule.update();
+        sys.driveBase.odometry.update();
+
 //        if (limelight.getStatus().getPipelineIndex() != VisionUtil.Pipeline.APRILTAGS) return;
 //
 //        double heading = getHeadingDegrees();

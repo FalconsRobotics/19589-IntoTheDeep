@@ -73,7 +73,8 @@ public class DriveBase extends SubsystemBase {
     }
 
     public void periodic() {
-        odometry.update();
+        // Now handled by AutoDriveUtility.
+        // odometry.update();
         if (useExternalDriveCommands) return;
 
         if (driveRobotCentric) {
