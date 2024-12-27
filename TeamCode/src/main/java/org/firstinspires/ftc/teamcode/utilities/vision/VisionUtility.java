@@ -1,15 +1,16 @@
 package org.firstinspires.ftc.teamcode.utilities.vision;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.teamcode.utilities.Geometry;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -25,14 +26,14 @@ public class VisionUtility {
 
     /** For use outside of the utility object. Depending on how much this utility class does the
      *  user may never have to access this directly. */
-    public Limelight3A limelight;
+    public final Limelight3A limelight;
 
 
     public VisionUtility(HardwareMap map) {
         limelight = map.get(Limelight3A.class, "limelight");
-        limelight.setPollRateHz(60); // Can be polled more often but expect the camera to heat up.
+        limelight.setPollRateHz(25); // Can be polled more often but expect the camera to heat up.\
+        limelight.pipelineSwitch(0);   
         limelight.start();
-        limelight.pipelineSwitch(0);
     }
 
 
@@ -44,21 +45,27 @@ public class VisionUtility {
         if (result.getPipelineIndex() > Pipeline.RED_BLOCKS) return 0.0;
 
         List<LLResultTypes.ColorResult> colorResults = result.getColorResults();
-        List<List<Double>> corners = null;
+        List<List<Double>> corners = Collections.emptyList();
 
         for (LLResultTypes.ColorResult colorResult : colorResults) {
             // FIXME?: Will only return last colorResult from list. I am unsure if this is intended.
             corners = colorResult.getTargetCorners();
         }
 
-        Geometry.Vector2D corner1 = getCornerFromList(corners.get(0)); // may produce null?
-        Geometry.Vector2D corner2 = getCornerFromList(corners.get(1));
-        Geometry.Vector2D corner3 = getCornerFromList(corners.get(2));
+        Geometry.Vector2D corner1 = null;
+        Geometry.Vector2D corner2 = null;
+        Geometry.Vector2D corner3 = null;
+
+       if(corners.size() >= 3){
+           corner1 = getCornerFromList(corners.get(0)); // may produce null?
+           corner2 = getCornerFromList(corners.get(1));
+           corner3 = getCornerFromList(corners.get(2));
+       } else {
+           return 0.0;
+       }
 
         double l1squared = Geometry.getLengthSquared(corner1, corner2);
         double l2squared = Geometry.getLengthSquared(corner2, corner3);
-
-        telemetry.addData("Line Length 1: ", Math.sqrt(l1squared));
 
         if(l1squared > l2squared){
             return Math.toDegrees(Geometry.getAngle(corner1, corner2));
