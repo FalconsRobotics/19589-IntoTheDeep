@@ -31,6 +31,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.external.rrquickstart.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.external.rrquickstart.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.external.rrquickstart.trajectorysequence.TrajectorySequenceRunner;
+import org.firstinspires.ftc.teamcode.subsystems.DriveBase;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.OdometryLimelightLocalizer;
 
 import java.util.ArrayList;
@@ -99,6 +100,7 @@ public class MecanumDriveKinematics extends MecanumDrive {
                 DriveConstants.LOGO_FACING_DIR, DriveConstants.USB_FACING_DIR));
         imu.initialize(parameters);
 
+        // I would have liked this to be done by getting the motors from DriveBase... TOO BAD!
         leftFront = hardwareMap.get(DcMotorEx.class, "DriveBase-FrontLeft");
         leftRear = hardwareMap.get(DcMotorEx.class, "DriveBase-BackLeft");
         rightRear = hardwareMap.get(DcMotorEx.class, "DriveBase-BackRight");

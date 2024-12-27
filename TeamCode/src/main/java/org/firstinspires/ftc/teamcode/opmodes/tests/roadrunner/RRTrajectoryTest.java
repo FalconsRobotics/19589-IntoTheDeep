@@ -1,45 +1,38 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests.roadrunner;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.sun.tools.javac.util.List;
 
-import org.firstinspires.ftc.teamcode.external.rrquickstart.drive.MecanumDriveKinematics;
-import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
+import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
 @Autonomous(name = "RRTrajectoryTest")
 public class RRTrajectoryTest extends OpMode {
-    MecanumDriveKinematics drive;
     SubsystemsCollection sys;
-
-    Trajectory forward;
-    Trajectory backward;
+    AutoDriveUtility auto;
 
     public void init() {
         SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
-        sys.intake.arm.setTarget(Intake.ArmPosition.IDLE);
 
-        drive = new MecanumDriveKinematics(hardwareMap);
+        auto = new AutoDriveUtility(hardwareMap, sys.driveBase);
 
-        forward = drive.trajectoryBuilder(new Pose2d())
-                .forward(25)
-                .build();
-
-        backward = drive.trajectoryBuilder(forward.end())
-                .back(25)
-                .build();
+        auto.runTrajectories(List.of(
+                auto.drive.trajectoryBuilder(auto.drive.getPoseEstimate())
+                        .splineTo(new Vector2d(25, 0), 0)
+                        .splineTo(new Vector2d(0, 0), 180)
+                        .build()
+        ));
     }
 
-    @Override
     public void loop() {
-//        sys.intake.arm.setTarget(Intake.ArmPosition.IDLE);
+        sys.periodic();
 
-        drive.followTrajectory(forward);
-        drive.followTrajectory(backward);
-
-        sys.intake.periodic();
+        if (!auto.isBusy()) {
+            // Will produce an exception. That's fine. I think.
+            terminateOpModeNow();
+        }
     }
 }
