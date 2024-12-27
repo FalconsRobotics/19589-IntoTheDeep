@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.utilities.roadrunner;
 
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.external.rrquickstart.drive.MecanumDriveKinematics;
+import org.firstinspires.ftc.teamcode.external.rrquickstart.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.external.rrquickstart.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.subsystems.DriveBase;
 
 import java.util.List;
@@ -12,10 +14,8 @@ import java.util.List;
 public class AutoDriveUtility {
     // To run all Roadrunner calculations on a different thread.
     private final FollowTrajectoriesThread roadrunner;
-
-    /** For trajectory building. DO NOT use for following paths directly, that's what this is
-     *  for. */
-    public final MecanumDriveKinematics drive;
+    // For trajectory building and following.
+    private final MecanumDriveKinematics drive;
 
 
     /** Prepares thread to be ran with roadrunner. Note that this will also set the drive base
@@ -29,20 +29,19 @@ public class AutoDriveUtility {
     }
 
 
+    /** Builder passed to runTrajectorySequences. Start pose is robots current position. */
+    public TrajectorySequenceBuilder trajectorySequenceBuilder() {
+        return drive.trajectorySequenceBuilder(drive.getPoseEstimate());
+    }
+
     /** Prepares a list of trajectories to be ran on the designated "Roadrunner" thread. If this
      *  thread is currently being used, the calling thread will be halted until it is ready. */
-    public void runTrajectories(List<Trajectory> trajectories) {
-        if (roadrunner.isAlive()) {
-            // Perhaps I could throw an exception instead? Unsure what I want to do if the user
-            // implements this incorrectly
-            try {
-                roadrunner.join();
-            } catch (InterruptedException ignored) {
-            }
-        }
+    public void runTrajectorySequences(TrajectorySequence trajectories) {
+        roadrunner.addTrajectorySequence(trajectories);
 
-        roadrunner.addTrajectories(trajectories);
-        roadrunner.start();
+        if (!roadrunner.isAlive()) {
+            roadrunner.start();
+        }
     }
 
     /** Whether or not roadrunner thread is currently being used. */
