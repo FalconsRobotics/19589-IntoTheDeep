@@ -73,7 +73,10 @@ public class DriveBase extends SubsystemBase {
     }
 
     public void periodic() {
-        odometry.update();
+        // Now handled by AutoDriveUtility.
+        // odometry.update();
+
+        // Make sure to use with Roadrunner!
         if (useExternalDriveCommands) return;
 
         if (driveRobotCentric) {

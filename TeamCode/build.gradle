@@ -29,6 +29,8 @@ dependencies {
 
     // Best documentation I could find on Road Runner was based on version 0.5.5.
     implementation 'com.acmerobotics.roadrunner:core:0.5.5'
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7'
 }
 
 repositories {

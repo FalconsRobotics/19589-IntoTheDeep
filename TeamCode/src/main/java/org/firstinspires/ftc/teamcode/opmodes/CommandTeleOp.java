@@ -85,6 +85,8 @@ public class CommandTeleOp extends CommandOpMode {
         deltaTime = new DeltaTime();
 
         schedule(new CommandRun(() -> {
+            sys.driveBase.odometry.update();
+
             sys.driveBase.driveRobotCentric = true;
             sys.driveBase.motorPowers = new Pose2d(
                     driverGamepad.getLeftY() * driveSpeedMultiplier,
@@ -218,19 +220,19 @@ public class CommandTeleOp extends CommandOpMode {
                 new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 500)
             );
 
-//        utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-//            .whenActive(new SequentialCommandGroup(
-//                new ParallelDeadlineGroup(
-//                    new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
-//                    new CommandExtakeRotateArm(Extake.ArmPosition.LOAD),
-//                    new CommandIntakeRotateArm(Intake.ArmPosition.IDLE),
-//                    new CommandIntakeSetSlide(Intake.SlidePosition.RETRACTED),
-//                    new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE)
-//                ),
-//                new CommandIntakeRotateArm(Intake.ArmPosition.UNLOAD),
-//                new CommandTimer(50),
-//                new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500)
-//            ), false);
+        utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+            .whenActive(new SequentialCommandGroup(
+                new ParallelDeadlineGroup(
+                    new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
+                    new CommandExtakeRotateArm(Extake.ArmPosition.LOAD),
+                    new CommandIntakeRotateArm(Intake.ArmPosition.IDLE),
+                    new CommandIntakeSetSlide(Intake.SlidePosition.RETRACTED),
+                    new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE)
+                ),
+                new CommandIntakeRotateArm(Intake.ArmPosition.UNLOAD),
+                new CommandTimer(50),
+                new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500)
+            ), false);
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
             .whenActive(new CommandIntakeRotateArm(Intake.ArmPosition.HOVER));
@@ -238,25 +240,11 @@ public class CommandTeleOp extends CommandOpMode {
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
             .whenActive(new ParallelCommandGroup(
                     new CommandIntakeRotateArm(Intake.ArmPosition.PICKUP),
-                    new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 1000)
+                    new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 800)
             ), false)
             .whenInactive(
-                    new SequentialCommandGroup (
-                        new CommandIntakeRotateArm(Intake.ArmPosition.HOVER),
-                        new CommandTimer(100),
-                        new SequentialCommandGroup(
-                            new ParallelDeadlineGroup(
-                                new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
-                                new CommandExtakeRotateArm(Extake.ArmPosition.LOAD),
-                                new CommandIntakeRotateArm(Intake.ArmPosition.IDLE),
-                                new CommandIntakeSetSlide(Intake.SlidePosition.RETRACTED),
-                                new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE)
-                            ),
-                            new CommandIntakeRotateArm(Intake.ArmPosition.UNLOAD),
-                            new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500)
-                        )
-                    )
-                );
+                    new CommandIntakeRotateArm(Intake.ArmPosition.HOVER), false
+            );
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP)
             .whenActive(new ParallelCommandGroup(
