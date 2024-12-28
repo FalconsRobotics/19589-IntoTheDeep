@@ -2,12 +2,18 @@ package org.firstinspires.ftc.teamcode.utilities.vision;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.Geometry;
 
 import java.util.Collections;
@@ -72,6 +78,34 @@ public class VisionUtility {
         } else {
             return Math.toDegrees(Geometry.getAngle(corner2, corner3));
         }
+    }
+
+    public Pose2D getFieldPosition(Intake intake) {
+        // Value returned if conditions are not ideal for gathering field position.
+        final Pose2D badValue = new Pose2D(DistanceUnit.MM, 0.0, 0.0,AngleUnit.DEGREES,0.0);
+
+        LLResult result = limelight.getLatestResult();
+
+        if (result.getPipelineIndex() != Pipeline.APRIL_TAGS
+                || intake.leftSlide.servo.getPosition() != Intake.SlidePosition.RETRACTED)
+            return badValue;
+
+        List<LLResultTypes.FiducialResult> fiducialResults = result.getFiducialResults();
+        Pose3D LLBotPos = null;
+        double tagSize = 0;
+        double tagAngle = 0;
+        for (LLResultTypes.FiducialResult fiducialResult : fiducialResults) {
+            // FIXME?: Will only return last colorResult from list. I am unsure if this is intended.
+            tagAngle = fiducialResult.getTargetXDegrees();
+            tagSize = fiducialResult.getTargetArea();
+            LLBotPos = fiducialResult.getRobotPoseFieldSpace();
+        }
+        assert LLBotPos != null;
+        if(tagSize > .4 || (tagAngle > 10 || tagAngle < -10)){
+            return new Pose2D(DistanceUnit.MM, LLBotPos.getPosition().x, LLBotPos.getPosition().y, AngleUnit.DEGREES, LLBotPos.getOrientation().getYaw());
+        }
+
+     return badValue;
     }
 
 
