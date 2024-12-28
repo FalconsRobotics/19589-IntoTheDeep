@@ -126,6 +126,7 @@ public class MecanumDriveKinematics extends MecanumDrive {
 
         // TODO: reverse any motors using DcMotor.setDirection()
         leftFront.setDirection(DcMotor.Direction.REVERSE);
+        setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         List<Integer> lastTrackingEncPositions = new ArrayList<>();
         List<Integer> lastTrackingEncVels = new ArrayList<>();

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.utilities.roadrunner;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -25,6 +26,11 @@ public class AutoDriveUtility {
 
         drive = new MecanumDriveKinematics(map);
         roadrunner = new FollowTrajectoriesThread(drive);
+
+        // This works because of something, Im not entirely sure as odometry should be updated
+        // every loop... If it ain't broke don't fix it, I guess?
+        driveBase.odometry.update();
+        drive.getLocalizer().setPoseEstimate(new Pose2d(0.0, 0.0, 0.0));
     }
 
 

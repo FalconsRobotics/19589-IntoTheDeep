@@ -27,6 +27,9 @@ public class OdometryLimelightLocalizer implements Localizer {
      *  module */
     public OdometryLimelightLocalizer() {
         driveBase = SubsystemsCollection.getInstance(null).driveBase;
+
+        driveBase.odometry.resetPosAndIMU();
+        driveBase.odometry.setPosition(new Pose2D(DistanceUnit.MM, 0.0, 0.0, AngleUnit.RADIANS, 0.0));
     }
 
     /** Will be ran every cycle. Using this with AutoDriveUtility will cause it to be ran on outside
