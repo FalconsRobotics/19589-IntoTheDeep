@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.utilities;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.subsystems.DriveBase;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.OdometryLimelightLocalizer;
@@ -17,9 +18,9 @@ public class CustomAutoDriveUtil {
     private final double maxPower;
 
 
-    public CustomAutoDriveUtil(DriveBase driveBase, double maxPower) {
+    public CustomAutoDriveUtil(DriveBase driveBase, HardwareMap map, double maxPower) {
         this.driveBase = driveBase;
-        localizer = new OdometryLimelightLocalizer();
+        localizer = new OdometryLimelightLocalizer(map);
 
         forward = new PIDController(
                 ControlConstants.DriveUtil.TRANSLATION_KP,

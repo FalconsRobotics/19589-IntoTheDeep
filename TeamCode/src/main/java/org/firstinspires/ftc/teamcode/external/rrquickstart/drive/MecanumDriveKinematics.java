@@ -132,7 +132,7 @@ public class MecanumDriveKinematics extends MecanumDrive {
         List<Integer> lastTrackingEncVels = new ArrayList<>();
 
         // TODO: if desired, use setLocalizer() to change the localization method
-        OdometryLimelightLocalizer localizer = new OdometryLimelightLocalizer();
+        OdometryLimelightLocalizer localizer = new OdometryLimelightLocalizer(hardwareMap);
         setLocalizer(localizer);
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(
