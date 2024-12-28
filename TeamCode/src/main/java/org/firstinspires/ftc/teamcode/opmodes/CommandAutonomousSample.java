@@ -4,19 +4,27 @@ import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.commands.CommandFollowTrajectories;
+import org.firstinspires.ftc.teamcode.commands.CommandRun;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
+import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
 @Autonomous(name = "")
 public class CommandAutonomousSample extends CommandOpMode {
-    SubsystemsCollection sys;
+    private SubsystemsCollection sys;
+    private AutoDriveUtility autoDrive;
 
-    @Override
     public void initialize() {
         SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
 
-        schedule(new SequentialCommandGroup(
+        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase);
 
+        schedule(new SequentialCommandGroup(
+            new CommandFollowTrajectories(autoDrive,
+                autoDrive.trajectorySequenceBuilder()
+                        .
+            )
         ));
     }
 }

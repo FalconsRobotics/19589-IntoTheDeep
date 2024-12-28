@@ -3,10 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes.tests.roadrunner;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.sun.tools.javac.util.List;
 
-import org.firstinspires.ftc.teamcode.external.rrquickstart.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.external.rrquickstart.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
@@ -20,17 +17,21 @@ public class RRTrajectoryTest extends OpMode {
         sys = SubsystemsCollection.getInstance(hardwareMap);
 
         autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase);
+    }
 
-        autoDrive.runTrajectorySequences(
+    public void start() {
+        autoDrive.runTrajectorySequence(
                 autoDrive.trajectorySequenceBuilder()
-                        .forward(25)
-                        .back(25)
+                        .splineTo(new Vector2d(25, 15), Math.toRadians(135))
                         .build()
         );
     }
 
     public void loop() {
         sys.periodic();
+
+        autoDrive.printPoseEstimate(telemetry);
+
 
         if (!autoDrive.isBusy()) {
             // Will produce an exception. That's fine. I think.

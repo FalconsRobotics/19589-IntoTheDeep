@@ -3,12 +3,11 @@ package org.firstinspires.ftc.teamcode.utilities.roadrunner;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.external.rrquickstart.drive.MecanumDriveKinematics;
 import org.firstinspires.ftc.teamcode.external.rrquickstart.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.external.rrquickstart.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.subsystems.DriveBase;
-
-import java.util.List;
 
 /** Utility for managing roadrunner for autonomous driving. */
 public class AutoDriveUtility {
@@ -36,7 +35,7 @@ public class AutoDriveUtility {
 
     /** Prepares a list of trajectories to be ran on the designated "Roadrunner" thread. If this
      *  thread is currently being used, the calling thread will be halted until it is ready. */
-    public void runTrajectorySequences(TrajectorySequence trajectories) {
+    public void runTrajectorySequence(TrajectorySequence trajectories) {
         roadrunner.addTrajectorySequence(trajectories);
 
         if (!roadrunner.isAlive()) {
@@ -47,5 +46,15 @@ public class AutoDriveUtility {
     /** Whether or not roadrunner thread is currently being used. */
     public boolean isBusy() {
         return roadrunner.isAlive();
+    }
+
+    /** Prints pose estimate onto telemetry. */
+    public void printPoseEstimate(Telemetry telemetry) {
+        Pose2d pose = drive.getPoseEstimate();
+
+        telemetry.addLine("-- Pose Estimate --");
+        telemetry.addData("X Position (inches)", pose.getX());
+        telemetry.addData("Y Position (inches)", pose.getY());
+        telemetry.addData("Heading (degrees)", Math.toDegrees(pose.getHeading()));
     }
 }
