@@ -39,31 +39,9 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                                 autoDrive.trajectorySequenceBuilder()
                                         .forward(9)
                                         .strafeRight(34)
-                                        .build()
                         ),
-                        new CommandTimer(100),
                         new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .splineToConstantHeading(new Vector2d(-32.25, -8.0), 0.0)
-                                        .strafeLeft(8)
-                                        .build()
-                        ),
-                        new CommandExtakeMoveLift(Extake.LiftPosition.LOWER_BAR),
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .strafeRight(5)
-                                        .splineToLinearHeading(new Pose2d(10, -30, Math.toRadians(180)), Math.toRadians(0))
-                                        .build()
-                        ),
-                        new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BAR),
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .strafeLeft(2)
-                                        .build()
-                        ),
-                        new CommandTimer(100),
-                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN)
+
                 ),
 
                 new CommandRun(() -> {

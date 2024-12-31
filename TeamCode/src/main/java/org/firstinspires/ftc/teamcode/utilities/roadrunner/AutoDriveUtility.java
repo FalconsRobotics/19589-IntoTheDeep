@@ -17,6 +17,8 @@ public class AutoDriveUtility {
     // For trajectory building and following.
     private final MecanumDriveKinematics drive;
 
+    private Pose2d lastSequenceEndPosition;
+
 
     /** Prepares thread to be ran with roadrunner. Note that this will also set the drive base
      *  object to be run using external drive commands, do not change this behaviour willy nilly. */
@@ -26,6 +28,7 @@ public class AutoDriveUtility {
 
         drive = new MecanumDriveKinematics(map);
         roadrunner = new FollowTrajectoriesThread(drive);
+        lastSequenceEndPosition = new Pose2d(0.0, 0.0, 0.0);
 
         // This works because of something, Im not entirely sure as odometry should be updated
         // every loop... If it ain't broke don't fix it, I guess?
@@ -34,10 +37,23 @@ public class AutoDriveUtility {
     }
 
 
-    /** Builder passed to runTrajectorySequences. Start pose is robots current position. */
+    /** Builder passed to runTrajectorySequences. Start pose is robots current position. This
+     *  function should ONLY be used with AutoDriveUtility.build() function. */
     public TrajectorySequenceBuilder trajectorySequenceBuilder() {
-        return drive.trajectorySequenceBuilder(drive.getPoseEstimate());
+        return drive.trajectorySequenceBuilder(lastSequenceEndPosition);
     }
+
+    /** Builds trajectory sequence builder and prepares the next sequence to start at its end
+     *  position. */
+    public TrajectorySequence build(TrajectorySequenceBuilder builder) {
+        TrajectorySequence sequence = builder.build();
+        lastSequenceEndPosition = sequence.end();
+
+        return sequence;
+    }
+
+
+
 
     /** Prepares a list of trajectories to be ran on the designated "Roadrunner" thread. If this
      *  thread is currently being used, the calling thread will be halted until it is ready. */

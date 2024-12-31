@@ -30,7 +30,6 @@ public class CommandAutonomousSample extends CommandOpMode {
                         autoDrive.trajectorySequenceBuilder()
                                 .forward(36)
                                 .turn(Math.toRadians(90))
-                                .build()
                 ),
                 new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BAR),
                 new CommandTimer(500),

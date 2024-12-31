@@ -48,10 +48,10 @@ public class OdometryLimelightLocalizer implements Localizer {
      *  of the main thread, so never call this directly if doing so. */
     public void update() {
         sys.driveBase.odometry.update();
-        Pose2D badValue = new Pose2D(DistanceUnit.MM, 0.0, 0.0,AngleUnit.DEGREES,0.0);;
-        if(!vision.getFieldPosition(sys.intake).equals(badValue)){
-            sys.driveBase.odometry.setPosition(vision.getFieldPosition(sys.intake));
-        }
+//        Pose2D badValue = new Pose2D(DistanceUnit.MM, 0.0, 0.0,AngleUnit.DEGREES,0.0);;
+//        if(!vision.getFieldPosition(sys.intake).equals(badValue)){
+//            sys.driveBase.odometry.setPosition(vision.getFieldPosition(sys.intake));
+//        }
     }
 
     /** Returns estimated position of robot. */
