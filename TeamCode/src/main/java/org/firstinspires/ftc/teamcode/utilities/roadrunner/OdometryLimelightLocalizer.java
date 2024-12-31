@@ -39,19 +39,15 @@ public class OdometryLimelightLocalizer implements Localizer {
     public OdometryLimelightLocalizer(HardwareMap map) {
         sys = SubsystemsCollection.getInstance(null);
         vision = new VisionUtility(map);
-
-        sys.driveBase.odometry.resetPosAndIMU();
-        sys.driveBase.odometry.setPosition(new Pose2D(DistanceUnit.MM, 0.0, 0.0, AngleUnit.RADIANS, 0.0));
     }
 
     /** Will be ran every cycle. Using this with AutoDriveUtility will cause it to be ran on outside
      *  of the main thread, so never call this directly if doing so. */
     public void update() {
         sys.driveBase.odometry.update();
-//        Pose2D badValue = new Pose2D(DistanceUnit.MM, 0.0, 0.0,AngleUnit.DEGREES,0.0);;
-//        if(!vision.getFieldPosition(sys.intake).equals(badValue)){
-//            sys.driveBase.odometry.setPosition(vision.getFieldPosition(sys.intake));
-//        }
+        if((vision.getFieldPosition(sys.intake).getX(DistanceUnit.MM) != 0.0) && (vision.getFieldPosition(sys.intake).getY(DistanceUnit.MM) != 0.0)){
+            sys.driveBase.odometry.setPosition(vision.getFieldPosition(sys.intake));
+        }
     }
 
     /** Returns estimated position of robot. */

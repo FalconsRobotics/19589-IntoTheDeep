@@ -28,7 +28,7 @@ public class AutoDriveUtility {
 
         drive = new MecanumDriveKinematics(map);
         roadrunner = new FollowTrajectoriesThread(drive);
-        lastSequenceEndPosition = new Pose2d(0.0, 0.0, 0.0);
+        lastSequenceEndPosition = drive.getPoseEstimate();
 
         // This works because of something, Im not entirely sure as odometry should be updated
         // every loop... If it ain't broke don't fix it, I guess?

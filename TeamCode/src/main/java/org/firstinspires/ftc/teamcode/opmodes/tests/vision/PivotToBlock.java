@@ -42,6 +42,10 @@ public class PivotToBlock extends LinearOpMode {
                 new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE);
                 telemetry.addData("Angle: ", angle);
             }
+
+            if(vision.findDistanceToBlock() > 2 || vision.findDistanceToBlock() < 2){
+                new CommandIntakeSetSlide(vision.findDistanceToBlock())
+            }
             telemetry.update();
         }
     }
