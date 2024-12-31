@@ -40,7 +40,7 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                                         .forward(9)
                                         .strafeRight(34)
                         ),
-                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
+                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN)
 
                 ),
 
