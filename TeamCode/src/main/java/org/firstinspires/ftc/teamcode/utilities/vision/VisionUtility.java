@@ -32,7 +32,7 @@ public class VisionUtility {
 
     /** For use outside of the utility object. Depending on how much this utility class does the
      *  user may never have to access this directly. */
-    public final Limelight3A limelight;
+    public Limelight3A limelight;
 
 
     public VisionUtility(HardwareMap map) {
@@ -65,8 +65,10 @@ public class VisionUtility {
     }
 
     /** Finds angle of block relative to limelight (in degrees). */
-    public double findBlockAngle() {
+    public double findBlockAngle(int color) {
+        //limelight.pipelineSwitch(color);
         LLResult result = limelight.getLatestResult();
+        if(result == null) return -1.0;
 
         // Block pipelines inhabit the first 3 indexes on the limelight, hence why this works.
         if (result.getPipelineIndex() > Pipeline.RED_BLOCKS) return 0.0;

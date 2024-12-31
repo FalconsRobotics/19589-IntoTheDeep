@@ -23,28 +23,31 @@ import org.firstinspires.ftc.teamcode.utilities.vision.VisionUtility;
 @TeleOp(name = "Pivot to Block Test", group = "Tests")
 public class PivotToBlock extends LinearOpMode {
     public void runOpMode() {
+        SubsystemsCollection.deinit();
+        SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
+
         VisionUtility vision = new VisionUtility(hardwareMap);
         waitForStart();
 
         while (opModeIsActive()) {
-            double angle = vision.findBlockAngle();
+            double angle = vision.findBlockAngle(0);
 
             if(angle <= 6 || angle >= 170) {
-                new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE);
+                sys.intake.pivot.servo.setPosition(Intake.PivotPosition.MIDDLE);
                 telemetry.addData("Angle: ", angle);
             } else if(angle > 6 && angle <= 80) {
-                new CommandIntakeSetPivot(Intake.PivotPosition.LEFT);
+                sys.intake.pivot.servo.setPosition(Intake.PivotPosition.LEFT);
                 telemetry.addData("Angle: ", angle);
             } else if(angle > 80 && angle <= 120) {
-                new CommandIntakeSetPivot(Intake.PivotPosition.RIGHT);
+                sys.intake.pivot.servo.setPosition(Intake.PivotPosition.RIGHT);
                 telemetry.addData("Angle: ", angle);
             } else if(angle > 120 && angle < 170){
-                new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE);
+                sys.intake.pivot.servo.setPosition(Intake.PivotPosition.MIDDLE);
                 telemetry.addData("Angle: ", angle);
             }
 
             if(vision.findDistanceToBlock() > 2 || vision.findDistanceToBlock() < 2){
-                new CommandIntakeSetSlide(vision.findDistanceToBlock())
+                new CommandIntakeSetSlide(vision.findDistanceToBlock());
             }
             telemetry.update();
         }

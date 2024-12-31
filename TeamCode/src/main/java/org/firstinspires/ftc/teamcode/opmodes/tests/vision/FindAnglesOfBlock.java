@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests.vision;
 
+import com.qualcomm.hardware.limelightvision.LLStatus;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -11,7 +12,11 @@ public class FindAnglesOfBlock extends LinearOpMode {
         VisionUtility vision = new VisionUtility(hardwareMap);
         waitForStart();
         while (opModeIsActive()) {
-            telemetry.addData("Angle:", vision.findBlockAngle());
+            LLStatus status = vision.limelight.getStatus();
+            telemetry.addData("Name", "%s", status.getName());
+            telemetry.addData("Pipeline", "Index: %d, Type: %s", status.getPipelineIndex(), status.getPipelineType());
+
+            telemetry.addData("Angle:", vision.findBlockAngle(0));
             telemetry.update();
         }
     }
