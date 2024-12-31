@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests.roadrunner;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -21,10 +22,13 @@ public class RRTrajectoryTest extends OpMode {
 
     public void start() {
         autoDrive.runTrajectorySequence(
-                autoDrive.trajectorySequenceBuilder()
+                autoDrive.build(autoDrive.trajectorySequenceBuilder()
                         .splineTo(new Vector2d(25, 15), Math.toRadians(135))
-                        .build()
-        );
+        ));
+        autoDrive.runTrajectorySequence(
+                autoDrive.build(autoDrive.trajectorySequenceBuilder()
+                        .splineTo(new Vector2d(0, 0), 0.0)
+        ));
     }
 
     public void loop() {
