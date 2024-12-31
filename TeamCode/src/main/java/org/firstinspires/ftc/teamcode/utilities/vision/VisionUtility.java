@@ -42,6 +42,27 @@ public class VisionUtility {
         limelight.start();
     }
 
+    public double findDistanceToBlock(){
+        LLResult result = limelight.getLatestResult();
+        List<LLResultTypes.ColorResult> colorResults = result.getColorResults();
+        double distance = 0;
+
+        for(LLResultTypes.ColorResult colorResult : colorResults){
+            distance = colorResult.getTargetYPixels();
+        }
+        return distance;
+    }
+
+    public double findStrafeToBlock(){
+        LLResult result = limelight.getLatestResult();
+        List<LLResultTypes.ColorResult> colorResults = result.getColorResults();
+        double distance = 0;
+
+        for(LLResultTypes.ColorResult colorResult : colorResults){
+            distance = colorResult.getTargetXPixels();
+        }
+        return distance;
+    }
 
     /** Finds angle of block relative to limelight (in degrees). */
     public double findBlockAngle() {
@@ -101,7 +122,7 @@ public class VisionUtility {
             LLBotPos = fiducialResult.getRobotPoseFieldSpace();
         }
         assert LLBotPos != null;
-        if(tagSize > .4 || (tagAngle > 10 || tagAngle < -10)){
+        if(tagSize > .4 || (tagAngle > 10 && tagAngle < -10)){
             return new Pose2D(DistanceUnit.MM, LLBotPos.getPosition().x, LLBotPos.getPosition().y, AngleUnit.DEGREES, LLBotPos.getOrientation().getYaw());
         }
 
