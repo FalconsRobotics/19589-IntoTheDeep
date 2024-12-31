@@ -28,7 +28,6 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
     public void initialize() {
         SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
-        sys.driveBase.odometry.setPosition(new Pose2D(DistanceUnit.INCH, 9, -63, AngleUnit.DEGREES, 180));
 
         autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase);
 
@@ -38,15 +37,11 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                         new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BAR),
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .splineToConstantHeading(new Vector2d(0, -30), Math.toRadians(180))
+                                        .forward(9)
+                                        .strafeRight(34)
                         ),
-                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(36, -48, Math.toRadians(90)))
-                                        .splineToConstantHeading(new Pose2d(48, -12, Math.toRadians(0)).vec(), 0)
-                                        .lineToConstantHeading(new Vector2d(48, -56))
-                        )
+                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN)
+
                 ),
 
                 new CommandRun(() -> {
