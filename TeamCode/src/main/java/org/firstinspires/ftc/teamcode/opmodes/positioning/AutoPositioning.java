@@ -5,6 +5,9 @@ import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.OdometryLimelightLocalizer;
 
@@ -18,6 +21,7 @@ public class AutoPositioning extends LinearOpMode {
 
         OdometryLimelightLocalizer localizer = new OdometryLimelightLocalizer(hardwareMap);
 
+        localizer.setPoseEstimate(new Pose2d(144.0, 96.0, Math.toRadians(180)));
         waitForStart();
 
         while (opModeIsActive()) {

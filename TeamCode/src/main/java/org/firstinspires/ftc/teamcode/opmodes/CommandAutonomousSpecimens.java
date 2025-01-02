@@ -29,9 +29,7 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
         SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
 
-        sys.driveBase.odometry.update();
-
-        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(9, -63));
+        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(9, -63, Math.toRadians(180)));
 
         schedule(new ParallelDeadlineGroup(
                 new SequentialCommandGroup(

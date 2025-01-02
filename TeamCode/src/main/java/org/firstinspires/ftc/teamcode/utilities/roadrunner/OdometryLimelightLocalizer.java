@@ -29,9 +29,13 @@ public class OdometryLimelightLocalizer implements Localizer {
     private final SubsystemsCollection sys;
     private final VisionUtility vision;
 
+    // Odometry computer does not seem to actually set position when calling setPosition, setting
+    // positions using this localizer will affect this variable instead.
+    private Pose2D odometryOffset;
+    private Pose2D correctedOdometryPos;
+
     // Used to convert to inches as roadrunner supposedly works best with those units.
     private final double INCH_TO_MM = 25.4;
-    private final double METERS_TO_MM = 1000;
     private final double MM_TO_INCH = 1 / INCH_TO_MM;
 
     /** @note This class does not manage any initialization procedures relating to the odometry
@@ -39,34 +43,45 @@ public class OdometryLimelightLocalizer implements Localizer {
     public OdometryLimelightLocalizer(HardwareMap map) {
         sys = SubsystemsCollection.getInstance(null);
         vision = new VisionUtility(map);
+        setPoseEstimate(new Pose2d(0.0, 0.0, 0.0));
     }
 
     /** Will be ran every cycle. Using this with AutoDriveUtility will cause it to be ran on outside
      *  of the main thread, so never call this directly if doing so. */
     public void update() {
         sys.driveBase.odometry.update();
-        if((vision.getFieldPosition(sys.intake).getX(DistanceUnit.MM) != 0.0) && (vision.getFieldPosition(sys.intake).getY(DistanceUnit.MM) != 0.0)){
-            sys.driveBase.odometry.setPosition(vision.getFieldPosition(sys.intake));
-        }
+        Pose2D odometryPos = sys.driveBase.odometry.getPosition();
+
+        correctedOdometryPos = new Pose2D(
+                DistanceUnit.INCH,
+                -odometryPos.getX(DistanceUnit.INCH) + odometryOffset.getX(DistanceUnit.INCH),
+                -odometryPos.getY(DistanceUnit.INCH) + odometryOffset.getY(DistanceUnit.INCH),
+                AngleUnit.RADIANS,
+                odometryPos.getHeading(AngleUnit.RADIANS) + odometryOffset.getHeading(AngleUnit.RADIANS)
+        );
+
+//        if((vision.getFieldPosition(sys.intake).getX(DistanceUnit.MM) != 0.0) && (vision.getFieldPosition(sys.intake).getY(DistanceUnit.MM) != 0.0)){
+//            sys.driveBase.odometry.setPosition(vision.getFieldPosition(sys.intake));
+//        }
     }
 
     /** Returns estimated position of robot. */
     public @NotNull Pose2d getPoseEstimate() {
         return new Pose2d(
-                -sys.driveBase.odometry.getPosX() * MM_TO_INCH,
-                -sys.driveBase.odometry.getPosY() * MM_TO_INCH,
-                sys.driveBase.odometry.getHeading()
+                correctedOdometryPos.getX(DistanceUnit.INCH),
+                correctedOdometryPos.getY(DistanceUnit.INCH),
+                correctedOdometryPos.getHeading(AngleUnit.RADIANS)
         );
     }
 
     /** Sets position of robot. */
     public void setPoseEstimate(@NonNull Pose2d pose) {
-        sys.driveBase.odometry.setPosition(new Pose2D(
+        odometryOffset = new Pose2D(
                 // If I remember correctly, road runner uses inches by default. If this isn't the
                 // case, or if there is some way to change such behaviour, this should be changed.
-                DistanceUnit.MM, pose.getY() * INCH_TO_MM, pose.getY() * INCH_TO_MM, // Gulp.
+                DistanceUnit.INCH, pose.getY(), pose.getY(), // Gulp.
                 AngleUnit.RADIANS, pose.getHeading()
-        ));
+        );
     }
 
     /** Returns estimated velocity of robot. */
