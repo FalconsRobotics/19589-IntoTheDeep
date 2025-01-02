@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.external.rrquickstart.drive.MecanumDriveKinematics;
 import org.firstinspires.ftc.teamcode.external.rrquickstart.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.external.rrquickstart.trajectorysequence.TrajectorySequenceBuilder;
@@ -22,18 +23,19 @@ public class AutoDriveUtility {
 
     /** Prepares thread to be ran with roadrunner. Note that this will also set the drive base
      *  object to be run using external drive commands, do not change this behaviour willy nilly. */
-    public AutoDriveUtility(HardwareMap map, DriveBase driveBase) {
+    public AutoDriveUtility(HardwareMap map, DriveBase driveBase, Pose2d startPos) {
         // Otherwise internal periodic method will override roadrunner drive commands.
         driveBase.useExternalDriveCommands = true;
 
         drive = new MecanumDriveKinematics(map);
         roadrunner = new FollowTrajectoriesThread(drive);
-        lastSequenceEndPosition = drive.getPoseEstimate();
 
         // This works because of something, Im not entirely sure as odometry should be updated
         // every loop... If it ain't broke don't fix it, I guess?
         driveBase.odometry.update();
-        drive.getLocalizer().setPoseEstimate(new Pose2d(0.0, 0.0, 0.0));
+        drive.getLocalizer().setPoseEstimate(startPos);
+
+        lastSequenceEndPosition = drive.getPoseEstimate();
     }
 
 

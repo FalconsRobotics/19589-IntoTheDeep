@@ -17,7 +17,7 @@ public class RRTrajectoryTest extends OpMode {
         SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
 
-        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase);
+        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(0, 0, 0));
     }
 
     public void start() {

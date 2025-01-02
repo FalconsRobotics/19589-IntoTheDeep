@@ -28,7 +28,7 @@ public class CommandAutonomousSample extends CommandOpMode {
         SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
 
-        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase);
+        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(0, 0));
 
         SequentialCommandGroup goToBucketAndUnload = new SequentialCommandGroup(
                 // Use directly after intakeSample.
