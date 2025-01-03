@@ -21,7 +21,7 @@ public class MeepMeepSpecimenAuto {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 18.46)
+                .setConstraints(90, 90, Math.toRadians(180), Math.toRadians(180), 18.46)
                 .setDimensions(12.75, 17.75)
                 .setDriveTrainType(DriveTrainType.MECANUM)
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(startPos)
@@ -30,7 +30,8 @@ public class MeepMeepSpecimenAuto {
 
                         /// Move and prepare for dragging all three pieces to human player
                         // First piece
-                        .lineToLinearHeading(new Pose2d(36, -48, Math.toRadians(90)))
+//                        .lineToLinearHeading(new Pose2d(36, -48, Math.toRadians(90)))
+                        .back(24)
                         .splineToConstantHeading(new Pose2d(48, -8, Math.toRadians(0)).vec(), 0)
                         .lineToConstantHeading(new Vector2d(48, -56))
 
@@ -44,9 +45,6 @@ public class MeepMeepSpecimenAuto {
                         .splineToConstantHeading(new Vector2d(64, -8), Math.toRadians(0))
                         .lineToConstantHeading(new Vector2d(64, -56))
 
-                        /// Move out of the way so human player gets a chance to place the first specimen.
-                        .lineToConstantHeading(new Vector2d(64, -46))
-                        .waitSeconds(1)
                         .lineToLinearHeading(new Pose2d(43.5625, -63.625, Math.toRadians(180)))
 
                         /// And the star of the show... cycle!
