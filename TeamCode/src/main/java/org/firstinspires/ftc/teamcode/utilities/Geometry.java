@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.utilities;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 
+import java.util.Vector;
+
 /** Utility functions relating to geometrical calculations. Used mainly with vision utility. */
 public class Geometry {
     /** Simple class for referencing 2D points, offsets, velocities, etc.*/
@@ -23,5 +25,17 @@ public class Geometry {
     /** Returns length between two points. */
     public static double getLength(Vector2D p1, Vector2D p2) {
         return Math.sqrt(getLengthSquared(p1, p2));
+    }
+
+    /** Rotates a vector by its origin by the given `angle,` in radians. */
+    public static Vector2D rotate(Vector2D v, double angle) {
+        // To avoid costly recalculations.
+        double aSin = Math.sin(angle);
+        double aCos = Math.cos(angle);
+
+        return new Vector2D(
+                v.x * aCos - v.y * aSin,
+                v.x * aSin + v.y * aCos
+        );
     }
 }

@@ -1,13 +1,9 @@
 package org.firstinspires.ftc.teamcode.utilities.vision;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
-import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -86,9 +82,9 @@ public class VisionUtility {
         Geometry.Vector2D corner3 = null;
 
        if(corners.size() >= 3){
-           corner1 = getCornerFromList(corners.get(0)); // may produce null?
-           corner2 = getCornerFromList(corners.get(1));
-           corner3 = getCornerFromList(corners.get(2));
+           corner1 = getVectorFromList(corners.get(0)); // may produce null?
+           corner2 = getVectorFromList(corners.get(1));
+           corner3 = getVectorFromList(corners.get(2));
        } else {
            return 0.0;
        }
@@ -125,14 +121,14 @@ public class VisionUtility {
         }
         assert LLBotPos != null;
         if(tagSize > .4 || (tagAngle > 10 && tagAngle < -10)){
-            return new Pose2D(DistanceUnit.MM, LLBotPos.getPosition().x, LLBotPos.getPosition().y, AngleUnit.DEGREES, LLBotPos.getOrientation().getYaw());
+            return new Pose2D(DistanceUnit.METER, LLBotPos.getPosition().x, LLBotPos.getPosition().y, AngleUnit.DEGREES, LLBotPos.getOrientation().getYaw());
         }
 
      return badValue;
     }
 
 
-    private Geometry.Vector2D getCornerFromList(List<Double> cornerList) {
+    private Geometry.Vector2D getVectorFromList(List<Double> cornerList) {
         return new Geometry.Vector2D(cornerList.get(0), cornerList.get(1));
     }
 

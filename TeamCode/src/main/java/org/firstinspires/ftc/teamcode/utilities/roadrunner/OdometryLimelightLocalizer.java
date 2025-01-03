@@ -15,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.subsystems.DriveBase;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
+import org.firstinspires.ftc.teamcode.utilities.Geometry;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.vision.VisionUtility;
 import org.jetbrains.annotations.NotNull;
@@ -31,8 +32,8 @@ public class OdometryLimelightLocalizer implements Localizer {
 
     // Odometry computer does not seem to actually set position when calling setPosition, setting
     // positions using this localizer will affect this variable instead.
-    private Pose2D odometryOffset;
-    private Pose2D correctedOdometryPos;
+    private Pose2d odometryOffset;
+    private Pose2d correctedOdometryPos;
 
     // Used to convert to inches as roadrunner supposedly works best with those units.
     private final double INCH_TO_MM = 25.4;
@@ -49,15 +50,24 @@ public class OdometryLimelightLocalizer implements Localizer {
     /** Will be ran every cycle. Using this with AutoDriveUtility will cause it to be ran on outside
      *  of the main thread, so never call this directly if doing so. */
     public void update() {
-        sys.driveBase.odometry.update();
-        Pose2D odometryPos = sys.driveBase.odometry.getPosition();
+        // Remember that odometry.setPosition() doesn't seem to work for whatever reason, (likely
+        // an implementation issue on my part) so a "correction" must be applied to our initial
+        // odometry positions to apply an offset to start the robot on ourselves.
+        // TODO: Test this.
 
-        correctedOdometryPos = new Pose2D(
-                DistanceUnit.INCH,
-                -odometryPos.getX(DistanceUnit.INCH) + odometryOffset.getX(DistanceUnit.INCH),
-                -odometryPos.getY(DistanceUnit.INCH) + odometryOffset.getY(DistanceUnit.INCH),
-                AngleUnit.RADIANS,
-                odometryPos.getHeading(AngleUnit.RADIANS) + odometryOffset.getHeading(AngleUnit.RADIANS)
+        sys.driveBase.odometry.update();
+
+        Pose2D oPos2D = sys.driveBase.odometry.getPosition();
+        Geometry.Vector2D oPos = new Geometry.Vector2D(oPos2D.getX(DistanceUnit.INCH), oPos2D.getY(DistanceUnit.INCH));
+
+        // In accordance with standard rendering techniques: Rotate initial point and then apply
+        // its offset.
+        Geometry.Vector2D oPosRotated = Geometry.rotate(oPos, odometryOffset.getHeading());
+
+        correctedOdometryPos = new Pose2d(
+                oPosRotated.x + odometryOffset.getX(),
+                oPosRotated.y + odometryOffset.getY(),
+                oPos2D.getHeading(AngleUnit.RADIANS) + odometryOffset.getHeading()
         );
 
 //        if((vision.getFieldPosition(sys.intake).getX(DistanceUnit.MM) != 0.0) && (vision.getFieldPosition(sys.intake).getY(DistanceUnit.MM) != 0.0)){
@@ -67,21 +77,13 @@ public class OdometryLimelightLocalizer implements Localizer {
 
     /** Returns estimated position of robot. */
     public @NotNull Pose2d getPoseEstimate() {
-        return new Pose2d(
-                correctedOdometryPos.getX(DistanceUnit.INCH),
-                correctedOdometryPos.getY(DistanceUnit.INCH),
-                correctedOdometryPos.getHeading(AngleUnit.RADIANS)
-        );
+        return correctedOdometryPos;
     }
 
     /** Sets position of robot. */
     public void setPoseEstimate(@NonNull Pose2d pose) {
-        odometryOffset = new Pose2D(
-                // If I remember correctly, road runner uses inches by default. If this isn't the
-                // case, or if there is some way to change such behaviour, this should be changed.
-                DistanceUnit.INCH, pose.getY(), pose.getY(), // Gulp.
-                AngleUnit.RADIANS, pose.getHeading()
-        );
+        // New pose position assumed to be in inches.
+        odometryOffset = pose;
     }
 
     /** Returns estimated velocity of robot. */
