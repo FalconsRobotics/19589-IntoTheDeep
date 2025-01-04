@@ -37,7 +37,7 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                         new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BAR),
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .lineToConstantHeading(new Vector2d(1, -30))
+                                        .lineToConstantHeading(new Vector2d(1, -28))
                         ),
                         new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
 
@@ -45,7 +45,8 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
                                         // First piece to human player
-                                        .lineToLinearHeading(new Pose2d(36, -48, Math.toRadians(90)))
+                                        .strafeLeft(5)
+                                        .back(24)
                                         .splineToConstantHeading(new Pose2d(48, -8, Math.toRadians(0)).vec(), 0)
                                         .lineToConstantHeading(new Vector2d(48, -56))
 
@@ -60,10 +61,17 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                                         .lineToConstantHeading(new Vector2d(64, -56))
 
                                         /// Move out of the way so human player gets a chance to place the first specimen.
-                                        .lineToConstantHeading(new Vector2d(64, -46))
-                                        .waitSeconds(1)
-                                        .lineToLinearHeading(new Pose2d(43.5625, -63.625, Math.toRadians(180)))
-                        )
+                                        .lineToConstantHeading(new Vector2d(48 - 5.75, -48))
+                                        .strafeLeft(24)
+                        ),
+
+                        // First cycle
+                        new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BAR),
+                        new CommandFollowTrajectories(autoDrive,
+                                autoDrive.trajectorySequenceBuilder()
+                                        .lineToLinearHeading(new Pose2d(-1, -30, Math.toRadians(0)))
+                        ),
+                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN)
                 ),
 
                 new CommandRun(() -> {
