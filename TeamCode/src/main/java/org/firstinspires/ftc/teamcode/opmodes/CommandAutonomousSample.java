@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
-@Autonomous(name = "")
+@Autonomous(name = "Autonomous W.M.D - 4Samples")
 public class CommandAutonomousSample extends CommandOpMode {
     private SubsystemsCollection sys;
     private AutoDriveUtility autoDrive;
@@ -28,7 +28,7 @@ public class CommandAutonomousSample extends CommandOpMode {
         SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
 
-        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(0, 0));
+        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(-40.3, -63, Math.toRadians(90)));
 
         SequentialCommandGroup goToBucketAndUnload = new SequentialCommandGroup(
                 // Use directly after intakeSample.
@@ -39,7 +39,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                 ),
                 new CommandFollowTrajectories(autoDrive,
                         autoDrive.trajectorySequenceBuilder()
-                                .splineToLinearHeading(new Pose2d(1.5, 19.5, Math.toRadians(-45)), 0)
+                                .lineToLinearHeading(new Pose2d(-57, -55, Math.toRadians(45)))
                 ),
                 new CommandExtakeRotateArm(Extake.ArmPosition.UNLOAD),
                 new CommandTimer(350),
@@ -61,28 +61,29 @@ public class CommandAutonomousSample extends CommandOpMode {
 
         schedule(new ParallelCommandGroup(
                 new SequentialCommandGroup(
-                        new CommandFollowTrajectories(autoDrive,
+                        /*new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .forward(19)
-                        ),
+                                        .splineToLinearHeading(new Pose2d(-57, -55, Math.toRadians(45)), 10)
+                        ), */
                         goToBucketAndUnload,
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .splineToLinearHeading(new Pose2d(18.5, 11.5, 0), 0)
-                        ),
-                        intakeSample,
-                        goToBucketAndUnload,
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .splineToLinearHeading(new Pose2d(18.5, 21.5, 0), 0)
+                                        .lineToLinearHeading(new Pose2d(-48, -33, Math.toRadians(90)))
                         ),
                         intakeSample,
                         goToBucketAndUnload,
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .splineToLinearHeading(new Pose2d(18.5, 11.5, 0), 0)
-                        )
-                        // TODO: Line up to grab sample 4. Then intake and gotobucket. Cool!
+                                        .lineToLinearHeading(new Pose2d(-58, -33, Math.toRadians(90)))
+                        ),
+                        intakeSample,
+                        goToBucketAndUnload,
+                        new CommandFollowTrajectories(autoDrive,
+                                autoDrive.trajectorySequenceBuilder()
+                                        .splineToLinearHeading(new Pose2d(-60, -24, Math.toRadians(180)), 9)
+                        ),
+                        intakeSample,
+                        goToBucketAndUnload
                 ),
 
                 new CommandRun(() -> {
