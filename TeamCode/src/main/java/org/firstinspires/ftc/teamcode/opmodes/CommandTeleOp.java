@@ -237,13 +237,12 @@ public class CommandTeleOp extends CommandOpMode {
             ), false);
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-            .whenActive(new ParallelCommandGroup(
-                    new CommandIntakeRotateArm(Intake.ArmPosition.HOVER),
-                new CommandLimelightStatus(hardwareMap, CommandLimelightStatus.LimelightStatus.Start),
-                new CommandIntakeAutoPivot(hardwareMap),
-                new CommandLimelightStatus(hardwareMap, CommandLimelightStatus.LimelightStatus.Pause)
-                    )
-
+            .whenActive(
+                    new ParallelCommandGroup(
+                            new CommandIntakeRotateArm(Intake.ArmPosition.HOVER),
+                        //    new CommandLimelightStatus(hardwareMap, CommandLimelightStatus.LimelightStatus.Start),
+                            new CommandIntakeAutoPivot(hardwareMap)
+            )
             );
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)

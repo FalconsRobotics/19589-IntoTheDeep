@@ -82,11 +82,11 @@ public class VisionUtility {
         Geometry.Vector2D corner3 = null;
 
        if(corners.size() >= 3){
-           corner1 = getVectorFromList(corners.get(0)); // may produce null?
+           corner1 = getVectorFromList(corners.get(0));
            corner2 = getVectorFromList(corners.get(1));
            corner3 = getVectorFromList(corners.get(2));
        } else {
-           return 0.0;
+           return -1.0;
        }
 
         double l1squared = Geometry.getLengthSquared(corner1, corner2);
