@@ -31,7 +31,7 @@ public class AutoDriveUtility {
         roadrunner = new FollowTrajectoriesThread(drive);
 
         drive.setPoseEstimate(startPos);
-        lastSequenceEndPosition = drive.getPoseEstimate();
+        lastSequenceEndPosition = startPos;
     }
 
 

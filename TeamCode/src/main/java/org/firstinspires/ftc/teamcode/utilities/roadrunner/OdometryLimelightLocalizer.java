@@ -44,7 +44,11 @@ public class OdometryLimelightLocalizer implements Localizer {
     public OdometryLimelightLocalizer(HardwareMap map) {
         sys = SubsystemsCollection.getInstance(null);
         vision = new VisionUtility(map);
-        setPoseEstimate(new Pose2d(0.0, 0.0, 0.0));
+
+        odometryOffset = new Pose2d(0.0, 0.0, 0.0);
+        correctedOdometryPos = new Pose2d(0.0, 0.0, 0.0);
+
+        update();
     }
 
     /** Will be ran every cycle. Using this with AutoDriveUtility will cause it to be ran on outside
@@ -60,13 +64,9 @@ public class OdometryLimelightLocalizer implements Localizer {
         Pose2D oPos2D = sys.driveBase.odometry.getPosition();
         Geometry.Vector2D oPos = new Geometry.Vector2D(oPos2D.getX(DistanceUnit.INCH), oPos2D.getY(DistanceUnit.INCH));
 
-        // In accordance with standard rendering techniques: Rotate initial point and then apply
-        // its offset.
-        Geometry.Vector2D oPosRotated = Geometry.rotate(oPos, odometryOffset.getHeading());
-
         correctedOdometryPos = new Pose2d(
-                oPosRotated.x + odometryOffset.getX(),
-                oPosRotated.y + odometryOffset.getY(),
+                oPos.x + odometryOffset.getX(),
+                oPos.y + odometryOffset.getY(),
                 oPos2D.getHeading(AngleUnit.RADIANS) + odometryOffset.getHeading()
         );
 
@@ -83,7 +83,11 @@ public class OdometryLimelightLocalizer implements Localizer {
     /** Sets position of robot. */
     public void setPoseEstimate(@NonNull Pose2d pose) {
         // New pose position assumed to be in inches.
-        odometryOffset = pose;
+        odometryOffset = new Pose2d(
+                pose.getX() - correctedOdometryPos.getX(),
+                pose.getY() - correctedOdometryPos.getY(),
+                pose.getHeading() - correctedOdometryPos.getHeading()
+        );
     }
 
     /** Returns estimated velocity of robot. */
