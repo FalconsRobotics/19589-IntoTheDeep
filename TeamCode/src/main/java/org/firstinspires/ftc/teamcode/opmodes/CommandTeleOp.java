@@ -240,6 +240,7 @@ public class CommandTeleOp extends CommandOpMode {
             .whenActive(new ParallelCommandGroup(
                     new CommandIntakeRotateArm(Intake.ArmPosition.HOVER),
                 new CommandLimelightStatus(hardwareMap, CommandLimelightStatus.LimelightStatus.Start),
+                new CommandIntakeAutoPivot(hardwareMap),
                 new CommandLimelightStatus(hardwareMap, CommandLimelightStatus.LimelightStatus.Pause)
                     )
 
