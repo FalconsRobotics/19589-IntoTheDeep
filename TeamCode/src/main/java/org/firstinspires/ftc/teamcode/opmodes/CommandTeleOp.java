@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.utilities.DeltaTime;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Extake;
+import org.firstinspires.ftc.teamcode.utilities.vision.VisionUtility;
 
 /** Main Tele-Op to be used during competition matches and drive practice. */
 @TeleOp(name = "Command TeleOp")
@@ -80,6 +81,7 @@ public class CommandTeleOp extends CommandOpMode {
     public void initialize() {
         SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
+        VisionUtility vision = new VisionUtility(hardwareMap);
         driverGamepad = new GamepadEx(gamepad1);
         utilityGamepad = new GamepadEx(gamepad2);
         deltaTime = new DeltaTime();
@@ -235,7 +237,13 @@ public class CommandTeleOp extends CommandOpMode {
             ), false);
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-            .whenActive(new CommandIntakeRotateArm(Intake.ArmPosition.HOVER));
+            .whenActive(new ParallelCommandGroup(
+                    new CommandIntakeRotateArm(Intake.ArmPosition.HOVER),
+                new CommandLimelightStatus(hardwareMap, CommandLimelightStatus.LimelightStatus.Start),
+                new CommandLimelightStatus(hardwareMap, CommandLimelightStatus.LimelightStatus.Pause)
+                    )
+
+            );
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
             .whenActive(new ParallelCommandGroup(
