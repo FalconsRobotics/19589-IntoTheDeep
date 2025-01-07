@@ -29,7 +29,8 @@ public class CommandAutonomousSample extends CommandOpMode {
         SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
 
-        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(-40.3, -63, Math.toRadians(90)));
+        // -40.3, -63
+        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(0, 0, 0));
 
         /* SequentialCommandGroup goToBucketAndUnload = new SequentialCommandGroup(
                 // Use directly after intakeSample.
@@ -72,7 +73,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         // Go to bucket with spline, necessary for first unload
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .splineToLinearHeading(new Pose2d(-57, -55, Math.toRadians(45)), 10)
+                                        .splineToLinearHeading(new Pose2d(-16.7, 8, Math.toRadians(-45)), 10)
                         ),
 
                         // Tip bucket and reset extake
@@ -86,7 +87,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         // Go to right-most ground sample and intake it
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(-48, -33, Math.toRadians(90)))
+                                        .lineToLinearHeading(new Pose2d(-7.7, 30, 0))
                         ),
                         new CommandIntakeSetPivot(0.15),
                         new ParallelCommandGroup(
@@ -105,7 +106,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         ),
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(-57, -55, Math.toRadians(45)))
+                                        .lineToLinearHeading(new Pose2d(-16.7, 8, Math.toRadians(-45)))
                         ),
                         new CommandExtakeRotateArm(Extake.ArmPosition.UNLOAD),
                         new CommandTimer(350),
@@ -117,7 +118,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         // Drive to center ground sample, intake it
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(-58, -33, Math.toRadians(90)))
+                                        .lineToLinearHeading(new Pose2d(-17.7, 30, 0))
                         ),
                         new CommandIntakeSetPivot(0.15),
                         new ParallelCommandGroup(
@@ -136,7 +137,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         ),
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(-57, -55, Math.toRadians(45)))
+                                        .lineToLinearHeading(new Pose2d(-16.7, 8, Math.toRadians(-45)))
                         ),
                         new CommandExtakeRotateArm(Extake.ArmPosition.UNLOAD),
                         new CommandTimer(350),
@@ -148,7 +149,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         // Navigate to left-most grounded sample. Needs to spline because robot can't pick up the sample head-on
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .splineToLinearHeading(new Pose2d(-60, -24, Math.toRadians(180)), 9)
+                                        .splineToLinearHeading(new Pose2d(-19.7, 39, Math.toRadians(90)), 9)
                         ),
                         new ParallelCommandGroup(
                                 new CommandIntakeRotateArm(Intake.ArmPosition.PICKUP),
@@ -165,7 +166,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         ),
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(-57, -55, Math.toRadians(45)))
+                                        .lineToLinearHeading(new Pose2d(-16.7, 8, Math.toRadians(-45)))
                         ),
                         new CommandExtakeRotateArm(Extake.ArmPosition.UNLOAD),
                         new CommandTimer(350),
