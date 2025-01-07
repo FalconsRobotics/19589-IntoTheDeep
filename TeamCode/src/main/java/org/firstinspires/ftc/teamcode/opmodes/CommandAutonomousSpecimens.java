@@ -52,16 +52,16 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
 
                                         // Second piece to human player
                                         .lineToConstantHeading(new Vector2d(48, -24))
-                                        .splineToConstantHeading(new Vector2d(58, -8), Math.toRadians(0))
-                                        .lineToConstantHeading(new Vector2d(58, -56))
+                                        .splineToConstantHeading(new Vector2d(56, -8), Math.toRadians(0))
+                                        .lineToConstantHeading(new Vector2d(56, -56))
 
                                         // Third piece to human player
-                                        .lineToConstantHeading(new Vector2d(58, -24))
+                                        .lineToConstantHeading(new Vector2d(56, -24))
                                         .splineToConstantHeading(new Vector2d(64, -8), Math.toRadians(0))
                                         .lineToConstantHeading(new Vector2d(64, -56))
 
                                         /// Move out of the way so human player gets a chance to place the first specimen.
-                                        .lineToConstantHeading(new Vector2d(48 - 5.75, -48))
+                                        .lineToConstantHeading(new Vector2d(48 - 7.75, -48))
                                         .strafeLeft(24)
                         ),
 
@@ -69,9 +69,51 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                         new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BAR),
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(-1, -30, Math.toRadians(0)))
+                                        .lineToLinearHeading(new Pose2d(1, -30, Math.toRadians(0)))
                         ),
-                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN)
+                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
+
+                        // Second Cycle
+                        new CommandFollowTrajectories(autoDrive,
+                                autoDrive.trajectorySequenceBuilder()
+                                        .splineToConstantHeading(new Vector2d(60, -63.625), Math.toRadians(270))
+                        ),
+                        new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BAR),
+                        new CommandFollowTrajectories(autoDrive,
+                                autoDrive.trajectorySequenceBuilder()
+                                        .lineToLinearHeading(new Pose2d(1, -30, Math.toRadians(180)))
+                        ),
+                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
+
+                        // Third Cycle
+                        new CommandFollowTrajectories(autoDrive,
+                                autoDrive.trajectorySequenceBuilder()
+                                        .lineToConstantHeading(new Vector2d(43, -63.625))
+                        ),
+                        new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BAR),
+                        new CommandFollowTrajectories(autoDrive,
+                                autoDrive.trajectorySequenceBuilder()
+                                        .lineToLinearHeading(new Pose2d(3, -29, Math.toRadians(0)))
+                        ),
+                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
+
+                        // Last cycle
+                        new CommandFollowTrajectories(autoDrive,
+                                autoDrive.trajectorySequenceBuilder()
+                                        .lineToConstantHeading(new Vector2d(60, -63.625))
+                        ),
+                        new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BAR),
+                        new CommandFollowTrajectories(autoDrive,
+                                autoDrive.trajectorySequenceBuilder()
+                                        .lineToLinearHeading(new Pose2d(2, -29, Math.toRadians(180)))
+                        ),
+                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
+
+                        // Park
+                        new CommandFollowTrajectories(autoDrive,
+                                autoDrive.trajectorySequenceBuilder()
+                                        .lineToConstantHeading(new Vector2d(62, -63.625))
+                        )
                 ),
 
                 new CommandRun(() -> {

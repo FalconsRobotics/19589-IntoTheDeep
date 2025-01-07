@@ -12,7 +12,7 @@ public class MeepMeepSpecimenAuto {
     public static void main(String[] args) {
         System.setProperty("sun.java2d.opengl", "true");
 
-        Pose2d startPos = new Pose2d(9, -63, Math.toRadians(180));
+        Pose2d startPos = new Pose2d(48, -24, Math.toRadians(180));
 
         MeepMeep meepMeep = new MeepMeep(900);
 
@@ -23,45 +23,32 @@ public class MeepMeepSpecimenAuto {
                 .setDriveTrainType(DriveTrainType.MECANUM)
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(startPos)
                         /// Move to bar and place pre-loaded specimen
-                        .lineToConstantHeading(new Vector2d(1, -30))
-
-                        /// Move and prepare for dragging all three pieces to human player
-                        // First piece
-                        .back(24)
-                        .splineToConstantHeading(new Pose2d(48, -8, Math.toRadians(0)).vec(), 0)
-                        .lineToConstantHeading(new Vector2d(48, -56))
-
-                        // Second piece
-                        .lineToConstantHeading(new Vector2d(48, -24))
-                        .splineToConstantHeading(new Vector2d(58, -8), Math.toRadians(0))
-                        .lineToConstantHeading(new Vector2d(58, -56))
-
-                        // Third piece
-                        .lineToConstantHeading(new Vector2d(58, -24))
-                        .splineToConstantHeading(new Vector2d(64, -8), Math.toRadians(0))
-                        .lineToConstantHeading(new Vector2d(64, -56))
-
-                        .lineToConstantHeading(new Vector2d(48 - 4.4375, -48))
-                        .strafeLeft(24)
+//                        .lineToConstantHeading(new Vector2d(1, -30))
+//
+//                        /// Move and prepare for dragging all three pieces to human player
+//                        // First piece
+//                        .back(24)
+//                        .splineToConstantHeading(new Pose2d(48, -8, Math.toRadians(0)).vec(), 0)
+//                        .lineToConstantHeading(new Vector2d(48, -56))
+//
+//                        // Second piece
+//                        .lineToConstantHeading(new Vector2d(48, -24))
+//                        .splineToConstantHeading(new Vector2d(58, -8), Math.toRadians(0))
+//                        .lineToConstantHeading(new Vector2d(58, -56))
+//
+//                        // Third piece
+//                        .lineToConstantHeading(new Vector2d(58, -24))
+//                        .splineToConstantHeading(new Vector2d(64, -8), Math.toRadians(0))
+//                        .lineToConstantHeading(new Vector2d(64, -56))
+//
+//                        .lineToConstantHeading(new Vector2d(48 - 4.4375, -48))
+//                        .strafeLeft(24)
 
                         /// And the star of the show... cycle!
-                        // First cycle and back
-                        .lineToLinearHeading(new Pose2d(-5, -30, Math.toRadians(0)))
-                        .lineToLinearHeading(new Pose2d(48 + 4.4375, -63.625, Math.toRadians(0)))
+                        .splineToLinearHeading(new Pose2d(60, -63.625, Math.toRadians(0)), Math.toRadians(270))
+                        .lineToLinearHeading(new Pose2d(1, -30, Math.toRadians(180)))
 
-                        // Second cycle and back
-                        .lineToLinearHeading(new Pose2d(-3, -30, Math.toRadians(180)))
-                        .lineToLinearHeading(new Pose2d(48 - 4.4375, -63.625, Math.toRadians(180)))
-
-                        // Third cycle and back
-                        .lineToLinearHeading(new Pose2d(-1, -30, Math.toRadians(0)))
-                        .lineToLinearHeading(new Pose2d(48 + 4.4375, -63.625, Math.toRadians(0)))
-
-                        // Fourth cycle and back
-                        .lineToLinearHeading(new Pose2d(3, -30, Math.toRadians(180)))
-
-                        // Park
-                        .lineToLinearHeading(new Pose2d(48 - 4.4375, -63.625, Math.toRadians(180)))
+                        .splineToConstantHeading(new Vector2d(60, -63.625), Math.toRadians(0 + 1e+6))
 
                         .build());
 
