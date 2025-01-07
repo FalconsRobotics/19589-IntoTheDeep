@@ -73,7 +73,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         // Go to bucket with spline, necessary for first unload
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .splineToLinearHeading(new Pose2d(-16.7, 8, Math.toRadians(-45)), 10)
+                                        .lineToLinearHeading(new Pose2d(-16.7, 8, Math.toRadians(-45)))
                         ),
 
                         // Tip bucket and reset extake
