@@ -20,7 +20,7 @@ public class ExtakeTest extends LinearOpMode {
 
         waitForStart();
         sys.intake.arm.setTarget(Intake.ArmPosition.IDLE);
-        sys.extake.setArmPosition(Extake.ArmPosition.LOAD);
+        sys.extake.setArmPosition(Extake.BucketPosition.LOAD);
 
         while (opModeIsActive()) {
             if (gamepad1.a) {
@@ -34,9 +34,9 @@ public class ExtakeTest extends LinearOpMode {
             }
 
             if (gamepad1.dpad_up) {
-                sys.extake.setArmPosition(Extake.ArmPosition.UNLOAD);
+                sys.extake.setArmPosition(Extake.BucketPosition.UNLOAD);
             } else if (gamepad1.dpad_down) {
-                sys.extake.setArmPosition(Extake.ArmPosition.LOAD);
+                sys.extake.setArmPosition(Extake.BucketPosition.LOAD);
             }
 
             telemetry.addData("Lift Position", sys.extake.lift.motor.getCurrentPosition());

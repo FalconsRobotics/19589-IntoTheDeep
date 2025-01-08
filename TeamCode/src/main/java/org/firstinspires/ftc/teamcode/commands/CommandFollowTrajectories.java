@@ -19,13 +19,9 @@ public class CommandFollowTrajectories extends CommandBase {
         ran = false;
     }
 
-    public void execute() {
-        // Hack because initialize() does not run at the start of executing a command, rather, when
-        // you first run it. How fun.
-        if (!ran) {
-            autoDrive.runTrajectorySequence(sequence);
-            ran = true;
-        }
+    public void initialize() {
+        autoDrive.runTrajectorySequence(sequence);
+        ran = true;
     }
 
     public boolean isFinished() {

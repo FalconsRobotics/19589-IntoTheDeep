@@ -14,13 +14,11 @@ public class SubsystemsCollection {
     public final DriveBase driveBase;
     public final Intake intake;
     public final Extake extake;
-    public final Lift lift;
 
     private SubsystemsCollection(HardwareMap map) {
         driveBase = new DriveBase(map);
         intake = new Intake(map);
         extake = new Extake(map);
-        lift = new Lift(map);
     }
 
     /** Returns singleton instance of SubsystemsCollection. If this instance does not yet exist, it

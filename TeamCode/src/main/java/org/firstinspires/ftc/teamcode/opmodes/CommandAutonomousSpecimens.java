@@ -7,14 +7,10 @@ import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.teamcode.commands.CommandExtakeMoveLift;
+import org.firstinspires.ftc.teamcode.commands.CommandExtakeSetLift;
 import org.firstinspires.ftc.teamcode.commands.CommandFollowTrajectories;
-import org.firstinspires.ftc.teamcode.commands.CommandIntakeRotateArm;
+import org.firstinspires.ftc.teamcode.commands.CommandIntakeSetArm;
 import org.firstinspires.ftc.teamcode.commands.CommandRun;
-import org.firstinspires.ftc.teamcode.commands.CommandTimer;
 import org.firstinspires.ftc.teamcode.subsystems.Extake;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
@@ -33,13 +29,13 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
 
         schedule(new ParallelDeadlineGroup(
                 new SequentialCommandGroup(
-                        new CommandIntakeRotateArm(Intake.ArmPosition.IDLE),
-                        new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BAR),
+                        new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
+                        new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
                                         .lineToConstantHeading(new Vector2d(1, -28))
                         ),
-                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
+                        new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
 
                         /// Move and prepare for dragging all three pieces to human player
                         new CommandFollowTrajectories(autoDrive,
@@ -66,48 +62,48 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                         ),
 
                         // First cycle
-                        new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BAR),
+                        new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
                                         .lineToLinearHeading(new Pose2d(1, -30, Math.toRadians(0)))
                         ),
-                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
+                        new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
 
                         // Second Cycle
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
                                         .splineToConstantHeading(new Vector2d(60, -63.625), Math.toRadians(270))
                         ),
-                        new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BAR),
+                        new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
                                         .lineToLinearHeading(new Pose2d(1, -30, Math.toRadians(180)))
                         ),
-                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
+                        new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
 
                         // Third Cycle
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
                                         .lineToConstantHeading(new Vector2d(43, -63.625))
                         ),
-                        new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BAR),
+                        new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
                                         .lineToLinearHeading(new Pose2d(3, -29, Math.toRadians(0)))
                         ),
-                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
+                        new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
 
                         // Last cycle
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
                                         .lineToConstantHeading(new Vector2d(60, -63.625))
                         ),
-                        new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BAR),
+                        new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
                                         .lineToLinearHeading(new Pose2d(2, -29, Math.toRadians(180)))
                         ),
-                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN),
+                        new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
 
                         // Park
                         new CommandFollowTrajectories(autoDrive,
