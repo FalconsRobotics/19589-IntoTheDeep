@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -29,11 +30,13 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
 
         schedule(new ParallelDeadlineGroup(
                 new SequentialCommandGroup(
-                        new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
-                        new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .lineToConstantHeading(new Vector2d(1, -28))
+                        new ParallelCommandGroup(
+                                new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
+                                new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .lineToConstantHeading(new Vector2d(1, -28))
+                                )
                         ),
                         new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
 
@@ -62,10 +65,12 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                         ),
 
                         // First cycle
-                        new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(1, -30, Math.toRadians(0)))
+                        new ParallelCommandGroup(
+                                new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .lineToLinearHeading(new Pose2d(1, -30, Math.toRadians(0)))
+                                )
                         ),
                         new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
 
@@ -74,10 +79,12 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                                 autoDrive.trajectorySequenceBuilder()
                                         .splineToConstantHeading(new Vector2d(60, -63.625), Math.toRadians(270))
                         ),
-                        new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(1, -30, Math.toRadians(180)))
+                        new ParallelCommandGroup(
+                                new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .lineToLinearHeading(new Pose2d(1, -30, Math.toRadians(180)))
+                                )
                         ),
                         new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
 
@@ -86,10 +93,12 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                                 autoDrive.trajectorySequenceBuilder()
                                         .lineToConstantHeading(new Vector2d(43, -63.625))
                         ),
-                        new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(3, -29, Math.toRadians(0)))
+                        new ParallelCommandGroup(
+                                new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .lineToLinearHeading(new Pose2d(3, -29, Math.toRadians(0)))
+                                )
                         ),
                         new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
 
@@ -98,10 +107,12 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                                 autoDrive.trajectorySequenceBuilder()
                                         .lineToConstantHeading(new Vector2d(60, -63.625))
                         ),
-                        new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(2, -29, Math.toRadians(180)))
+                        new ParallelCommandGroup(
+                                new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .lineToLinearHeading(new Pose2d(2, -29, Math.toRadians(180)))
+                                )
                         ),
                         new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
 
