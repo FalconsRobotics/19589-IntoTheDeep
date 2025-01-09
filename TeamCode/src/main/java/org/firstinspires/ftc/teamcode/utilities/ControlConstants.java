@@ -26,7 +26,7 @@ public final class ControlConstants {
         public static double KP = 0.06051;
         public static double KI = 0.0;
         public static double KD = 0.0021325;
-        public static double KF = -0.0;
+        public static double KF = -0.008;
 
         public static double MAX_POWER = 1.0;
         public static int TOLERANCE = 20;
