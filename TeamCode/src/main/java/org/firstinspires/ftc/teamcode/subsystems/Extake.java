@@ -65,6 +65,7 @@ public class Extake extends SubsystemBase {
                 ControlConstants.ExtakeLift.TOLERANCE,
                 ControlConstants.ExtakeLift.MAX_POWER
         );
+        lift.motor.setInverted(true);
         lift.setTarget(LiftPosition.DOWN);
 
         leftArm = map.get(Servo.class, "Extake-LeftArm");
