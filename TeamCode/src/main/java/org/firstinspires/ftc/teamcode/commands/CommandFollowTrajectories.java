@@ -19,7 +19,10 @@ public class CommandFollowTrajectories extends CommandBase {
         ran = false;
     }
 
-    public void initialize() {
+    public void execute() {
+        // Called in execute to avoid being ran before initialize button is pressed.
+        if (ran) return;
+
         autoDrive.runTrajectorySequence(sequence);
         ran = true;
     }
