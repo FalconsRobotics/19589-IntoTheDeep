@@ -28,6 +28,8 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
 
         autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(9, -63, Math.toRadians(180)));
 
+        waitForStart();
+
         schedule(new ParallelDeadlineGroup(
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
@@ -91,7 +93,7 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                         // Third Cycle
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .lineToConstantHeading(new Vector2d(43, -63.625))
+                                        .splineToConstantHeading(new Vector2d(43, -63.625), Math.toRadians(270))
                         ),
                         new ParallelCommandGroup(
                                 new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
@@ -105,7 +107,7 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                         // Last cycle
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .lineToConstantHeading(new Vector2d(60, -63.625))
+                                        .splineToConstantHeading(new Vector2d(60, -63.625), Math.toRadians(270))
                         ),
                         new ParallelCommandGroup(
                                 new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
