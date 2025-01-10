@@ -41,15 +41,21 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                         new ParallelCommandGroup(
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
-                                                .lineToConstantHeading(new Vector2d(0, -30))
+                                                .lineToConstantHeading(new Vector2d(0, -29))
                                 ),
                                 new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
                                 new CommandIntakeSetPivot(Intake.ArmPosition.IDLE)
                         ),
-                        new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
+                        new ParallelCommandGroup(
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .strafeLeft(4)
+                                ),
+                                new CommandExtakeSetLift(Extake.LiftPosition.DOWN)
+                        ),
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .back(20)
+                                        .back(23)
                                         .splineToConstantHeading(new Pose2d(48, -8, Math.toRadians(180)).vec(), 0)
                                         .lineToConstantHeading(new Vector2d(48, -56))
 
