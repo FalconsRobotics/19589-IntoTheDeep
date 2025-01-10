@@ -86,6 +86,8 @@ public class CommandTeleOp extends CommandOpMode {
         utilityGamepad = new GamepadEx(gamepad2);
         deltaTime = new DeltaTime();
 
+        sys.driveBase.useExternalDriveCommands = false;
+
         schedule(new CommandRun(() -> {
             sys.driveBase.odometry.update();
 
