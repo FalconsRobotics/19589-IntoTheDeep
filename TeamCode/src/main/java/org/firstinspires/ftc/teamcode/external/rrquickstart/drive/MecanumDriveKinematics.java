@@ -57,8 +57,8 @@ import static org.firstinspires.ftc.teamcode.external.rrquickstart.drive.DriveCo
  */
 @Config
 public class MecanumDriveKinematics extends MecanumDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(10, 0, 0);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, 0);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(10.5, 0, 0);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(8.5, 0, 0);
 
     public static double LATERAL_MULTIPLIER = 1.08;
 
@@ -86,7 +86,7 @@ public class MecanumDriveKinematics extends MecanumDrive {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
 
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,
-                new Pose2d(1, 1, Math.toRadians(5.0)), 0.1);
+                new Pose2d(0.75, 0.75, Math.toRadians(5.0)), 0.05);
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 

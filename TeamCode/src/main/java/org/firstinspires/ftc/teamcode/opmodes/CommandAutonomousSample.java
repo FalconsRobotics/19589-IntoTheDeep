@@ -1,16 +1,18 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
+import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.commands.CommandExtakeSetLift;
 import org.firstinspires.ftc.teamcode.commands.CommandExtakeSetBucket;
+import org.firstinspires.ftc.teamcode.commands.CommandExtakeSetLift;
 import org.firstinspires.ftc.teamcode.commands.CommandFollowTrajectories;
-import org.firstinspires.ftc.teamcode.commands.CommandIntakeSetArm;
 import org.firstinspires.ftc.teamcode.commands.CommandIntakeRotateWheels;
+import org.firstinspires.ftc.teamcode.commands.CommandIntakeSetArm;
 import org.firstinspires.ftc.teamcode.commands.CommandIntakeSetPivot;
 import org.firstinspires.ftc.teamcode.commands.CommandRun;
 import org.firstinspires.ftc.teamcode.commands.CommandTimer;
@@ -28,154 +30,144 @@ public class CommandAutonomousSample extends CommandOpMode {
         SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
 
-        // -40.3, -63
-        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(-40.3, -63, Math.toRadians(90)));
+        // -40.3, -63, rad(90)
+        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(-39.125, -63.125, Math.toRadians(180)));
 
-        /* SequentialCommandGroup goToBucketAndUnload = new SequentialCommandGroup(
-                // Use directly after intakeSample.
-                new CommandIntakeRotateArm(Intake.ArmPosition.IDLE),
-                new ParallelCommandGroup(
-                        new CommandExtakeMoveLift(Extake.LiftPosition.TOP_BUCKET),
-                        new CommandExtakeRotateArm(Extake.ArmPosition.PREPARE_UNLOAD)
-                ),
-                new CommandFollowTrajectories(autoDrive,
-                        autoDrive.trajectorySequenceBuilder()
-                                .lineToLinearHeading(new Pose2d(-57, -55, Math.toRadians(45)))
-                ),
-                new CommandExtakeRotateArm(Extake.ArmPosition.UNLOAD),
-                new CommandTimer(350),
-                new ParallelCommandGroup(
-                        new CommandExtakeRotateArm(Extake.ArmPosition.LOAD),
-                        new CommandExtakeMoveLift(Extake.LiftPosition.DOWN)
-                )
-        ); */
+        waitForStart();
 
-        /* SequentialCommandGroup intakeSample = new SequentialCommandGroup(
-                new ParallelCommandGroup(
-                        new CommandIntakeRotateArm(Intake.ArmPosition.PICKUP),
-                        new CommandIntakeRotateWheels(.85, 800)
-                ),
-                new CommandIntakeRotateArm(Intake.ArmPosition.UNLOAD),
-                new CommandIntakeRotateWheels(-.45, 500)
-        ); */
-
-
-        schedule(new ParallelCommandGroup(
+        schedule(new ParallelDeadlineGroup(
                 new SequentialCommandGroup(
-                        // Prepare robot for placing preloaded sample
+                        //<editor-fold desc="Placing preloaded sample">
                         new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
                         new ParallelCommandGroup(
                                 new CommandExtakeSetLift(Extake.LiftPosition.TOP_BUCKET),
-                                new CommandExtakeSetBucket(Extake.BucketPosition.PREPARE_UNLOAD)
-                        ),
-
-                        // Go to bucket with spline, necessary for first unload
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(-57, -55, Math.toRadians(45)))
-                        ),
-
-                        // Tip bucket and reset extake
-                        new CommandExtakeSetBucket(Extake.BucketPosition.UNLOAD),
-                        new CommandTimer(350),
-                        new ParallelCommandGroup(
-                                new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
-                                new CommandExtakeSetLift(Extake.LiftPosition.DOWN)
-                        ),
-
-                        // Go to right-most ground sample and intake it
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(-48, -33, Math.toRadians(90)))
-                        ),
-                        new CommandIntakeSetPivot(0.15),
-                        new ParallelCommandGroup(
-                                new CommandIntakeSetArm(Intake.ArmPosition.PICKUP),
-                                new CommandIntakeRotateWheels(.85, 800)
-                        ),
-                        new CommandIntakeSetPivot(0.5),
-                        new CommandIntakeSetArm(Intake.ArmPosition.UNLOAD),
-                        new CommandIntakeRotateWheels(-.45, 500),
-                        new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
-
-                        // Prepare arm for extaking sample #2, navigate to bucket
-                        new ParallelCommandGroup(
-                                new CommandExtakeSetLift(Extake.LiftPosition.TOP_BUCKET),
-                                new CommandExtakeSetBucket(Extake.BucketPosition.PREPARE_UNLOAD)
-                        ),
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(-57, -55, Math.toRadians(45)))
+                                new CommandExtakeSetBucket(Extake.BucketPosition.PREPARE_UNLOAD),
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .lineToConstantHeading(new Vector2d(-42, -54))
+                                                .lineToLinearHeading(new Pose2d(-54, -54, Math.toRadians(45)))
+                                )
                         ),
                         new CommandExtakeSetBucket(Extake.BucketPosition.UNLOAD),
-                        new CommandTimer(350),
+                        new CommandTimer(750),
                         new ParallelCommandGroup(
-                                new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
-                                new CommandExtakeSetLift(Extake.LiftPosition.DOWN)
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .lineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)))
+                                ),
+                                new CommandExtakeSetBucket(Extake.BucketPosition.LOAD)
                         ),
+                        //</editor-fold>
 
-                        // Drive to center ground sample, intake it
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(-58, -33, Math.toRadians(90)))
-                        ),
-                        new CommandIntakeSetPivot(0.15),
+                        //<editor-fold desc="Traveling to and placing first sample from ground">
                         new ParallelCommandGroup(
-                                new CommandIntakeSetArm(Intake.ArmPosition.PICKUP),
-                                new CommandIntakeRotateWheels(.85, 800)
-                        ),
-                        new CommandIntakeSetPivot(0.5),
-                        new CommandIntakeSetArm(Intake.ArmPosition.UNLOAD),
-                        new CommandIntakeRotateWheels(-.45, 500),
-                        new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
-
-                        // Navigate to bucket and extake
-                        new ParallelCommandGroup(
-                                new CommandExtakeSetLift(Extake.LiftPosition.TOP_BUCKET),
-                                new CommandExtakeSetBucket(Extake.BucketPosition.PREPARE_UNLOAD)
-                        ),
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(-57, -55, Math.toRadians(45)))
-                        ),
-                        new CommandExtakeSetBucket(Extake.BucketPosition.UNLOAD),
-                        new CommandTimer(350),
-                        new ParallelCommandGroup(
-                                new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
-                                new CommandExtakeSetLift(Extake.LiftPosition.DOWN)
-                        ),
-
-                        // Navigate to left-most grounded sample. Needs to spline because robot can't pick up the sample head-on
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .splineToLinearHeading(new Pose2d(-60, -24, Math.toRadians(180)), 9)
+                                new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
+                                new CommandIntakeSetPivot(Intake.PivotPosition.RIGHT),
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .lineToLinearHeading(new Pose2d(-47, -39, Math.toRadians(90)))
+                                )
                         ),
                         new ParallelCommandGroup(
                                 new CommandIntakeSetArm(Intake.ArmPosition.PICKUP),
-                                new CommandIntakeRotateWheels(.85, 800)
+                                new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 650)
                         ),
+                        new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE),
                         new CommandIntakeSetArm(Intake.ArmPosition.UNLOAD),
-                        new CommandIntakeRotateWheels(-.45, 500),
+                        new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500),
                         new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
+                        new ParallelCommandGroup(
+                                new CommandExtakeSetLift(Extake.LiftPosition.TOP_BUCKET),
+                                new CommandExtakeSetBucket(Extake.BucketPosition.PREPARE_UNLOAD),
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .splineToLinearHeading(new Pose2d(-54, -54, Math.toRadians(45)), 10)
+                                )
+                        ),
+                        new CommandExtakeSetBucket(Extake.BucketPosition.UNLOAD),
+                        new CommandTimer(750),
+                        new ParallelCommandGroup(
+                        new CommandFollowTrajectories(autoDrive,
+                                autoDrive.trajectorySequenceBuilder()
+                                        .lineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)))
+                        ),
+                        new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
+                        new CommandExtakeSetBucket(Extake.BucketPosition.LOAD)
+                ),
+                        //</editor-fold>
 
-                        // Go back to the bucket and EXTAKE!!!
+                        //<editor-fold desc="Traveling to and placing second sample from ground">
+                        new CommandIntakeSetPivot(Intake.PivotPosition.RIGHT),
+                        new CommandFollowTrajectories(autoDrive,
+                                autoDrive.trajectorySequenceBuilder()
+                                        .lineToLinearHeading(new Pose2d(-57, -39, Math.toRadians(90)))
+                        ),
+                        new ParallelCommandGroup(
+                                new CommandIntakeSetArm(Intake.ArmPosition.PICKUP),
+                                new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 750)
+                        ),
+                        new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE),
+                        new CommandIntakeSetArm(Intake.ArmPosition.UNLOAD),
+                        new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500),
+                        new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
                         new ParallelCommandGroup(
                                 new CommandExtakeSetLift(Extake.LiftPosition.TOP_BUCKET),
                                 new CommandExtakeSetBucket(Extake.BucketPosition.PREPARE_UNLOAD)
                         ),
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(-57, -55, Math.toRadians(45)))
+                                        .splineToLinearHeading(new Pose2d(-54, -54, Math.toRadians(45)), 10)
                         ),
                         new CommandExtakeSetBucket(Extake.BucketPosition.UNLOAD),
-                        new CommandTimer(350),
+                        new CommandTimer(750),
                         new ParallelCommandGroup(
-                                new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
-                                new CommandExtakeSetLift(Extake.LiftPosition.DOWN)
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .lineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)))
+                                ),
+                                new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
+                                new CommandExtakeSetBucket(Extake.BucketPosition.LOAD)
+                        ),
+                        //</editor-fold>
+
+                        //<editor-fold desc="Traveling to and placing third sample from ground">
+                        new CommandFollowTrajectories(autoDrive,
+                                autoDrive.trajectorySequenceBuilder()
+                                        .splineToLinearHeading(new Pose2d(-53, -26, Math.toRadians(180)), 9)
+                        ),
+                        new ParallelCommandGroup(
+                                new CommandIntakeSetArm(Intake.ArmPosition.PICKUP),
+                                new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 750)
+                        ),
+                        new CommandIntakeSetArm(Intake.ArmPosition.UNLOAD),
+                        new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500),
+                        new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
+                        new ParallelCommandGroup(
+                                new CommandExtakeSetLift(Extake.LiftPosition.TOP_BUCKET),
+                                new CommandExtakeSetBucket(Extake.BucketPosition.PREPARE_UNLOAD),
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .splineToLinearHeading(new Pose2d(-54, -54, Math.toRadians(45)), 10)
+                                )
+                        ),
+                        new CommandExtakeSetBucket(Extake.BucketPosition.UNLOAD),
+                        new CommandTimer(750),
+                        new ParallelCommandGroup(
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .lineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)))
+                                ),
+                                new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
+                                new CommandExtakeSetBucket(Extake.BucketPosition.LOAD)
                         )
+                        //</editor-fold>
                 ),
 
                 new CommandRun(() -> {
+                    if (isStopRequested()) {
+                        autoDrive.abort();
+                    }
+
                     autoDrive.printPoseEstimate(telemetry);
                     telemetry.addData("Odo X", sys.driveBase.odometry.getPosX());
                     telemetry.addData("Odo Y", sys.driveBase.odometry.getPosY());
@@ -184,5 +176,8 @@ public class CommandAutonomousSample extends CommandOpMode {
                     return false; // never finish.
                 })
         ));
+
+        telemetry.addLine("Build Complete");
+        telemetry.update();
     }
 }
