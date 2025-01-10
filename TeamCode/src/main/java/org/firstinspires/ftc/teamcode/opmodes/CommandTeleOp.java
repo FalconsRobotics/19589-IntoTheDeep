@@ -256,8 +256,11 @@ public class CommandTeleOp extends CommandOpMode {
             .whenActive(new ParallelCommandGroup(
                 new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
                 new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
+                new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE),
+                new CommandIntakeSetSlide(Intake.SlidePosition.RETRACTED),
                 new CommandExtakeSetLift(Extake.LiftPosition.DOWN)
-            ));
+            ), false);
+
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.A)
             .whenActive(new ParallelCommandGroup(
