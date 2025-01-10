@@ -77,4 +77,8 @@ public class AutoDriveUtility {
         telemetry.addData("Y Position (inches)", pose.getY());
         telemetry.addData("Heading (degrees)", Math.toDegrees(pose.getHeading()));
     }
+
+    public void abort() {
+        roadrunner.interrupt();
+    }
 }

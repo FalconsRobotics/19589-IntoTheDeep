@@ -94,6 +94,10 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                 ),
 
                 new CommandRun(() -> {
+                    if (isStopRequested() || !opModeIsActive()) {
+                        autoDrive.abort();
+                    }
+
                     autoDrive.printPoseEstimate(telemetry);
                     telemetry.addData("Odo X", sys.driveBase.odometry.getPosX());
                     telemetry.addData("Odo Y", sys.driveBase.odometry.getPosY());
@@ -103,4 +107,6 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                 })
         ));
     }
+
+
 }
