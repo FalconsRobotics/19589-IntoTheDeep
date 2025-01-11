@@ -59,7 +59,7 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                                                 .lineToConstantHeading(new Vector2d(48, -24))
                                                 .splineToConstantHeading(new Vector2d(58, -8), Math.toRadians(0))
                                                 .strafeLeft(32)
-                                                .splineToLinearHeading(new Pose2d(44, -62.625, Math.toRadians(180)), Math.toRadians(270))
+                                                .splineToLinearHeading(new Pose2d(44, -62.125, Math.toRadians(180)), Math.toRadians(270))
                                 ),
                                 new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
                                 new ParallelCommandGroup(

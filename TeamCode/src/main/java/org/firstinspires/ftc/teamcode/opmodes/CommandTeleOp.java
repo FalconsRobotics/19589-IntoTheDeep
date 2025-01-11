@@ -234,7 +234,7 @@ public class CommandTeleOp extends CommandOpMode {
                     new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE)
                 ),
                 new CommandIntakeSetArm(Intake.ArmPosition.UNLOAD),
-                new CommandTimer(50),
+                new CommandTimer(125),
                 new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500)
             ), false);
 
