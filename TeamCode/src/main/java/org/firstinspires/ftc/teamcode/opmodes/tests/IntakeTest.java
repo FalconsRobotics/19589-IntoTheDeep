@@ -7,29 +7,39 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
-@TeleOp(name = "Test - Intake")
+@TeleOp(name = "Test - Intake", group = "Tests")
 public class IntakeTest extends LinearOpMode {
     public void runOpMode() {
         SubsystemsCollection.deinit();
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
         GamepadEx testingGamepad = new GamepadEx(this.gamepad1);
 
-        sys.extake.setArmPosition(Intake.ArmPosition.IDLE);
+        while (opModeInInit()) {
+            telemetry.addData("Pivoting Motor Position", sys.intake.arm.motor.getCurrentPosition());
+            telemetry.update();
+        }
+
+        sys.intake.arm.setTarget(Intake.ArmPosition.IDLE);
         waitForStart();
 
         while (opModeIsActive()) {
             if (testingGamepad.gamepad.dpad_left) {
-                sys.intake.setArmPosition(Intake.ArmPosition.UNLOAD);
+                sys.intake.arm.setTarget(Intake.ArmPosition.UNLOAD);
             } else if (testingGamepad.gamepad.dpad_up) {
-                sys.intake.setArmPosition(Intake.ArmPosition.HOVER);
+                sys.intake.arm.setTarget(Intake.ArmPosition.HOVER);
             } else if (testingGamepad.gamepad.dpad_right) {
-                sys.intake.setArmPosition(Intake.ArmPosition.PICKUP);
+                sys.intake.arm.setTarget(Intake.ArmPosition.PICKUP);
             } else {
-                sys.intake.setArmPosition(Intake.ArmPosition.IDLE);
+                sys.intake.arm.setTarget(Intake.ArmPosition.IDLE);
             }
 
             telemetry.addData("Pivoting Motor Position", sys.intake.arm.motor.getCurrentPosition());
             telemetry.addData("Pivoting Motor Power", sys.intake.arm.motor.get());
+            telemetry.addLine();
+//            telemetry.addData("Sample Color", sys.intake.sampleColor.red() + "\t" +
+//                    sys.intake.sampleColor.green() + "\t" +
+//                    sys.intake.sampleColor.blue() + "\t" +
+//                    sys.intake.sampleColor.alpha());
             telemetry.update();
 
             sys.intake.periodic();
