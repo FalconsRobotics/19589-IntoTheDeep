@@ -18,8 +18,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
-@Autonomous(name = "Autonomous W.M.D. - 5specimens")
-public class CommandAutonomousSpecimens extends CommandOpMode {
+@Autonomous(name = "Autonomous W.M.D. - 5specimens pt. 2")
+public class CommandAutonomousSpecimensTwo extends CommandOpMode {
     private SubsystemsCollection sys;
     private AutoDriveUtility autoDrive;
 
@@ -73,7 +73,7 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                                 new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
-                                                .splineToConstantHeading(new Vector2d(60, -63), Math.toRadians(270)) // Same deal with the positioning. Facing right it should be around 60.
+                                                .splineToConstantHeading(new Vector2d(60, -63), Math.toRadians(270))
                                 ),
                                 new ParallelCommandGroup(
                                         new CommandFollowTrajectories(autoDrive,
@@ -88,8 +88,7 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                                 /// Park by collecting the next specimen
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
-                                                .splineToConstantHeading(new Vector2d(44, -62.625), Math.toRadians(270))
-
+                                                .splineToConstantHeading(new Vector2d(48, -62.625), Math.toRadians(270))
                                 )
                         ),
 

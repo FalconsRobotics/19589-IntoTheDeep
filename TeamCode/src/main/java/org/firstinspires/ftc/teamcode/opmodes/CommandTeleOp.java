@@ -236,14 +236,11 @@ public class CommandTeleOp extends CommandOpMode {
                 new CommandIntakeSetArm(Intake.ArmPosition.UNLOAD),
                 new CommandTimer(125),
                 new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500)
-            ), false);
+            ));
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-            .whenActive(
-                    new ParallelCommandGroup(
-                            new CommandIntakeSetArm(Intake.ArmPosition.HOVER),
-                            new CommandIntakeAutoPivot(hardwareMap)
-            )
+            .whileActiveContinuous(
+                    new CommandIntakeSetArm(Intake.ArmPosition.HOVER)
             );
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
@@ -259,7 +256,7 @@ public class CommandTeleOp extends CommandOpMode {
                 new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE),
                 new CommandIntakeSetSlide(Intake.SlidePosition.RETRACTED),
                 new CommandExtakeSetLift(Extake.LiftPosition.DOWN)
-            ), false);
+            ));
 
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.A)

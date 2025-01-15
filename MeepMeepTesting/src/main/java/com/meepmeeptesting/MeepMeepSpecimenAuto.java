@@ -12,7 +12,7 @@ public class MeepMeepSpecimenAuto {
     public static void main(String[] args) {
         System.setProperty("sun.java2d.opengl", "true");
 
-        Pose2d startPos = new Pose2d(1, -30, Math.toRadians(180));
+        Pose2d startPos = new Pose2d(5, -30, Math.toRadians(180));
 
         MeepMeep meepMeep = new MeepMeep(900);
 
@@ -33,8 +33,7 @@ public class MeepMeepSpecimenAuto {
 //
 //                        // Second piece
 //                        .lineToConstantHeading(new Vector2d(48, -24))
-//                        .splineToConstantHeading(ne
-
+//
 //                        /// Move to bar and place pre-loaded specimen
 //                        .lineToConstantHeading(new Vector2d(0, -30))
 //
@@ -46,21 +45,23 @@ public class MeepMeepSpecimenAuto {
 //                        .splineToConstantHeading(new Vector2d(58, -8), Math.toRadians(0))
 //                        .strafeLeft(32)
 //                        .splineToLinearHeading(new Pose2d(48, -62.625, Math.toRadians(180)), Math.toRadians(270)) // Set to 48 here, in reality will be around 43.
-
-                        // Slight delay to account for real life and then intake.
+//
+////                         Slight delay to account for real life and then intake.
 //                        .waitSeconds(0.5)
-
-                        // Raise lift to TOP_BAR.
+//
+////                         Raise lift to TOP_BAR.
 //                        .splineToSplineHeading(new Pose2d(-1, -30, Math.toRadians(0)), Math.toRadians(90 - 1e+6))
-
+//
+//                        .waitSeconds(0.5)
+//
+//                        // Lower lift to bottom during this.
+//                        .splineToConstantHeading(new Vector2d(48, -62.625), Math.toRadians(270)) // Same deal with the positioning. Facing right it should be around 60.
+//
 //                        .waitSeconds(0.5)
 
-                        // Lower lift to bottom during this.
-                        .splineToConstantHeading(new Vector2d(48, -62.625), Math.toRadians(270)) // Same deal with the positioning. Facing right it should be around 60.
-                        
-                        .waitSeconds(0.5)
+//                        .splineToLinearHeading(new Pose2d(1, -30, Math.toRadians(180)), Math.toRadians(0 - 1e+6))
+                        .splineToConstantHeading(new Vector2d(60, -63), Math.toRadians(270))
 
-                        .splineToLinearHeading(new Pose2d(1, -30, Math.toRadians(180)), Math.toRadians(0 - 1e+6))
 
                         .build());
 
