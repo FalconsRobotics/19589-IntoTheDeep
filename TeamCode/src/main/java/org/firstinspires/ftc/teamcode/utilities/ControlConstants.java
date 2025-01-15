@@ -15,7 +15,7 @@ public final class ControlConstants {
         public static double KD = 0.00008;
 
         public static double MAX_POWER = 0.865;
-        public static int TOLERANCE = 15;
+        public static int TOLERANCE = 20;
 
         public static double TARGET_MULTIPLIER = 0.12; // 0.2 worked best when not using cosine.
     }

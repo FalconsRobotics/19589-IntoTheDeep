@@ -239,9 +239,10 @@ public class CommandTeleOp extends CommandOpMode {
             ));
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-            .whileActiveContinuous(
+            .whenPressed(new ParallelDeadlineGroup(
+                    new CommandTimer(100),
                     new CommandIntakeSetArm(Intake.ArmPosition.HOVER)
-            );
+            ), false);
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
             .whenActive(new ParallelCommandGroup (
