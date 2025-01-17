@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
-@Autonomous(name = "Autonomous W.M.D - 4Samples")
+@Autonomous(name = "Autonomous W.M.D - 4Samples", preselectTeleOp = "Command TeleOp")
 public class CommandAutonomousSample extends CommandOpMode {
     private SubsystemsCollection sys;
     private AutoDriveUtility autoDrive;
