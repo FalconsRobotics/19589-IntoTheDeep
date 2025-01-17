@@ -40,13 +40,13 @@ public class CommandAutonomousSample extends CommandOpMode {
                         //<editor-fold desc="Placing preloaded sample">
                         new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
                         new ParallelCommandGroup(
-                                new CommandExtakeSetLift(Extake.LiftPosition.TOP_BUCKET),
-                                new CommandExtakeSetBucket(Extake.BucketPosition.PREPARE_UNLOAD),
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
                                                 .lineToConstantHeading(new Vector2d(-42, -54))
                                                 .lineToLinearHeading(new Pose2d(-54, -54, Math.toRadians(45)))
-                                )
+                                ),
+                                new CommandExtakeSetLift(Extake.LiftPosition.TOP_BUCKET),
+                                new CommandExtakeSetBucket(Extake.BucketPosition.PREPARE_UNLOAD)
                         ),
                         new CommandExtakeSetBucket(Extake.BucketPosition.UNLOAD),
                         new CommandTimer(750),
@@ -75,32 +75,34 @@ public class CommandAutonomousSample extends CommandOpMode {
                         new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE),
                         new CommandIntakeSetArm(Intake.ArmPosition.UNLOAD),
                         new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500),
-                        new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
                         new ParallelCommandGroup(
-                                new CommandExtakeSetLift(Extake.LiftPosition.TOP_BUCKET),
-                                new CommandExtakeSetBucket(Extake.BucketPosition.PREPARE_UNLOAD),
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
                                                 .splineToLinearHeading(new Pose2d(-54, -54, Math.toRadians(45)), 10)
-                                )
+                                ),
+                                new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
+                                new CommandExtakeSetLift(Extake.LiftPosition.TOP_BUCKET),
+                                new CommandExtakeSetBucket(Extake.BucketPosition.PREPARE_UNLOAD)
                         ),
                         new CommandExtakeSetBucket(Extake.BucketPosition.UNLOAD),
                         new CommandTimer(750),
                         new ParallelCommandGroup(
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)))
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .lineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)))
+                                ),
+                                new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
+                                new CommandExtakeSetBucket(Extake.BucketPosition.LOAD)
                         ),
-                        new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
-                        new CommandExtakeSetBucket(Extake.BucketPosition.LOAD)
-                ),
                         //</editor-fold>
 
                         //<editor-fold desc="Traveling to and placing second sample from ground">
-                        new CommandIntakeSetPivot(Intake.PivotPosition.RIGHT),
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(-56, -38, Math.toRadians(90)))
+                        new ParallelCommandGroup(
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .lineToLinearHeading(new Pose2d(-56, -38, Math.toRadians(90)))
+                                ),
+                                new CommandIntakeSetPivot(Intake.PivotPosition.RIGHT)
                         ),
                         new ParallelCommandGroup(
                                 new CommandIntakeSetArm(Intake.ArmPosition.PICKUP),
@@ -109,24 +111,24 @@ public class CommandAutonomousSample extends CommandOpMode {
                         new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE),
                         new CommandIntakeSetArm(Intake.ArmPosition.UNLOAD),
                         new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500),
-                        new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
                         new ParallelCommandGroup(
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .splineToLinearHeading(new Pose2d(-54, -54, Math.toRadians(45)), 10)
+                                ),
+                                new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
                                 new CommandExtakeSetLift(Extake.LiftPosition.TOP_BUCKET),
                                 new CommandExtakeSetBucket(Extake.BucketPosition.PREPARE_UNLOAD)
                         ),
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .splineToLinearHeading(new Pose2d(-54, -54, Math.toRadians(45)), 10)
-                        ),
                         new CommandExtakeSetBucket(Extake.BucketPosition.UNLOAD),
                         new CommandTimer(750),
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)))
-                        ),
                         new ParallelCommandGroup(
+                                new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
                                 new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
-                                new CommandExtakeSetBucket(Extake.BucketPosition.LOAD)
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .lineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)))
+                                )
                         ),
                         //</editor-fold>
 
@@ -141,8 +143,8 @@ public class CommandAutonomousSample extends CommandOpMode {
                         ),
                         new CommandIntakeSetArm(Intake.ArmPosition.UNLOAD),
                         new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500),
-                        new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
                         new ParallelCommandGroup(
+                                new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
                                 new CommandExtakeSetLift(Extake.LiftPosition.TOP_BUCKET),
                                 new CommandExtakeSetBucket(Extake.BucketPosition.PREPARE_UNLOAD),
                                 new CommandFollowTrajectories(autoDrive,
@@ -151,10 +153,10 @@ public class CommandAutonomousSample extends CommandOpMode {
                                 )
                         ),
                         new CommandExtakeSetBucket(Extake.BucketPosition.UNLOAD),
-                        new CommandTimer(850),
+                        new CommandTimer(750),
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(-50, -50, Math.toRadians(45))) // Final Parking
+                                        .lineToLinearHeading(new Pose2d(-45, -45, Math.toRadians(45))) // Final Parking
                         ),
                         new ParallelCommandGroup(
                                 new CommandExtakeSetLift(Extake.LiftPosition.DOWN),

@@ -99,7 +99,7 @@ public class CommandTeleOp extends CommandOpMode {
             );
 
             sys.driveBase.brake(
-                    driverGamepad.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) == 1
+                    driverGamepad.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) != 1.0
             );
 
             updateSlidePosition(utilityGamepad.getRightY());
