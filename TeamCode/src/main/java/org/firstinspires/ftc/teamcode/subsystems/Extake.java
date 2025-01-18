@@ -40,7 +40,7 @@ public class Extake extends SubsystemBase {
     }
 
     /** Motor controlling tube slide. */
-    public final MotorWithController lift;
+    public final MotorWithPIDFController lift;
 
     /** Left and right servos controlling the bucket arm. */
     public final Servo leftArm, rightArm;
@@ -74,11 +74,12 @@ public class Extake extends SubsystemBase {
 
     public void periodic() {
         // TODO: Stupid hack, please fix.
-        if (lift.atTarget()) {
+        // TODO: Another silly hacky hacky to reduce speedy speedy going downy down
+        if (lift.atTarget() || lift.controller.getSetPoint() < lift.motor.getCurrentPosition()) {
             // Works if kF is designed to keep the robot (roughly) static.
             lift.motor.set((lift.calculateMotorPower() *
-                    ControlConstants.ExtakeLift.TARGET_MULTIPLIER + ControlConstants.ExtakeLift.KF) *
-                    lift.regulator.getPowerMultiplier());
+                    ControlConstants.ExtakeLift.TARGET_MULTIPLIER *
+                    lift.regulator.getPowerMultiplier()));
             return;
         }
 
