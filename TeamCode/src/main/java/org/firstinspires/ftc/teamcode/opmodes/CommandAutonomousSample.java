@@ -91,7 +91,6 @@ public class CommandAutonomousSample extends CommandOpMode {
                                         autoDrive.trajectorySequenceBuilder()
                                                 .lineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)))
                                 ),
-                                new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
                                 new CommandExtakeSetBucket(Extake.BucketPosition.LOAD)
                         ),
                         //</editor-fold>
@@ -102,6 +101,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                                         autoDrive.trajectorySequenceBuilder()
                                                 .lineToLinearHeading(new Pose2d(-56, -38, Math.toRadians(90)))
                                 ),
+                                new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
                                 new CommandIntakeSetPivot(Intake.PivotPosition.RIGHT)
                         ),
                         new ParallelCommandGroup(
@@ -123,19 +123,21 @@ public class CommandAutonomousSample extends CommandOpMode {
                         new CommandExtakeSetBucket(Extake.BucketPosition.UNLOAD),
                         new CommandTimer(750),
                         new ParallelCommandGroup(
-                                new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
-                                new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
                                                 .lineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)))
-                                )
+                                ),
+                                new CommandExtakeSetBucket(Extake.BucketPosition.LOAD)
                         ),
                         //</editor-fold>
 
                         //<editor-fold desc="Traveling to and placing third sample from ground">
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
+                        new ParallelCommandGroup(
+                                new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
+                                new CommandFollowTrajectories(autoDrive,
+                                    autoDrive.trajectorySequenceBuilder()
                                         .splineToLinearHeading(new Pose2d(-53, -26, Math.toRadians(180)), 9)
+                                )
                         ),
                         new ParallelCommandGroup(
                                 new CommandIntakeSetArm(Intake.ArmPosition.PICKUP),
@@ -154,12 +156,12 @@ public class CommandAutonomousSample extends CommandOpMode {
                         ),
                         new CommandExtakeSetBucket(Extake.BucketPosition.UNLOAD),
                         new CommandTimer(750),
-                        new CommandFollowTrajectories(autoDrive,
-                                autoDrive.trajectorySequenceBuilder()
-                                        .lineToLinearHeading(new Pose2d(-45, -45, Math.toRadians(45))) // Final Parking
-                        ),
+
                         new ParallelCommandGroup(
-                                new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
+                                new CommandFollowTrajectories(autoDrive,
+                                    autoDrive.trajectorySequenceBuilder()
+                                        .forward(5) // Final Parking
+                                ),
                                 new CommandExtakeSetBucket(Extake.BucketPosition.LOAD)
                         )
                         //</editor-fold>
