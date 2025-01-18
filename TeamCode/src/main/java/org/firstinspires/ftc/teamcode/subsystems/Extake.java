@@ -74,11 +74,19 @@ public class Extake extends SubsystemBase {
 
     public void periodic() {
         // TODO: Stupid hack, please fix.
-        // TODO: Another silly hacky hacky to reduce speedy speedy going downy down
-        if (lift.atTarget() || lift.controller.getSetPoint() < lift.motor.getCurrentPosition()) {
+        if (lift.atTarget()) {
             // Works if kF is designed to keep the robot (roughly) static.
             lift.motor.set((lift.calculateMotorPower() *
                     ControlConstants.ExtakeLift.TARGET_MULTIPLIER *
+                    lift.regulator.getPowerMultiplier()));
+            return;
+        }
+
+        // TODO: Another silly hacky hacky to reduce speedy speedy going downy down
+        if (lift.controller.getSetPoint() < lift.motor.getCurrentPosition()) {
+            // Works if kF is designed to keep the robot (roughly) static.
+            lift.motor.set((lift.calculateMotorPower() *
+                    ControlConstants.ExtakeLift.DOWN_MULTIPLIER *
                     lift.regulator.getPowerMultiplier()));
             return;
         }

@@ -119,6 +119,7 @@ public class VisionUtility {
             tagSize = fiducialResult.getTargetArea();
             LLBotPos = fiducialResult.getRobotPoseFieldSpace();
         }
+
         assert LLBotPos != null;
         if(tagSize > .4 || (tagAngle > 10 && tagAngle < -10)){
             return new Pose2D(DistanceUnit.METER, LLBotPos.getPosition().x, LLBotPos.getPosition().y, AngleUnit.DEGREES, LLBotPos.getOrientation().getYaw());

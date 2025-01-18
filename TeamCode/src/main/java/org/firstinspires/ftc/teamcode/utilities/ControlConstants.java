@@ -32,6 +32,8 @@ public final class ControlConstants {
         public static int TOLERANCE = 20;
 
         public static double TARGET_MULTIPLIER = 0.25;
+
+        public static double DOWN_MULTIPLIER = 0.8;
     }
 
     /** Constants relating to drive base rotation in tele-op (independent of Road Runner). */
