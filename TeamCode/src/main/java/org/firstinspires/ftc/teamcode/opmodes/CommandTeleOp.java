@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.commands.*;
 import org.firstinspires.ftc.teamcode.utilities.DeltaTime;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
@@ -104,6 +105,12 @@ public class CommandTeleOp extends CommandOpMode {
 
             updateSlidePosition(utilityGamepad.getRightY());
             updatePivotPosition(-utilityGamepad.getLeftX());
+
+            // REALLY REALLY BAD HACK!!!
+            if (sys.intake.arm.controller.getSetPoint() == Intake.ArmPosition.PICKUP &&
+                    sys.intake.sampleColor.getDistance(DistanceUnit.CM) < 2.25) {
+                utilityGamepad.gamepad.rumble(100);
+            }
 
             // Telemetry
             telemetry.addData("X Pos (mm)", sys.driveBase.odometry.getPosX());

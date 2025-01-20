@@ -63,6 +63,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         new ParallelCommandGroup(
                                 new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
                                 // new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
+                                // new CommandIntakeSetArm(Intake.ArmPosition.HOVER),
                                 new CommandIntakeSetPivot(Intake.PivotPosition.RIGHT),
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
@@ -105,6 +106,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                                 ),
                                 new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
                                 // new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
+                                // new CommandIntakeSetArm(Intake.ArmPosition.HOVER),
                                 new CommandIntakeSetPivot(Intake.PivotPosition.RIGHT)
                         ),
                         new ParallelCommandGroup(
@@ -139,6 +141,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         new ParallelCommandGroup(
                                 new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
                                 // new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
+                                // new CommandIntakeSetArm(Intake.ArmPosition.HOVER),
                                 new CommandFollowTrajectories(autoDrive,
                                     autoDrive.trajectorySequenceBuilder()
                                         .splineToLinearHeading(new Pose2d(-53, -26, Math.toRadians(180)), 9)

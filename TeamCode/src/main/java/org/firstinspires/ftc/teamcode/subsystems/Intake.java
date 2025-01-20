@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -57,11 +58,11 @@ public class Intake extends SubsystemBase {
     public final CRServo frontWheel, backWheel;
 
     /** Color sensor used to determine the color of a loaded sample. */
-    public final ColorSensor sampleColor;
+    public final ColorRangeSensor sampleColor;
 
     /** Motor object for the pivoting arm. This should be used explicitly with target positions and
      *  not power. */
-    public final MotorWithController arm;
+    public final MotorWithPIDController arm;
 
     /** Initializes all members using 'map.' */
     public Intake(HardwareMap map) {
@@ -72,9 +73,8 @@ public class Intake extends SubsystemBase {
         pivot = new ServoWithController(map, "Intake-Pivot");
         pivot.servo.setPosition(PivotPosition.MIDDLE);
 
-        sampleColor = null;
-//        sampleColor = map.get(ColorSensor.class, "Intake-SampleColor"); // TODO
-//        sampleColor.enableLed(true);
+        sampleColor = map.get(ColorRangeSensor.class, "Intake-SampleColor"); // TODO
+        sampleColor.enableLed(true);
 
         arm = new MotorWithPIDController(
                 map, "Intake-Arm", Motor.GoBILDA.RPM_84,
