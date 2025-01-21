@@ -52,7 +52,7 @@ public class Extake extends SubsystemBase {
 
     /** Initializes all members using 'map.' */
     public Extake(HardwareMap map) {
-        liftSecondary = map.get(Motor.class, "Extake-LiftSecondary");
+        liftSecondary = map.get(Motor.class, "Extake-Lift2");
         lift = new MotorWithPIDFController(
                 map, "Extake-Lift", Motor.GoBILDA.RPM_435,
                 new PIDController(
