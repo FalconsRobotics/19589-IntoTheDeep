@@ -4,11 +4,11 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
-public class CommandExtakeSetClimb extends CommandBase {
+public class CommandExtakeSetHook extends CommandBase {
     private final SubsystemsCollection sys;
     private final double position;
 
-    public CommandExtakeSetClimb(double position) {
+    public CommandExtakeSetHook(double position) {
         sys = SubsystemsCollection.getInstance(null);
         // addRequirements(sys.extake);
 
@@ -16,7 +16,7 @@ public class CommandExtakeSetClimb extends CommandBase {
     }
 
     public void initialize() {
-        sys.extake.climb.setPosition(position);
+        sys.extake.hook.setPosition(position);
     }
 
     public boolean isFinished() {
