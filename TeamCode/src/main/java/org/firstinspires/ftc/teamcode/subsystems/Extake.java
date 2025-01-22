@@ -31,11 +31,11 @@ public class Extake extends SubsystemBase {
         public static final int DOWN = 35;
         public static final int UP = 1575;
 
-        public static final int TOP_BUCKET = 1433;
-        public static final int LOWER_BUCKET = 154;
+        public static final int TOP_BUCKET = 1429;
+        public static final int LOWER_BUCKET = 235;
 
-        public static final int TOP_BAR = 1300;
-        public static final int LOWER_BAR = 234;
+        public static final int TOP_BAR = 1274;
+        public static final int LOWER_BAR = 337;
     }
 
     /** Motor controlling tube slide. */
@@ -52,7 +52,7 @@ public class Extake extends SubsystemBase {
 
     /** Initializes all members using 'map.' */
     public Extake(HardwareMap map) {
-        liftSecondary = map.get(Motor.class, "Extake-Lift2");
+        liftSecondary = new Motor(map, "Extake-Lift2");
         lift = new MotorWithPIDFController(
                 map, "Extake-Lift", Motor.GoBILDA.RPM_435,
                 new PIDController(
@@ -66,7 +66,10 @@ public class Extake extends SubsystemBase {
         );
 
         lift.motor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        lift.motor.setInverted(true);
+
         liftSecondary.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        liftSecondary.setInverted(true);
 
         lift.setTarget(LiftPosition.DOWN);
 
