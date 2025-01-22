@@ -21,7 +21,7 @@ public class AutoPositioning extends LinearOpMode {
 
         OdometryLimelightLocalizer localizer = new OdometryLimelightLocalizer(hardwareMap);
 
-        localizer.setPoseEstimate(new Pose2d(144.0, 96.0, Math.toRadians(180)));
+        localizer.setPoseEstimate(new Pose2d(0.0, 0.0, Math.toRadians(180)));
         waitForStart();
 
         while (opModeIsActive()) {

@@ -54,16 +54,16 @@ public class OdometryLimelightLocalizer implements Localizer {
     /** Will be ran every cycle. Using this with AutoDriveUtility will cause it to be ran on outside
      *  of the main thread, so never call this directly if doing so. */
     public void update() {
-        Pose2D visionPos = vision.getFieldPosition(sys.intake);
-
-        // Update for limelight values
-        if((visionPos.getX(DistanceUnit.MM) != 0.0) && visionPos.getY(DistanceUnit.MM) != 0.0) {
-            odometryOffset = new Pose2d(
-                    visionPos.getX(DistanceUnit.INCH) - correctedOdometryPos.getX(),
-                    visionPos.getY(DistanceUnit.INCH) - correctedOdometryPos.getY(),
-                    odometryOffset.getHeading()
-            );
-        }
+//        Pose2D visionPos = vision.getFieldPosition(sys.intake);
+//
+//        // Update for limelight values
+//        if((visionPos.getX(DistanceUnit.MM) != 0.0) && visionPos.getY(DistanceUnit.MM) != 0.0) {
+//            odometryOffset = new Pose2d(
+//                    visionPos.getX(DistanceUnit.INCH) - correctedOdometryPos.getX(),
+//                    visionPos.getY(DistanceUnit.INCH) - correctedOdometryPos.getY(),
+//                    odometryOffset.getHeading()
+//            );
+//        }
 
         // Remember that odometry.setPosition() doesn't seem to work for whatever reason, (likely
         // an implementation issue on my part) so a "correction" must be applied to our initial

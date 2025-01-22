@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.utilities.Geometry;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 
 /** Utility class for managing everything to do with vision on the robot. */
@@ -34,7 +35,7 @@ public class VisionUtility {
     public VisionUtility(HardwareMap map) {
         limelight = map.get(Limelight3A.class, "limelight");
         limelight.setPollRateHz(25); // Can be polled more often but expect the camera to heat up.\
-        limelight.pipelineSwitch(0);   
+        limelight.pipelineSwitch(0);
         limelight.start();
     }
 
@@ -105,14 +106,16 @@ public class VisionUtility {
 
         LLResult result = limelight.getLatestResult();
 
-        if (result.getPipelineIndex() != Pipeline.APRIL_TAGS
-                || intake.leftSlide.servo.getPosition() != Intake.SlidePosition.RETRACTED)
-            return badValue;
+        if (result != null)
+            if (result.getPipelineIndex() != Pipeline.APRIL_TAGS
+                    || intake.leftSlide.servo.getPosition() != Intake.SlidePosition.RETRACTED)
+                return badValue;
 
         List<LLResultTypes.FiducialResult> fiducialResults = result.getFiducialResults();
         Pose3D LLBotPos = null;
         double tagSize = 0;
         double tagAngle = 0;
+        Pose3D botPos = result.getBotpose_MT2();
         for (LLResultTypes.FiducialResult fiducialResult : fiducialResults) {
             // FIXME?: Will only return last colorResult from list. I am unsure if this is intended.
             tagAngle = fiducialResult.getTargetXDegrees();
@@ -122,7 +125,7 @@ public class VisionUtility {
 
         assert LLBotPos != null;
         if(tagSize > .4 || (tagAngle > 10 && tagAngle < -10)){
-            return new Pose2D(DistanceUnit.METER, LLBotPos.getPosition().x, LLBotPos.getPosition().y, AngleUnit.DEGREES, LLBotPos.getOrientation().getYaw());
+            return new Pose2D(DistanceUnit.INCH, LLBotPos.getPosition().x, LLBotPos.getPosition().y, AngleUnit.DEGREES, LLBotPos.getOrientation().getYaw());
         }
 
      return badValue;
