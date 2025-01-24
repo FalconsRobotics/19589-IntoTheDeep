@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests.vision;
 
+import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -17,10 +18,10 @@ import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.vision.VisionUtility;
 
 @TeleOp(name = "Auto Pickup Samples", group = "Tests")
-public class AutopickupSampleTest extends LinearOpMode {
+public class AutopickupSampleTest extends CommandOpMode {
 
     private GamepadEx driverGamepad;
-    public void runOpMode() {
+    public void initialize() {
         SubsystemsCollection.deinit();
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
 
@@ -29,8 +30,6 @@ public class AutopickupSampleTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-
-            driverGamepad = new GamepadEx(gamepad1);
 
             driverGamepad.getGamepadButton(GamepadKeys.Button.B)
                             .whileActiveOnce(new SequentialCommandGroup(
