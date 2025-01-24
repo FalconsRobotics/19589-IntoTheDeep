@@ -119,7 +119,9 @@ public class CommandTeleOp extends CommandOpMode {
                     sys.driveBase.odometry.getHeading() * (180 / Math.PI));
             telemetry.addLine();
             telemetry.addData("Intake Arm Motor Power", sys.intake.arm.motor.get());
+            telemetry.addLine();
             telemetry.addData("Extake Lift Motor Power", sys.extake.lift.motor.get());
+            telemetry.addData("Extake Secondary Lift Motor Power", sys.extake.lift.motor.get());
             telemetry.addLine();
             telemetry.addLine("Drivebase wheel powers:");
             telemetry.addLine(sys.driveBase.mDirect.frontLeft.get() + "\t" + sys.driveBase.mDirect.frontRight.get());
