@@ -13,7 +13,6 @@ public final class ControlConstants {
         public static double KP = 0.0038;
         public static double KI = 0.0;
         public static double KD = 0.00008;
-
         public static double MAX_POWER = 0.865;
         public static int TOLERANCE = 20;
 
@@ -31,7 +30,7 @@ public final class ControlConstants {
         public static double MAX_POWER = 1.0;
         public static int TOLERANCE = 20;
 
-        public static double TARGET_MULTIPLIER = 0.25;
+        public static double TARGET_MULTIPLIER = 0.12;
 
         public static double DOWN_MULTIPLIER = 0.8;
     }

@@ -21,7 +21,6 @@ import org.firstinspires.ftc.teamcode.utilities.vision.VisionUtility;
 @TeleOp(name = "Command TeleOp")
 public class CommandTeleOp extends CommandOpMode {
     // NOTE TO SELF: whenActive() is NOT THE SAME AS whileActiveOnce()!!!!!!!
-
     private SubsystemsCollection sys;
     private GamepadEx driverGamepad, utilityGamepad;
     private DeltaTime deltaTime;
@@ -75,6 +74,7 @@ public class CommandTeleOp extends CommandOpMode {
         sys.intake.pivot.moveServoPosition(input * SPEED_MULTIPLIER * deltaTime.get());
         sys.intake.pivot.clamp(Intake.PivotPosition.RIGHT, Intake.PivotPosition.LEFT);
     }
+
 
     /**
      *  Entry point of OpMode.

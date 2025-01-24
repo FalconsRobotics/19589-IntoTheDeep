@@ -28,14 +28,14 @@ public class Extake extends SubsystemBase {
 
     /** Pre-defined lift positions. */
     public static final class LiftPosition {
-        public static final int DOWN = -35;
-        public static final int UP = -1575;
+        public static final int DOWN = 35;
+        public static final int UP = 1575;
 
-        public static final int TOP_BUCKET = -1150;
-        public static final int LOWER_BUCKET = -175;
+        public static final int TOP_BUCKET = 1150;
+        public static final int LOWER_BUCKET = 175;
 
-        public static final int TOP_BAR = -1274;
-        public static final int LOWER_BAR = -337;
+        public static final int TOP_BAR = 1274;
+        public static final int LOWER_BAR = 337;
     }
 
     /** Motor controlling tube slide. */
@@ -66,10 +66,9 @@ public class Extake extends SubsystemBase {
         );
 
         lift.motor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        lift.motor.setInverted(true);
 
         liftSecondary.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        // liftSecondary.setInverted(true);
+        liftSecondary.setInverted(true);
 
         lift.setTarget(LiftPosition.DOWN);
 
@@ -82,8 +81,6 @@ public class Extake extends SubsystemBase {
 
 
     public void periodic() {
-        // With two motors, their combined breaking powers should be enough to stop the lift.
-
         // TODO: Another silly hacky hacky to reduce speedy speedy going downy downy
         if (!lift.atTarget()) {
             if (lift.controller.getSetPoint() < lift.motor.getCurrentPosition()) {
@@ -93,14 +90,14 @@ public class Extake extends SubsystemBase {
                         lift.regulator.getPowerMultiplier()));
             } else {
                 lift.setMotorPower();
-                liftSecondary.set(lift.motor.get());
             }
-
-            return;
+        } else {
+            lift.motor.set((lift.calculateMotorPower() *
+                    ControlConstants.ExtakeLift.TARGET_MULTIPLIER *
+                    lift.regulator.getPowerMultiplier()));
         }
 
-        lift.motor.stopMotor();
-        liftSecondary.stopMotor();
+        liftSecondary.set(lift.motor.get());
     }
 
 

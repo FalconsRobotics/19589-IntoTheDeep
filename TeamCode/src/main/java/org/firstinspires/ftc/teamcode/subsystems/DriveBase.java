@@ -51,6 +51,7 @@ public class DriveBase extends SubsystemBase {
                 mDirect.backLeft, mDirect.backRight);
         // Sometimes this works and sometimes it doesn't!
         mDirect.frontLeft.setInverted(true);
+        mDirect.backRight.setInverted(true);
 
         odometry = map.get(GoBildaPinpointDriver.class, "DriveBase-Odometry");
 

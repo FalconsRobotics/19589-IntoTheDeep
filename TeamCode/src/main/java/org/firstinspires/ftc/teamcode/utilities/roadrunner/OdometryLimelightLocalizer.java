@@ -74,9 +74,10 @@ public class OdometryLimelightLocalizer implements Localizer {
 
         Pose2D oPos2D = sys.driveBase.odometry.getPosition();
         Geometry.Vector2D oPos = new Geometry.Vector2D(oPos2D.getX(DistanceUnit.INCH), oPos2D.getY(DistanceUnit.INCH));
+        oPos = Geometry.rotate(oPos, odometryOffset.getHeading()); // Could ruin everything... !!!
 
         correctedOdometryPos = new Pose2d(
-                oPos.x + odometryOffset.getX(),
+                -oPos.x + odometryOffset.getX(),
                 oPos.y + odometryOffset.getY(),
                 oPos2D.getHeading(AngleUnit.RADIANS) + odometryOffset.getHeading()
         );
