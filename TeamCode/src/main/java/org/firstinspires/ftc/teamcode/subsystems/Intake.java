@@ -28,8 +28,11 @@ public class Intake extends SubsystemBase {
     /** Pre-defined intake pivoting positions */
     public static final class PivotPosition {
         public static final double RIGHT = 0.15;
-        public static final double LEFT = 0.815;
+        public static final double RIGHT_45 = 0.325;
         public static final double MIDDLE = 0.5;
+        public static final double LEFT_45 = 0.815;
+        public static final double LEFT = 0.815;
+
     }
 
     /** Pre-defined arm positions. */

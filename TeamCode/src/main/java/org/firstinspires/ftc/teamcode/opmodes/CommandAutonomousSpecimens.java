@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
-@Autonomous(name = "Autonomous W.M.D. - 5specimens", preselectTeleOp = "Command TeleOp")
+@Autonomous(name = "Autonomous W.M.D. - 5specimens")
 public class CommandAutonomousSpecimens extends CommandOpMode {
     private SubsystemsCollection sys;
     private AutoDriveUtility autoDrive;
@@ -66,20 +66,20 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                                         new CommandFollowTrajectories(autoDrive,
                                                 autoDrive.trajectorySequenceBuilder()
         //                                              .splineToLinearHeading(new Pose2d(-1, -30, Math.toRadians(0)), Math.toRadians(90 - 1e+6))
-                                                        .lineToLinearHeading(new Pose2d(5, -30, Math.toRadians(0)))
+                                                        .lineToLinearHeading(new Pose2d(5, -29, Math.toRadians(0)))
                                         ),
                                         new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR)
                                 ),
                                 new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
-                                                .splineToConstantHeading(new Vector2d(60, -63), Math.toRadians(270)) // Same deal with the positioning. Facing right it should be around 60.
+                                                .splineToConstantHeading(new Vector2d(59, -63), Math.toRadians(270))
                                 ),
                                 new ParallelCommandGroup(
                                         new CommandFollowTrajectories(autoDrive,
                                                 autoDrive.trajectorySequenceBuilder()
         //                                              .splineToLinearHeading(new Pose2d(2, -30, Math.toRadians(180)), Math.toRadians(90 - 1e+6))
-                                                        .lineToLinearHeading(new Pose2d(2, -30, Math.toRadians(180)))
+                                                        .lineToLinearHeading(new Pose2d(2, -29, Math.toRadians(180)))
                                         ),
                                         new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR)
                                 ),
@@ -88,8 +88,7 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                                 /// Park by collecting the next specimen
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
-                                                .splineToConstantHeading(new Vector2d(44, -62.625), Math.toRadians(270))
-
+                                                .splineToConstantHeading(new Vector2d(41, -62.625), Math.toRadians(270))
                                 )
                         ),
 
