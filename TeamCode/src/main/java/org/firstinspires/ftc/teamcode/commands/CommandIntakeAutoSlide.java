@@ -12,6 +12,7 @@ public class CommandIntakeAutoSlide extends CommandBase {
     private final SubsystemsCollection sys;
     private final VisionUtility vision;
     private double position;
+    private double distance;
 
     private static final double NO_POSITION_FOUND = 1.0;
 
@@ -21,13 +22,18 @@ public class CommandIntakeAutoSlide extends CommandBase {
         position = NO_POSITION_FOUND;
     }
 
-    public void execute(){
-        double distance = vision.findDistanceToBlock();
+    public void execute() {
+        distance = vision.findDistanceToBlock();
+
         while(distance > 2 || distance < -2){
             position += .05 * Math.signum(distance);
             sys.intake.moveSlidePosition(position);
             sys.intake.setSlidePosition(Clamp.clamp(sys.intake.leftSlide.servo.getPosition(), Intake.SlidePosition.EXTENDED, Intake.SlidePosition.RETRACTED));
             distance = vision.findDistanceToBlock();
         }
+    }
+
+    public boolean isFinished() {
+        return distance > 2 || distance < -2;
     }
 }

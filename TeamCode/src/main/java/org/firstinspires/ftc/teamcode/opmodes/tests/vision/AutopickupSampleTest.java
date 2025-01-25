@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests.vision;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -23,29 +24,28 @@ public class AutopickupSampleTest extends CommandOpMode {
     private GamepadEx driverGamepad;
     public void initialize() {
         SubsystemsCollection.deinit();
-        SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
 
-        VisionUtility vision = new VisionUtility(hardwareMap);
         driverGamepad = new GamepadEx(gamepad1);
         waitForStart();
 
         while (opModeIsActive()) {
 
             driverGamepad.getGamepadButton(GamepadKeys.Button.B)
-                            .whileActiveOnce(new SequentialCommandGroup(
-                                    new ParallelDeadlineGroup(
-                                        new CommandAutoStrafe(hardwareMap),
-                                        new CommandIntakeAutoSlide(hardwareMap),
-                                        new CommandIntakeAutoPivot(hardwareMap)
-                                    )));
+                            .whileActiveContinuous(
+                                    new ParallelCommandGroup(
+                                            new CommandAutoStrafe(hardwareMap),
+                                            new CommandIntakeAutoSlide(hardwareMap),
+                                            new CommandIntakeAutoPivot(hardwareMap)
+                                    )
+                            );
 
             driverGamepad.getGamepadButton(GamepadKeys.Button.A)
-                            .whileActiveOnce(new SequentialCommandGroup(
-                                    new ParallelDeadlineGroup(
-                                    new CommandIntakeSetSlide(Intake.SlidePosition.RETRACTED),
-                                    new CommandIntakeSetArm(Intake.ArmPosition.HOVER)
-                            )));
-
+                            .whileActiveContinuous(
+                                    new ParallelCommandGroup(
+                                            new CommandIntakeSetSlide(Intake.SlidePosition.RETRACTED),
+                                            new CommandIntakeSetArm(Intake.ArmPosition.HOVER)
+                                    )
+                            );
 
             telemetry.update();
         }

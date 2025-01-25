@@ -30,8 +30,8 @@ public class CommandAutonomousSample extends CommandOpMode {
         SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
 
-        // -40.3, -63, rad(90)
-        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(-39.125, -63.125, Math.toRadians(180)));
+        // -40.3, -63, rad(90), Math.toRadians(180)
+        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(-39.125, -63.125, 0));
 
         waitForStart();
 

@@ -12,6 +12,7 @@ public class CommandIntakeAutoPivot extends CommandBase {
     private final SubsystemsCollection sys;
     private final VisionUtility vision;
     private double position;
+    private double distance;
 
     private static final double NO_POSITION_FOUND = 1.0;
 

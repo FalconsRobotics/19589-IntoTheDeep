@@ -12,6 +12,8 @@ public class CommandAutoStrafe extends CommandBase {
     private final SubsystemsCollection sys;
     private final VisionUtility vision;
 
+    private double distance = 0.0;
+
     private static final double NO_POSITION_FOUND = 1.0;
     public CommandAutoStrafe(HardwareMap hardwareMap){
         sys = SubsystemsCollection.getInstance(null);
@@ -19,7 +21,7 @@ public class CommandAutoStrafe extends CommandBase {
     }
 
     public void execute() {
-        double distance = vision.findStrafeToBlock();
+        distance = vision.findStrafeToBlock();
 
         while(distance > 2 || distance < -2){
             final double power = .2 + distance * 0.05;
@@ -31,5 +33,9 @@ public class CommandAutoStrafe extends CommandBase {
             distance = vision.findStrafeToBlock();
         }
 
+    }
+
+    public boolean isFinished() {
+        return distance > 2 || distance < -2;
     }
 }
