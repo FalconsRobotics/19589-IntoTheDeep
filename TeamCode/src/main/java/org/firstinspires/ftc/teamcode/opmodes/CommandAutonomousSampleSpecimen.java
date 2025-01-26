@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
-@Autonomous(name = "Autonomous W.M.D - 4Samples + Specimen", preselectTeleOp = "Command TeleOp")
+@Autonomous(name = "W.M.D - Samples with Specimen", preselectTeleOp = "Command TeleOp")
 public class CommandAutonomousSampleSpecimen extends CommandOpMode {
     private SubsystemsCollection sys;
     private AutoDriveUtility autoDrive;
@@ -44,7 +44,7 @@ public class CommandAutonomousSampleSpecimen extends CommandOpMode {
                                 new CommandExtakeSetBucket(0.8),
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
-                                                .lineToConstantHeading(new Vector2d(-14, -29))
+                                                .lineToConstantHeading(new Vector2d(-14, -33))
                                 )
                         ),
                         new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
@@ -58,7 +58,7 @@ public class CommandAutonomousSampleSpecimen extends CommandOpMode {
                                 new CommandIntakeSetPivot(0.35),
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
-                                                .splineToLinearHeading(new Pose2d(-35.8, -33.4, Math.toRadians(145)), 3)
+                                                .splineToLinearHeading(new Pose2d(-35.8, -37.4, Math.toRadians(145)), 3)
                                 )
                         ),
                         new ParallelCommandGroup(
