@@ -12,6 +12,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.*;
+import org.firstinspires.ftc.teamcode.utilities.Clamp;
 import org.firstinspires.ftc.teamcode.utilities.DeltaTime;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
@@ -27,28 +28,43 @@ public class PivotToBlock extends LinearOpMode {
         SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
 
         VisionUtility vision = new VisionUtility(hardwareMap);
+        double distance = vision.findDistanceToBlock();
+        double position = 1;
+
         waitForStart();
 
         while (opModeIsActive()) {
-            double angle = vision.findBlockAngle(0);
+//            double angle = vision.findBlockAngle(0);
+//
+//            if(angle <= 6 || angle >= 170) {
+//                sys.intake.pivot.servo.setPosition(Intake.PivotPosition.MIDDLE);
+//                telemetry.addData("Angle: ", angle);
+//            } else if(angle > 6 && angle <= 80) {
+//                sys.intake.pivot.servo.setPosition(Intake.PivotPosition.LEFT);
+//                telemetry.addData("Angle: ", angle);
+//            } else if(angle > 80 && angle <= 120) {
+//                sys.intake.pivot.servo.setPosition(Intake.PivotPosition.RIGHT);
+//                telemetry.addData("Angle: ", angle);
+//            } else if(angle > 120 && angle < 170){
+//                sys.intake.pivot.servo.setPosition(Intake.PivotPosition.MIDDLE);
+//                telemetry.addData("Angle: ", angle);
+//            }
+//
 
-            if(angle <= 6 || angle >= 170) {
-                sys.intake.pivot.servo.setPosition(Intake.PivotPosition.MIDDLE);
-                telemetry.addData("Angle: ", angle);
-            } else if(angle > 6 && angle <= 80) {
-                sys.intake.pivot.servo.setPosition(Intake.PivotPosition.LEFT);
-                telemetry.addData("Angle: ", angle);
-            } else if(angle > 80 && angle <= 120) {
-                sys.intake.pivot.servo.setPosition(Intake.PivotPosition.RIGHT);
-                telemetry.addData("Angle: ", angle);
-            } else if(angle > 120 && angle < 170){
-                sys.intake.pivot.servo.setPosition(Intake.PivotPosition.MIDDLE);
-                telemetry.addData("Angle: ", angle);
+
+
+
+            while(distance > 2 || distance < -2){
+                position -= .001 * Math.signum(distance);
+                sys.intake.setSlidePosition(position);
+                //sys.intake.setSlidePosition(Clamp.clamp(sys.intake.leftSlide.servo.getPosition(), Intake.SlidePosition.EXTENDED, Intake.SlidePosition.RETRACTED));
+                distance = vision.findDistanceToBlock();
+                telemetry.addData("position: ", position);
+                telemetry.addData("Y: ", vision.findDistanceToBlock());
+                telemetry.update();
             }
 
-            if(vision.findDistanceToBlock() > 2 || vision.findDistanceToBlock() < 2){
-                new CommandIntakeSetSlide(vision.findDistanceToBlock());
-            }
+
             telemetry.update();
         }
     }
