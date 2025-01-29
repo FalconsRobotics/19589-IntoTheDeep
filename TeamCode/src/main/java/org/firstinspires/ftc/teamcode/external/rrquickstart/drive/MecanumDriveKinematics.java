@@ -86,7 +86,7 @@ public class MecanumDriveKinematics extends MecanumDrive {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
 
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,
-                new Pose2d(0.75, 0.75, Math.toRadians(5.0)), 0.05);
+                new Pose2d(0.5, 0.5, Math.toRadians(4.0)), 0.05);
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 
