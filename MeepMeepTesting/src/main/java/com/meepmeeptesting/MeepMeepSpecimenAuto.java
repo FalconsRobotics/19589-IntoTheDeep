@@ -22,8 +22,23 @@ public class MeepMeepSpecimenAuto {
                 .setDimensions(12.75, 17.75)
                 .setDriveTrainType(DriveTrainType.MECANUM)
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(startPos)
-                        .lineToConstantHeading(new Vector2d(-1, -30))
-                        .splineToLinearHeading(new Pose2d(24, -48, Math.toRadians(45)), Math.toRadians(0))
+                        .lineToConstantHeading(new Vector2d(-1, -30))                                        // Place preload on bar.
+
+                        .lineToLinearHeading(new Pose2d(29, -47, Math.toRadians(45)))                       // Extend arm. Pickup left on ground.
+                        .turn(Math.toRadians(-90))                                                                 // Place at human player.
+                        .lineToLinearHeading(new Pose2d(39, -47, Math.toRadians(45)))                       // Extend arm. Pickup middle on ground.
+                        .turn(Math.toRadians(-90))                                                                // Place at human player.
+
+                        /// X is calculated by adding ~5 to 48.
+                        .splineToLinearHeading(new Pose2d(48, -63, Math.toRadians(0)), Math.toRadians(-90)) // Fix to 0deg and pickup the second specimen.
+                        .lineToLinearHeading(new Pose2d(-1, -30, Math.toRadians(180)))                      // Rotate to 180deg and go to bar.
+
+                        /// X is calculated by subtracting ~5 to 48.
+                        .splineToLinearHeading(new Pose2d(48, -63, Math.toRadians(180)), Math.toRadians(-90)) // Fix to 180deg and pickup the second specimen.
+                        .lineToLinearHeading(new Pose2d(-1, -30, Math.toRadians(0)))                      // Rotate to 0deg and go to bar.
+
+                        .splineToLinearHeading(new Pose2d(48, -63, Math.toRadians(0)), Math.toRadians(-90)) // Fix to 0deg and pickup the second specimen.
+                        .lineToLinearHeading(new Pose2d(-1, -30, Math.toRadians(180)))                      // Rotate to 180deg and go to bar.
 
                         .build());
 
