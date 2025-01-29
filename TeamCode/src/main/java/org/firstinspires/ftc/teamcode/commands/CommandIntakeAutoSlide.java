@@ -26,9 +26,9 @@ public class CommandIntakeAutoSlide extends CommandBase {
         distance = vision.findDistanceToBlock();
 
         while(distance > 2 || distance < -2){
-            position += .05 * Math.signum(distance);
-            sys.intake.moveSlidePosition(position);
-            sys.intake.setSlidePosition(Clamp.clamp(sys.intake.leftSlide.servo.getPosition(), Intake.SlidePosition.EXTENDED, Intake.SlidePosition.RETRACTED));
+            position -= .001 * Math.signum(distance);
+            sys.intake.setSlidePosition(position);
+            //sys.intake.setSlidePosition(Clamp.clamp(sys.intake.leftSlide.servo.getPosition(), Intake.SlidePosition.EXTENDED, Intake.SlidePosition.RETRACTED));
             distance = vision.findDistanceToBlock();
         }
     }

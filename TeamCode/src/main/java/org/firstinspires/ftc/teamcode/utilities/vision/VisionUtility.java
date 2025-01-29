@@ -45,7 +45,7 @@ public class VisionUtility {
         double distance = 0;
 
         for(LLResultTypes.ColorResult colorResult : colorResults){
-            distance = colorResult.getTargetYPixels();
+            distance = colorResult.getTargetYDegrees();
         }
         return distance;
     }
@@ -56,7 +56,7 @@ public class VisionUtility {
         double distance = 0;
 
         for(LLResultTypes.ColorResult colorResult : colorResults){
-            distance = colorResult.getTargetXPixels();
+            distance = colorResult.getTargetXDegrees();
         }
         return distance;
     }
@@ -101,6 +101,7 @@ public class VisionUtility {
     }
 
     public Pose2D getFieldPosition(Intake intake) {
+        limelight.pipelineSwitch(3);
         // Value returned if conditions are not ideal for gathering field position.
         final Pose2D badValue = new Pose2D(DistanceUnit.MM, 0.0, 0.0,AngleUnit.DEGREES,0.0);
 
