@@ -28,8 +28,8 @@ public class MeepMeepSampleAuto {
                         //.lineToLinearHeading(new Pose2d(-58, -33, Math.toRadians(90))) /* Sample 2 */
                         //.lineToLinearHeading(new Pose2d(-57, -55, Math.toRadians(45))) /* Bucket */
                         //.splineToLinearHeading(new Pose2d(-60, -24, Math.toRadians(180)), 9)
-                        .lineToLinearHeading(new Pose2d(-40, -12, Math.toRadians(90)))
-                        .lineToLinearHeading(new Pose2d(-20, -12, Math.toRadians(90)))
+                        .lineToLinearHeading(new Pose2d(-54.25, -54.25, Math.toRadians(45)))
+                        .splineToLinearHeading(new Pose2d(-24, -12, Math.toRadians(0)), 6)
                         .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTOTHEDEEP_JUICE_DARK)
