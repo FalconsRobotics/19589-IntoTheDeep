@@ -35,7 +35,7 @@ public class CommandAutonomousSample extends CommandOpMode {
         int loadTimer = 300; // Timer for time it takes to suck the sample off the ground. Might not be needed?
         int spitTimer = 325; // Timer for the time it takes to spit the sample from intake to the extake bucket
         int bucketTimer = 500; // Timer for the extake to extake into top bucket.
-        int driveDelay = 1500; // Timer for the delay (MS) between spitting into bucket and driving to net zone
+        int driveDelay = 400; // Timer for the delay (MS) between spitting into bucket and driving to net zone
         double extakePrepareExtake = 0.6; //Bucket pos for preparing extake
 
         // -40.3, -63, rad(90), Math.toRadians(180)
@@ -194,7 +194,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         new ParallelDeadlineGroup(
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
-                                                .splineToLinearHeading(new Pose2d(-24, -12, Math.toRadians(0)), 6)
+                                                .splineToLinearHeading(new Pose2d(-16, -12, Math.toRadians(0)), 6)
                                 ),
                                 new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
                                 new CommandIntakeSetArm(Intake.ArmPosition.HOVER),
@@ -202,6 +202,10 @@ public class CommandAutonomousSample extends CommandOpMode {
                                         new CommandTimer(200),
                                         new CommandExtakeSetLift(Extake.LiftPosition.DOWN)
                                 )
+                        ),
+
+                        new ParallelDeadlineGroup(
+
                         )
 
                         /// Level 1 ascent!!!
