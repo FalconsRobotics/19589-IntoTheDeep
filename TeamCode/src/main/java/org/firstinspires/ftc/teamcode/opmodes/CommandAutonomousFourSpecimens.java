@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
-@Autonomous(name = "Autonomous W.M.D. - 5specimens")
+@Autonomous(name = "Autonomous W.M.D. - Four Specimens")
 public class CommandAutonomousFourSpecimens extends CommandOpMode {
     private SubsystemsCollection sys;
     private AutoDriveUtility autoDrive;
@@ -43,27 +43,30 @@ public class CommandAutonomousFourSpecimens extends CommandOpMode {
                                 new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
-                                                .lineToConstantHeading(new Vector2d(-1, -30))
+                                                .lineToConstantHeading(new Vector2d(-1, -29))
                                 )
                         ),
                         new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
-
-                        new ParallelCommandGroup(
-                                new CommandFollowTrajectories(autoDrive,
-                                        autoDrive.trajectorySequenceBuilder()
-                                                .lineToLinearHeading(new Pose2d(29, -47, Math.toRadians(45)))
-                                ),
-                                new CommandIntakeSetSlide(Intake.SlidePosition.EXTENDED),
-                                new CommandIntakeSetArm(Intake.ArmPosition.HOVER)
-                        ),
-                        new ParallelDeadlineGroup(
-                                new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 250),
-                                new CommandIntakeSetArm(Intake.ArmPosition.HOVER)
-                        ),
-                        new CommandIntakeSetArm(Intake.ArmPosition.PICKUP),
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                        .turn(-90)
+                                        .lineToLinearHeading(new Pose2d(36, -38.5, Math.toRadians(45)))
+                        ),
+                        new ParallelDeadlineGroup(
+                                new CommandTimer(500),
+                                new CommandIntakeSetSlide(Intake.SlidePosition.EXTENDED),
+                                new CommandIntakeSetArm(Intake.ArmPosition.HOVER),
+                                new CommandIntakeSetPivot(Intake.PivotPosition.RIGHT_45)
+                        ),
+                        new ParallelCommandGroup(
+                                new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 750),
+                                new CommandIntakeSetArm(Intake.ArmPosition.PICKUP)
+                        ),
+                        new ParallelCommandGroup(
+                                new CommandIntakeSetArm(Intake.ArmPosition.HOVER),
+                                new CommandFollowTrajectories(autoDrive,
+                                        autoDrive.trajectorySequenceBuilder()
+                                                .turn(-90)
+                                )
                         ),
                         new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 200)
                 ),

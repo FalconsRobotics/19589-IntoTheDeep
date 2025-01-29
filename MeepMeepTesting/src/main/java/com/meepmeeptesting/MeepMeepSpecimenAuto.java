@@ -12,7 +12,7 @@ public class MeepMeepSpecimenAuto {
     public static void main(String[] args) {
         System.setProperty("sun.java2d.opengl", "true");
 
-        Pose2d startPos = new Pose2d(9, -63, Math.toRadians(0));
+        Pose2d startPos = new Pose2d(9, -63, Math.toRadians(180));
 
         MeepMeep meepMeep = new MeepMeep(900);
 
