@@ -65,7 +65,7 @@ public class CommandAutonomousFourSpecimens extends CommandOpMode {
                                 new CommandIntakeSetArm(Intake.ArmPosition.HOVER),
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
-                                                .turn(-90)
+                                                .turn(Math.toRadians(-90))
                                 )
                         ),
                         new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 200)
