@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -14,28 +15,38 @@ public class CommandAutoStrafe extends CommandBase {
 
     private double distance = 0.0;
 
+    // For setting
+    private final boolean useExternalDriveCommands;
+    private final boolean driveRobotCentric;
+
     private static final double NO_POSITION_FOUND = 1.0;
     public CommandAutoStrafe(HardwareMap hardwareMap){
         sys = SubsystemsCollection.getInstance(null);
         vision = new VisionUtility(hardwareMap);
+
+        useExternalDriveCommands = sys.driveBase.useExternalDriveCommands;
+        driveRobotCentric = sys.driveBase.driveRobotCentric;
+
+        sys.driveBase.useExternalDriveCommands = false;
+        sys.driveBase.driveRobotCentric = true;
     }
 
     public void execute() {
         distance = vision.findStrafeToBlock();
+        sys.driveBase.motorPowers = new Pose2d(0.0, 0.0, 0.0);
 
-        while(distance > 2 || distance < -2){
+        if (distance > 2 || distance < -2) {
             final double power = .2 + distance * 0.05;
-            new CommandDriveBaseDriveFieldCentric(
-                    () -> power,
-                    () -> 0,
-                    () -> 0
-            );
-            distance = vision.findStrafeToBlock();
+            sys.driveBase.motorPowers = new Pose2d(0, power, 0);
         }
+    }
 
+    public void end(boolean interrupted) {
+        sys.driveBase.useExternalDriveCommands = useExternalDriveCommands;
+        sys.driveBase.driveRobotCentric = driveRobotCentric;
     }
 
     public boolean isFinished() {
-        return distance > 2 || distance < -2;
+        return distance < 2 && distance > -2;
     }
 }

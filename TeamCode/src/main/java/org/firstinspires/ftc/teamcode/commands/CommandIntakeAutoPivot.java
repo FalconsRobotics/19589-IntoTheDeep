@@ -26,7 +26,7 @@ public class CommandIntakeAutoPivot extends CommandBase {
         double angle = vision.findBlockAngle(0);
         if (angle == 1.0) return;
 
-        if(angle > 6 && angle <= 80) {
+        if (angle > 6 && angle <= 80) {
             position = Intake.PivotPosition.RIGHT;
         } else {
             position = Intake.PivotPosition.MIDDLE;

@@ -9,13 +9,17 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
+import org.firstinspires.ftc.teamcode.commands.CommandAutoStrafe;
 import org.firstinspires.ftc.teamcode.commands.CommandExtakeSetBucket;
 import org.firstinspires.ftc.teamcode.commands.CommandExtakeSetLift;
 import org.firstinspires.ftc.teamcode.commands.CommandFollowTrajectories;
+import org.firstinspires.ftc.teamcode.commands.CommandIntakeAutoPivot;
+import org.firstinspires.ftc.teamcode.commands.CommandIntakeAutoSlide;
 import org.firstinspires.ftc.teamcode.commands.CommandIntakeRotateWheels;
 import org.firstinspires.ftc.teamcode.commands.CommandIntakeSetArm;
 import org.firstinspires.ftc.teamcode.commands.CommandIntakeSetPivot;
 import org.firstinspires.ftc.teamcode.commands.CommandIntakeSetSlide;
+import org.firstinspires.ftc.teamcode.commands.CommandLimelightStatus;
 import org.firstinspires.ftc.teamcode.commands.CommandRun;
 import org.firstinspires.ftc.teamcode.commands.CommandTimer;
 import org.firstinspires.ftc.teamcode.subsystems.Extake;
@@ -35,7 +39,7 @@ public class CommandAutonomousSample extends CommandOpMode {
         int loadTimer = 300; // Timer for time it takes to suck the sample off the ground. Might not be needed?
         int spitTimer = 325; // Timer for the time it takes to spit the sample from intake to the extake bucket
         int bucketTimer = 500; // Timer for the extake to extake into top bucket.
-        int driveDelay = 400; // Timer for the delay (MS) between spitting into bucket and driving to net zone
+        int driveDelay = 450; // Timer for the delay (MS) between spitting into bucket and driving to net zone
         double extakePrepareExtake = 0.6; //Bucket pos for preparing extake
 
         // -40.3, -63, rad(90), Math.toRadians(180)
@@ -86,7 +90,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         ),
                         new ParallelCommandGroup(
                                 new SequentialCommandGroup(
-                                        new CommandTimer(driveDelay),
+                                        new CommandTimer(driveDelay + 170),
                                         new CommandFollowTrajectories(autoDrive,
                                                 autoDrive.trajectorySequenceBuilder()
                                                         .splineToLinearHeading(new Pose2d(-54.25, -54.25, Math.toRadians(45)), 10)
@@ -96,8 +100,8 @@ public class CommandAutonomousSample extends CommandOpMode {
                                         new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE),
                                         new CommandIntakeSetArm(Intake.ArmPosition.UNLOAD),
                                         new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, spitTimer),
+                                        new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
                                             new ParallelCommandGroup(
-                                                    new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
                                                     new CommandExtakeSetLift(Extake.LiftPosition.TOP_BUCKET),
                                                     new CommandExtakeSetBucket(extakePrepareExtake)
                                             )
@@ -138,8 +142,8 @@ public class CommandAutonomousSample extends CommandOpMode {
                                         new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE),
                                         new CommandIntakeSetArm(Intake.ArmPosition.UNLOAD),
                                         new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, spitTimer),
+                                        new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
                                             new ParallelCommandGroup(
-                                                    new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
                                                     new CommandExtakeSetLift(Extake.LiftPosition.TOP_BUCKET),
                                                     new CommandExtakeSetBucket(extakePrepareExtake)
                                             )
@@ -164,7 +168,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         ),
                         new ParallelCommandGroup(
                                 new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
-                                new CommandIntakeSetArm(Intake.ArmPosition.PICKUP),
+                                new CommandIntakeSetArm(-40), // Hack for intaking this sample. I assume there is a tolerance issue
                                 new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, (loadTimer - 100)) // Cool hack! :D
                         ),
                         new ParallelCommandGroup(
@@ -179,8 +183,8 @@ public class CommandAutonomousSample extends CommandOpMode {
                                         new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE),
                                         new CommandIntakeSetArm(-1060), // Position hack because it was dropping for some reason
                                         new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, spitTimer),
+                                        new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
                                         new ParallelCommandGroup(
-                                                new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
                                                 new CommandExtakeSetLift(Extake.LiftPosition.TOP_BUCKET),
                                                 new CommandExtakeSetBucket(extakePrepareExtake)
                                         )
@@ -190,7 +194,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         new CommandTimer(bucketTimer),
 
                         // Going to submersible and getting a 5th sample!
-
+                        /*
                         new ParallelDeadlineGroup(
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
@@ -204,12 +208,45 @@ public class CommandAutonomousSample extends CommandOpMode {
                                 )
                         ),
 
+                        new CommandLimelightStatus(hardwareMap, CommandLimelightStatus.LimelightStatus.Start),
+
+                        new ParallelCommandGroup(
+                                new CommandIntakeAutoSlide(hardwareMap),
+                                new CommandIntakeAutoPivot(hardwareMap),
+                                new CommandAutoStrafe(hardwareMap)
+                        ),
+
                         new ParallelDeadlineGroup(
+                                new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, loadTimer),
+                                new CommandIntakeSetArm(Intake.ArmPosition.PICKUP)
+                        ),
 
-                        )
+                        new CommandLimelightStatus(hardwareMap, CommandLimelightStatus.LimelightStatus.Stop),
 
+                        new ParallelCommandGroup(
+                                new SequentialCommandGroup(
+                                        new CommandFollowTrajectories(autoDrive,
+                                                autoDrive.trajectorySequenceBuilder()
+                                                        .back(20)
+                                                        .lineToLinearHeading(new Pose2d(-54.25, -54.25, Math.toRadians(45)))
+                                        )
+                                ),
+                                new SequentialCommandGroup(
+                                        new CommandIntakeSetPivot(Intake.PivotPosition.MIDDLE),
+                                        new CommandIntakeSetArm(-1060), // Position hack because it was dropping for some reason
+                                        new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, spitTimer),
+                                        new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
+                                        new ParallelCommandGroup(
+                                                new CommandExtakeSetLift(Extake.LiftPosition.TOP_BUCKET),
+                                                new CommandExtakeSetBucket(extakePrepareExtake)
+                                        )
+                                )
+                        ),
+                        new CommandExtakeSetBucket(Extake.BucketPosition.UNLOAD),
+                        new CommandTimer(bucketTimer)
+                        */
                         /// Level 1 ascent!!!
-                        /* new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
+                        new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
                                         .lineToLinearHeading(new Pose2d(-40, -8, Math.toRadians(90)))
@@ -226,7 +263,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                             sys.extake.lift.motor.set(-0.1);
                             requestOpModeStop();
                             return true; // finish!!!!!!!!!
-                        }) */
+                        })
                         //</editor-fold>
                 ),
 

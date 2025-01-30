@@ -27,7 +27,7 @@ public class Extake extends SubsystemBase {
 
     /** Pre-defined lift positions. */
     public static final class LiftPosition {
-        public static final int DOWN = 35;
+        public static final int DOWN = 20;
         public static final int UP = 1575;
 
         public static final int TOP_BUCKET = 1150;
