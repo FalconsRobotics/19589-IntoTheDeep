@@ -89,6 +89,8 @@ public class CommandTeleOp extends CommandOpMode {
 
         sys.driveBase.useExternalDriveCommands = false;
 
+        vision.limelight.start();
+
         schedule(new CommandRun(() -> {
             sys.driveBase.odometry.update();
 
@@ -302,5 +304,8 @@ public class CommandTeleOp extends CommandOpMode {
                 ),
                 new CommandExtakeSetBucket(Extake.BucketPosition.UNLOAD)
             ));
+
+        utilityGamepad.getGamepadButton(GamepadKeys.Button.START)
+                .whileActiveOnce(new CommandIntakeAutoPivot(hardwareMap));
     }
 }
