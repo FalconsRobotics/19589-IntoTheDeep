@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.commands.CommandExtakeSetBucket;
 import org.firstinspires.ftc.teamcode.commands.CommandExtakeSetLift;
@@ -21,6 +22,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
+@Disabled
 @Autonomous(name = "W.M.D - Samples with Specimen", preselectTeleOp = "Command TeleOp")
 public class CommandAutonomousSampleSpecimen extends CommandOpMode {
     private SubsystemsCollection sys;

@@ -79,7 +79,7 @@ public class CommandAutonomousSpecimens extends CommandOpMode {
                                         new CommandFollowTrajectories(autoDrive,
                                                 autoDrive.trajectorySequenceBuilder()
         //                                              .splineToLinearHeading(new Pose2d(2, -30, Math.toRadians(180)), Math.toRadians(90 - 1e+6))
-                                                        .lineToLinearHeading(new Pose2d(2, -29, Math.toRadians(180)))
+                                                        .lineToLinearHeading(new Pose2d(2, -30, Math.toRadians(180)))
                                         ),
                                         new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR)
                                 ),

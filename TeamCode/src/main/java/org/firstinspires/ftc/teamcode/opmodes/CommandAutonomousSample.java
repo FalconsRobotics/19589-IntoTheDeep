@@ -38,9 +38,9 @@ public class CommandAutonomousSample extends CommandOpMode {
 
         int loadTimer = 300; // Timer for time it takes to suck the sample off the ground. Might not be needed?
         int spitTimer = 325; // Timer for the time it takes to spit the sample from intake to the extake bucket
-        int bucketTimer = 500; // Timer for the extake to extake into top bucket.
+        int bucketTimer = 620; // Timer for the extake to extake into top bucket.
         int driveDelay = 450; // Timer for the delay (MS) between spitting into bucket and driving to net zone
-        double extakePrepareExtake = 0.6; //Bucket pos for preparing extake
+        double extakePrepareExtake = 0.7; //Bucket pos for preparing extake
 
         // -40.3, -63, rad(90), Math.toRadians(180)
         autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(-39.125, -63.125, Math.toRadians(180)));
@@ -73,7 +73,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         new ParallelDeadlineGroup(
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
-                                                .lineToLinearHeading(new Pose2d(-47, -39.5, Math.toRadians(90)))
+                                                .lineToLinearHeading(new Pose2d(-47, -39.3, Math.toRadians(90)))
                                 ),
                                 new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
                                 new CommandIntakeSetArm(Intake.ArmPosition.HOVER),
@@ -115,7 +115,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         new ParallelDeadlineGroup(
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
-                                                .lineToLinearHeading(new Pose2d(-56.5, -39.5, Math.toRadians(90)))
+                                                .lineToLinearHeading(new Pose2d(-56.5, -39.3, Math.toRadians(90)))
                                 ),
                                 new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
                                 new CommandIntakeSetArm(Intake.ArmPosition.HOVER),
@@ -157,7 +157,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         new ParallelDeadlineGroup(
                                 new CommandFollowTrajectories(autoDrive,
                                         autoDrive.trajectorySequenceBuilder()
-                                                .splineToLinearHeading(new Pose2d(-53, -26, Math.toRadians(180)), 9)
+                                                .splineToLinearHeading(new Pose2d(-52.5, -26, Math.toRadians(180)), 9)
                                 ),
                                 new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
                                 new CommandIntakeSetArm(Intake.ArmPosition.HOVER),
