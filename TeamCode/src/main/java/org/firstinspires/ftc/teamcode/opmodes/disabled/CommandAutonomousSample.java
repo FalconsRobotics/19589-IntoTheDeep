@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.teamcode.opmodes.disabled;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -8,18 +8,13 @@ import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.robotcore.internal.system.Deadline;
-import org.firstinspires.ftc.teamcode.commands.CommandAutoStrafe;
 import org.firstinspires.ftc.teamcode.commands.CommandExtakeSetBucket;
 import org.firstinspires.ftc.teamcode.commands.CommandExtakeSetLift;
 import org.firstinspires.ftc.teamcode.commands.CommandFollowTrajectories;
-import org.firstinspires.ftc.teamcode.commands.CommandIntakeAutoPivot;
-import org.firstinspires.ftc.teamcode.commands.CommandIntakeAutoSlide;
 import org.firstinspires.ftc.teamcode.commands.CommandIntakeRotateWheels;
 import org.firstinspires.ftc.teamcode.commands.CommandIntakeSetArm;
 import org.firstinspires.ftc.teamcode.commands.CommandIntakeSetPivot;
 import org.firstinspires.ftc.teamcode.commands.CommandIntakeSetSlide;
-import org.firstinspires.ftc.teamcode.commands.CommandLimelightStatus;
 import org.firstinspires.ftc.teamcode.commands.CommandRun;
 import org.firstinspires.ftc.teamcode.commands.CommandTimer;
 import org.firstinspires.ftc.teamcode.subsystems.Extake;
@@ -43,7 +38,7 @@ public class CommandAutonomousSample extends CommandOpMode {
         double extakePrepareExtake = 0.7; //Bucket pos for preparing extake
 
         // -40.3, -63, rad(90), Math.toRadians(180)
-        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(-39.125, -63.125, Math.toRadians(180)));
+        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(0.0, 0.0, Math.toRadians(180)));
 
         new CommandIntakeSetSlide(Intake.SlidePosition.FULLY_RETRACTED);
 
