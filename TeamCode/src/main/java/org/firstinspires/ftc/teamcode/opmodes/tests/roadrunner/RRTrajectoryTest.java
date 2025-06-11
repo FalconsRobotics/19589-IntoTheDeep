@@ -3,11 +3,13 @@ package org.firstinspires.ftc.teamcode.opmodes.tests.roadrunner;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
+@Disabled
 @Autonomous(name = "RRTrajectoryTest")
 public class RRTrajectoryTest extends OpMode {
     SubsystemsCollection sys;

@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests;
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
+@Disabled
 @TeleOp(name = "Test - Intake", group = "Tests")
 public class IntakeTest extends LinearOpMode {
     public void runOpMode() {

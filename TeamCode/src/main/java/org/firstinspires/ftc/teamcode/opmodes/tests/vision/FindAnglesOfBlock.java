@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests.vision;
 
 import com.qualcomm.hardware.limelightvision.LLStatus;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.utilities.vision.VisionUtility;
 
+@Disabled
 @TeleOp(name = "Find Angle of Block", group = "Tests")
 public class FindAnglesOfBlock extends LinearOpMode {
     public void runOpMode() {

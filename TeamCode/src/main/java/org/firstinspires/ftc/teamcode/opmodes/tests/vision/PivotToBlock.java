@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests.vision;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -21,6 +22,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Extake;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.vision.VisionUtility;
 
+@Disabled
 @TeleOp(name = "Pivot to Block Test", group = "Tests")
 public class PivotToBlock extends LinearOpMode {
     public void runOpMode() {

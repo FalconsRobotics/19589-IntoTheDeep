@@ -4,6 +4,8 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.external.rrquickstart.drive.MecanumDriveKinematics;
 import org.firstinspires.ftc.teamcode.external.rrquickstart.trajectorysequence.TrajectorySequence;
@@ -30,6 +32,7 @@ public class AutoDriveUtility {
         roadrunner = new FollowTrajectoriesThread(drive);
 
         drive.setPoseEstimate(startPos);
+        driveBase.odometry.setPosition(new Pose2D(DistanceUnit.INCH, startPos.getX(), startPos.getY(), AngleUnit.RADIANS, startPos.getHeading()));
         lastSequenceEndPosition = startPos;
     }
 
@@ -48,9 +51,6 @@ public class AutoDriveUtility {
 
         return sequence;
     }
-
-
-
 
     /** Prepares a list of trajectories to be ran on the designated "Roadrunner" thread. If this
      *  thread is currently being used, the calling thread will be halted until it is ready. */

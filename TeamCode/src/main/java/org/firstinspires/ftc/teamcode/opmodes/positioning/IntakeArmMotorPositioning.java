@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.opmodes.positioning;
 
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
-
+@Disabled
 @TeleOp(name = "Positioning - Intake Arm", group = "Positioning")
 public class IntakeArmMotorPositioning extends LinearOpMode {
     public void runOpMode() {

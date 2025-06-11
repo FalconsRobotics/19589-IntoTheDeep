@@ -5,11 +5,13 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
+@Disabled
 @TeleOp(name = "Test - Drive Base", group = "Tests")
 public class DriveBaseTest extends LinearOpMode {
     public void runOpMode() {

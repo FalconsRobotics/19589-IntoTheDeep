@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.positioning;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.OdometryLimelightLocalizer;
 
 
+@Disabled
 @TeleOp(name = "Positioning - Auto", group = "Positioning")
 public class AutoPositioning extends LinearOpMode {
     public void runOpMode() {
