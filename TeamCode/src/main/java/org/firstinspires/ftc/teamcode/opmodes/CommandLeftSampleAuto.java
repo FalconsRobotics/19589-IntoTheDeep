@@ -22,8 +22,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
-@Autonomous(name = "Auto W.M.D - 4Samples", preselectTeleOp = "Command TeleOp")
-public class CommandAutonomousSample extends CommandOpMode {
+@Autonomous(name = "CRI Left Sample", preselectTeleOp = "Command TeleOp", group = "CRI - Red")
+public class CommandLeftSampleAuto extends CommandOpMode {
     private SubsystemsCollection sys;
     private AutoDriveUtility autoDrive;
 
@@ -33,7 +33,7 @@ public class CommandAutonomousSample extends CommandOpMode {
 
         int loadTimer = 300; // Timer for time it takes to suck the sample off the ground. Might not be needed?
         int spitTimer = 325; // Timer for the time it takes to spit the sample from intake to the extake bucket
-        int bucketTimer = 620; // Timer for the extake to extake into top bucket.
+        int bucketTimer = 700; // Timer for the extake to extake into top bucket.
         int driveDelay = 450; // Timer for the delay (MS) between spitting into bucket and driving to net zone
         double extakePrepareExtake = 0.7; //Bucket pos for preparing extake
 
@@ -164,7 +164,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         new ParallelCommandGroup(
                                 new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
                                 new CommandIntakeSetArm(-40), // Hack for intaking this sample. I assume there is a tolerance issue
-                                new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, (loadTimer - 100)) // Cool hack! :D
+                                new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, (loadTimer + 300)) // Cool hack! :D
                         ),
                         new ParallelCommandGroup(
                                 new SequentialCommandGroup(
@@ -241,7 +241,7 @@ public class CommandAutonomousSample extends CommandOpMode {
                         new CommandTimer(bucketTimer)
                         */
                         /// Level 1 ascent!!!
-                        new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
+                        /*new CommandExtakeSetBucket(Extake.BucketPosition.LOAD),
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
                                         .lineToLinearHeading(new Pose2d(-40, -8, Math.toRadians(90)))
@@ -253,7 +253,10 @@ public class CommandAutonomousSample extends CommandOpMode {
                                 ),
                                 new CommandIntakeSetArm(-1000),
                                 new CommandExtakeSetLift(390)
-                        ),
+                        ), */
+
+                        new CommandFollowTrajectories(autoDrive, autoDrive.trajectorySequenceBuilder().forward(3)),
+
                         new CommandRun(() -> {
                             sys.extake.lift.motor.set(-0.1);
                             requestOpModeStop();
