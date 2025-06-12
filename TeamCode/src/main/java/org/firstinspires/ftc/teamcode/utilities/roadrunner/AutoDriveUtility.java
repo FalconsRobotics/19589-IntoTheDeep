@@ -32,7 +32,6 @@ public class AutoDriveUtility {
         roadrunner = new FollowTrajectoriesThread(drive);
 
         drive.setPoseEstimate(startPos);
-        driveBase.odometry.setPosition(new Pose2D(DistanceUnit.INCH, startPos.getX(), startPos.getY(), AngleUnit.RADIANS, startPos.getHeading()));
         lastSequenceEndPosition = startPos;
     }
 

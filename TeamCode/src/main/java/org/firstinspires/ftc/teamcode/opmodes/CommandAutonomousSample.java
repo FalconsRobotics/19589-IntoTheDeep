@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.old;
+package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -38,7 +38,7 @@ public class CommandAutonomousSample extends CommandOpMode {
         double extakePrepareExtake = 0.7; //Bucket pos for preparing extake
 
         // -40.3, -63, rad(90), Math.toRadians(180)
-        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(0.0, 0.0, Math.toRadians(180)));
+        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(-39.125, -63.125, Math.toRadians(180)));
 
         new CommandIntakeSetSlide(Intake.SlidePosition.FULLY_RETRACTED);
 
