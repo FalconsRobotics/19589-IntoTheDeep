@@ -3,11 +3,17 @@ package org.firstinspires.ftc.teamcode.external.rrquickstart.drive.opmodes;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.commands.CommandFollowTrajectories;
+import org.firstinspires.ftc.teamcode.commands.CommandTimer;
 import org.firstinspires.ftc.teamcode.external.rrquickstart.drive.MecanumDriveKinematics;
+import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
+import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
 /*
  * Op mode for preliminary tuning of the follower PID coefficients (located in the drive base
@@ -25,30 +31,31 @@ import org.firstinspires.ftc.teamcode.external.rrquickstart.drive.MecanumDriveKi
  * This opmode is designed as a convenient, coarse tuning for the follower PID coefficients. It
  * is recommended that you use the FollowerPIDTuner opmode for further fine tuning.
  */
-@Disabled
 @Config
 @Autonomous(group = "drive")
-public class BackAndForth extends LinearOpMode {
+public class BackAndForth extends CommandOpMode {
+    private SubsystemsCollection sys;
+    private AutoDriveUtility autoDrive;
 
     public static double DISTANCE = 50;
 
-    @Override
-    public void runOpMode() throws InterruptedException {
-        MecanumDriveKinematics drive = new MecanumDriveKinematics(hardwareMap);
+    public void initialize() {
+        SubsystemsCollection.deinit();
+        sys = SubsystemsCollection.getInstance(hardwareMap);
 
-        Trajectory trajectoryForward = drive.trajectoryBuilder(new Pose2d())
-                .forward(DISTANCE)
-                .build();
-
-        Trajectory trajectoryBackward = drive.trajectoryBuilder(trajectoryForward.end())
-                .back(DISTANCE)
-                .build();
+        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(0, 0, Math.toRadians(0)));
 
         waitForStart();
 
-        while (opModeIsActive() && !isStopRequested()) {
-            drive.followTrajectory(trajectoryForward);
-            drive.followTrajectory(trajectoryBackward);
-        }
+        schedule(
+                new CommandTimer(30000),
+                new ParallelDeadlineGroup(
+                        new CommandFollowTrajectories(autoDrive,
+                                autoDrive.trajectorySequenceBuilder()
+                                        .forward(DISTANCE)
+                                        .back(DISTANCE)
+                        )
+                )
+        );
     }
 }
