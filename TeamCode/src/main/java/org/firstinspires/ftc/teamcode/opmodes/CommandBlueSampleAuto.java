@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
@@ -30,7 +31,7 @@ public class CommandBlueSampleAuto extends CommandOpMode {
         SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
 
-        int loadTimer = 300; // Timer for time it takes to suck the sample off the ground. Might not be needed?
+        int loadTimer = 450; // Timer for time it takes to suck the sample off the ground. Might not be needed?
         int spitTimer = 325; // Timer for the time it takes to spit the sample from intake to the extake bucket
         int bucketTimer = 700; // Timer for the extake to extake into top bucket.
         int driveDelay = 450; // Timer for the delay (MS) between spitting into bucket and driving to net zone
@@ -39,10 +40,10 @@ public class CommandBlueSampleAuto extends CommandOpMode {
         double startingX = 48 - (double)(13 / 2);
         double startingY = -72 + (double)(17.5 / 2);
 
-        Pose2d netPosition = new Pose2d(startingX + 24, startingY + 11, Math.toRadians(135));
+        Pose2d netPosition = new Pose2d(startingX + 22, startingY + 8, Math.toRadians(135));
         Pose2d firstPiecePosition = new Pose2d(startingX + 14, startingY + 24, Math.toRadians(90));
         Pose2d secondPiecePosition = new Pose2d(startingX + 25, startingY + 24, Math.toRadians(90));
-        Pose2d thirdPiecePosition = new Pose2d(startingX + 34, startingY + 22, Math.toRadians(70));
+        Pose2d thirdPiecePosition = new Pose2d(startingX + 34, startingY + 24.5, Math.toRadians(70));
 
         // -40.3, -63, rad(90), Math.toRadians(180)
         autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(startingX, startingY, Math.toRadians(180)));
@@ -94,7 +95,7 @@ public class CommandBlueSampleAuto extends CommandOpMode {
                                         new CommandTimer(driveDelay + 170),
                                         new CommandFollowTrajectories(autoDrive,
                                                 autoDrive.trajectorySequenceBuilder()
-                                                        .splineToLinearHeading(netPosition, 10)
+                                                        .splineToLinearHeading(netPosition, Math.toRadians(135))
                                         )
                                 ),
                                 new SequentialCommandGroup(
