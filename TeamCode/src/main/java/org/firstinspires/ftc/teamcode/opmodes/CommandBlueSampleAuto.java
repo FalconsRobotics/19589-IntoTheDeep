@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
@@ -23,7 +22,7 @@ import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
 @Autonomous(name = "CRI Blue Sample", preselectTeleOp = "Command TeleOp", group = "CRI - Blue")
-public class CommandBlueRightSampleAuto extends CommandOpMode {
+public class CommandBlueSampleAuto extends CommandOpMode {
     private SubsystemsCollection sys;
     private AutoDriveUtility autoDrive;
 

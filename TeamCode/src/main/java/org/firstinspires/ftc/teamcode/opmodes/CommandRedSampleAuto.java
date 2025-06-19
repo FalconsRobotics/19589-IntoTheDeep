@@ -22,8 +22,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
-@Autonomous(name = "CRI Left Sample", preselectTeleOp = "Command TeleOp", group = "CRI - Red")
-public class CommandLeftSampleAuto extends CommandOpMode {
+@Autonomous(name = "CRI Red Sample", preselectTeleOp = "Command TeleOp", group = "CRI - Red")
+public class CommandRedSampleAuto extends CommandOpMode {
     private SubsystemsCollection sys;
     private AutoDriveUtility autoDrive;
 
@@ -31,7 +31,7 @@ public class CommandLeftSampleAuto extends CommandOpMode {
         SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
 
-        int loadTimer = 300; // Timer for time it takes to suck the sample off the ground. Might not be needed?
+        int loadTimer = 450; // Timer for time it takes to suck the sample off the ground. Might not be needed?
         int spitTimer = 325; // Timer for the time it takes to spit the sample from intake to the extake bucket
         int bucketTimer = 700; // Timer for the extake to extake into top bucket.
         int driveDelay = 450; // Timer for the delay (MS) between spitting into bucket and driving to net zone
