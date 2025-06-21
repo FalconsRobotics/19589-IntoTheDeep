@@ -25,9 +25,11 @@ public class CommandSpecimenAuto extends CommandOpMode {
         SubsystemsCollection.deinit();
         sys = SubsystemsCollection.getInstance(hardwareMap);
 
-        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(17.5, -63.25, Math.toRadians(180)));
+        autoDrive = new AutoDriveUtility(hardwareMap, sys.driveBase, new Pose2d(17.5, -63.25, Math.toRadians(0)));
 
         new CommandIntakeSetSlide(Intake.SlidePosition.FULLY_RETRACTED);
+
+        Pose2d baseBarPosition = new Pose2d(24 + (double)(13/2) + 10, -(double)(17.5/2), Math.toRadians(-270));
 
         waitForStart();
 
@@ -36,7 +38,7 @@ public class CommandSpecimenAuto extends CommandOpMode {
                     new ParallelCommandGroup(
                         new CommandFollowTrajectories(autoDrive,
                                 autoDrive.trajectorySequenceBuilder()
-                                    .splineToSplineHeading(new Pose2d(48 - 13, -(double)(17/5) - 24, Math.toRadians(270)), Math.toRadians(90))
+                                    .splineToSplineHeading(baseBarPosition, Math.toRadians(135))
                                 ),
                         new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR)
                     ),

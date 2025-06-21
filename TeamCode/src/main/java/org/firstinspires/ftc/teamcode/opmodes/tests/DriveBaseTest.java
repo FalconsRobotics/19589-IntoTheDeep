@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 
-@Disabled
 @TeleOp(name = "Test - Drive Base", group = "Tests")
 public class DriveBaseTest extends LinearOpMode {
     public void runOpMode() {
@@ -24,14 +23,14 @@ public class DriveBaseTest extends LinearOpMode {
         while (opModeIsActive()) {
             sys.periodic();
 
-            sys.driveBase.motorPowers = new Pose2d(pad.getLeftY(), pad.getLeftX(), 0.0);
-            sys.driveBase.lockRotation(Math.PI / 2);
-
-            if (pad.wasJustPressed(GamepadKeys.Button.X)) {
-                sys.driveBase.odometry.recalibrateIMU();
-                sys.driveBase.odometry.resetPosAndIMU();
-                sleep(1000);
-            }
+//            sys.driveBase.motorPowers = new Pose2d(pad.getLeftY(), pad.getLeftX(), 0.0);
+//            sys.driveBase.lockRotation(Math.PI / 2);
+//
+//            if (pad.wasJustPressed(GamepadKeys.Button.X)) {
+//                sys.driveBase.odometry.recalibrateIMU();
+//                sys.driveBase.odometry.resetPosAndIMU();
+//                sleep(1000);
+//            }
 
             telemetry.addData("X Position", sys.driveBase.odometry.getPosX());
             telemetry.addData("Y Position", sys.driveBase.odometry.getPosY());
