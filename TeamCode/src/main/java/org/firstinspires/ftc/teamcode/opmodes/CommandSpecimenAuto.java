@@ -53,7 +53,7 @@ public class CommandSpecimenAuto extends CommandOpMode {
                     new ParallelDeadlineGroup(
                             new CommandFollowTrajectories(autoDrive,
                                     autoDrive.trajectorySequenceBuilder()
-                                            .splineToSplineHeading(baseBarIntermediatePathPosition, Math.toRadians(90))
+                                            .splineToLinearHeading(baseBarIntermediatePathPosition, Math.toRadians(90 - 1e+6))
 //                                            .splineToSplineHeading(baseBarPosition, Math.toRadians(90))),
                                             .back(37.5)
                                             .strafeRight(3)
@@ -61,19 +61,39 @@ public class CommandSpecimenAuto extends CommandOpMode {
                             new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
                             new CommandIntakeSetArm(Intake.ArmPosition.IDLE)
                     ),
-                    new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
-                    new CommandFollowTrajectories(autoDrive,
-                            autoDrive.trajectorySequenceBuilder()
-//                            .splineToLinearHeading(rightCloseSampleFromRung, Math.toRadians(330))),
-                                    .turn(Math.toRadians(60))),
-                    new ParallelDeadlineGroup(
-                            new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 250),
-                            new CommandIntakeSetSlide(.5),
+                    new ParallelCommandGroup(
+                            new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
+                            new CommandIntakeSetSlide(0.9),
                             new CommandIntakeSetPivot(RIGHT_45),
+                            new CommandFollowTrajectories(autoDrive,
+                                    autoDrive.trajectorySequenceBuilder()
+                                            .turn(Math.toRadians(60)))
+                    ),
+                    new ParallelDeadlineGroup(
+                            new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 500),
                             new CommandIntakeSetArm(Intake.ArmPosition.PICKUP)
                     ),
+                    new ParallelDeadlineGroup(
+                            new CommandFollowTrajectories(autoDrive,
+                                    autoDrive.trajectorySequenceBuilder()
+                                            .splineToLinearHeading(new Pose2d(42, -60.25, Math.toRadians(0)), Math.toRadians(0))
+                            ),
+                            new CommandIntakeSetArm(Intake.ArmPosition.HOVER)
+                    ),
+                    new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500),
+                    new CommandFollowTrajectories(autoDrive,
+                            autoDrive.trajectorySequenceBuilder()
+                                    .strafeRight(3)
+                    ),
+                    new CommandTimer(500),
+                    new ParallelCommandGroup(
+                            new CommandFollowTrajectories(autoDrive,
+                                    autoDrive.trajectorySequenceBuilder()
+                                            .splineToLinearHeading(baseBarPosition, Math.toRadians(90))),
+                            new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR)
+                    ),
                     new CommandTimer(250),
-                    new CommandIntakeSetArm(Intake.ArmPosition.HOVER)
+                    new CommandExtakeSetLift(Extake.LiftPosition.DOWN)
                 ),
 
                 new CommandRun(() -> {
