@@ -31,10 +31,9 @@ public class VisionUtility {
      *  user may never have to access this directly. */
     public Limelight3A limelight;
 
-
     public VisionUtility(HardwareMap map) {
         limelight = map.get(Limelight3A.class, "limelight");
-        limelight.setPollRateHz(25); // Can be polled more often but expect the camera to heat up.\
+        limelight.setPollRateHz(25); // Can be polled more often but expect the camera to heat up.
         limelight.pipelineSwitch(0);
         limelight.start();
     }
@@ -47,6 +46,7 @@ public class VisionUtility {
         for(LLResultTypes.ColorResult colorResult : colorResults){
             distance = colorResult.getTargetYDegrees();
         }
+
         return distance;
     }
 
@@ -58,6 +58,7 @@ public class VisionUtility {
         for(LLResultTypes.ColorResult colorResult : colorResults){
             distance = colorResult.getTargetXDegrees();
         }
+
         return distance;
     }
 
@@ -129,7 +130,7 @@ public class VisionUtility {
             return new Pose2D(DistanceUnit.INCH, LLBotPos.getPosition().x, LLBotPos.getPosition().y, AngleUnit.DEGREES, LLBotPos.getOrientation().getYaw());
         }
 
-     return badValue;
+        return badValue;
     }
 
 

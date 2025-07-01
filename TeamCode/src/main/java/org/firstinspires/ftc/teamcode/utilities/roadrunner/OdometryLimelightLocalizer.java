@@ -88,7 +88,7 @@ public class OdometryLimelightLocalizer implements Localizer {
         return correctedOdometryPos;
     }
 
-    /** Sets position of robot. CURRENT NOTE: Always set heading to 180!!!!! */
+    /** Sets position of robot. Note: As of current all pose rotations should be */
     public void setPoseEstimate(@NonNull Pose2d pose) {
         // New pose position assumed to be in inches.
         odometryOffset = new Pose2d(
