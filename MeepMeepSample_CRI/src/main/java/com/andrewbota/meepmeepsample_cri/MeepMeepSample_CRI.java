@@ -17,9 +17,10 @@ public class MeepMeepSample_CRI {
                 .setDimensions(13, 17.5)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(24 - (double)(13 / 2), -72 + (17.5 / 2), 0))
+//        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(24 - (double)(13 / 2), -72 + (17.5 / 2), 0))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(35.5, -14.25, 270))
                 // Bucket preload
-                .splineToLinearHeading(new Pose2d(48 - (double)(13/2), -(double)(17/5), Math.toRadians(270)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(42, -60.25, Math.toRadians(0)), Math.toRadians(270))
                 .build());
 
 

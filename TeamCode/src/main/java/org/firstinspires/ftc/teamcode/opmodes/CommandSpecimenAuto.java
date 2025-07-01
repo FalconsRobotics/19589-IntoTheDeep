@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import static org.firstinspires.ftc.teamcode.subsystems.Intake.PivotPosition.RIGHT_45;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
@@ -16,16 +18,19 @@ import org.firstinspires.ftc.teamcode.commands.CommandIntakeSetArm;
 import org.firstinspires.ftc.teamcode.commands.CommandIntakeSetPivot;
 import org.firstinspires.ftc.teamcode.commands.CommandIntakeSetSlide;
 import org.firstinspires.ftc.teamcode.commands.CommandRun;
-import org.firstinspires.ftc.teamcode.commands.CommandTimer;
 import org.firstinspires.ftc.teamcode.subsystems.Extake;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.roadrunner.AutoDriveUtility;
 
+@Config
 @Autonomous(name = "CRI Specimen", preselectTeleOp = "Command TeleOp")
 public class CommandSpecimenAuto extends CommandOpMode {
     private SubsystemsCollection sys;
     private AutoDriveUtility autoDrive;
+
+    public static double sp1h = 90.0;
+    public static double sp2h = 180.0;
 
     public void initialize() {
         SubsystemsCollection.deinit();
@@ -53,7 +58,7 @@ public class CommandSpecimenAuto extends CommandOpMode {
                     new ParallelDeadlineGroup(
                             new CommandFollowTrajectories(autoDrive,
                                     autoDrive.trajectorySequenceBuilder()
-                                            .splineToLinearHeading(baseBarIntermediatePathPosition, Math.toRadians(90 - 1e+6))
+                                            .lineToLinearHeading(baseBarIntermediatePathPosition)
 //                                            .splineToSplineHeading(baseBarPosition, Math.toRadians(90))),
                                             .back(37.5)
                                             .strafeRight(3)
@@ -76,23 +81,28 @@ public class CommandSpecimenAuto extends CommandOpMode {
                     new ParallelDeadlineGroup(
                             new CommandFollowTrajectories(autoDrive,
                                     autoDrive.trajectorySequenceBuilder()
-                                            .splineToLinearHeading(new Pose2d(42, -60.25, Math.toRadians(0)), Math.toRadians(0))
+                                            .lineToLinearHeading(new Pose2d(45, -4, Math.toRadians(0)))
+                                            .lineToLinearHeading(new Pose2d(48 - (17.5 / 2) + 4.5, -60.25))
                             ),
                             new CommandIntakeSetArm(Intake.ArmPosition.HOVER)
                     ),
-                    new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500),
-                    new CommandFollowTrajectories(autoDrive,
-                            autoDrive.trajectorySequenceBuilder()
-                                    .strafeRight(3)
+                    new ParallelCommandGroup(
+                            new CommandIntakeRotateWheels(Intake.WheelPower.UNLOAD, 500),
+                            new CommandIntakeSetArm(Intake.ArmPosition.IDLE),
+                            new CommandFollowTrajectories(autoDrive,
+                                    autoDrive.trajectorySequenceBuilder().strafeRight(3.5))
                     ),
-                    new CommandTimer(500),
+                    new CommandExtakeSetLift(Extake.LiftPosition.LOWER_BUCKET),
                     new ParallelCommandGroup(
                             new CommandFollowTrajectories(autoDrive,
                                     autoDrive.trajectorySequenceBuilder()
-                                            .splineToLinearHeading(baseBarPosition, Math.toRadians(90))),
+                                            .splineToLinearHeading(new Pose2d(38, -48, Math.toRadians(270)), Math.toRadians(270))
+//                                            .lineToConstantHeading(new Vector2d(38, -12))),
+                                            .splineTo(new Vector2d(35, -16), Math.toRadians(270))),
                             new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR)
                     ),
-                    new CommandTimer(250),
+//                    new CommandFollowTrajectories(autoDrive,
+//                            autoDrive.trajectorySequenceBuilder().strafeRight(4)),
                     new CommandExtakeSetLift(Extake.LiftPosition.DOWN)
                 ),
 
