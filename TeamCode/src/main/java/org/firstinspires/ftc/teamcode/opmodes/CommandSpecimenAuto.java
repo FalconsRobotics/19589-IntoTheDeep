@@ -58,7 +58,7 @@ public class CommandSpecimenAuto extends CommandOpMode {
                     new ParallelDeadlineGroup(
                             new CommandFollowTrajectories(autoDrive,
                                     autoDrive.trajectorySequenceBuilder()
-                                            .lineToLinearHeading(baseBarIntermediatePathPosition)
+                                            .splineToLinearHeading(baseBarIntermediatePathPosition, Math.toRadians(90))
 //                                            .splineToSplineHeading(baseBarPosition, Math.toRadians(90))),
                                             .back(37.5)
                                             .strafeRight(3)
@@ -96,13 +96,29 @@ public class CommandSpecimenAuto extends CommandOpMode {
                     new ParallelCommandGroup(
                             new CommandFollowTrajectories(autoDrive,
                                     autoDrive.trajectorySequenceBuilder()
-                                            .splineToLinearHeading(new Pose2d(38, -48, Math.toRadians(270)), Math.toRadians(270))
+                                            .splineToLinearHeading(new Pose2d(38, -48, Math.toRadians(270)), Math.toRadians(0))
 //                                            .lineToConstantHeading(new Vector2d(38, -12))),
-                                            .splineTo(new Vector2d(35, -16), Math.toRadians(270))),
+                                            .lineToConstantHeading(new Vector2d(40, -14))
+                                            .strafeRight(4)
+                            ),
                             new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR)
                     ),
-//                    new CommandFollowTrajectories(autoDrive,
-//                            autoDrive.trajectorySequenceBuilder().strafeRight(4)),
+                    new CommandExtakeSetLift(Extake.LiftPosition.DOWN),
+                    new CommandFollowTrajectories(autoDrive,
+                            autoDrive.trajectorySequenceBuilder()
+                                    .lineToLinearHeading(new Pose2d(45, -4, Math.toRadians(0)))
+                                    .lineToLinearHeading(new Pose2d(48 - (17.5 / 2) + 4.5, -63.25))
+                    ),
+                    new ParallelCommandGroup(
+                            new CommandFollowTrajectories(autoDrive,
+                                    autoDrive.trajectorySequenceBuilder()
+                                            .splineToLinearHeading(new Pose2d(38, -48, Math.toRadians(270)), Math.toRadians(0))
+//                                            .lineToConstantHeading(new Vector2d(38, -12))),
+                                            .lineToConstantHeading(new Vector2d(40, -14))
+                                            .strafeRight(4)
+                            ),
+                            new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR)
+                    ),
                     new CommandExtakeSetLift(Extake.LiftPosition.DOWN)
                 ),
 
