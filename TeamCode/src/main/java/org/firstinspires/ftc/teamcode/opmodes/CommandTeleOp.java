@@ -256,7 +256,7 @@ public class CommandTeleOp extends CommandOpMode {
             ), true);
 
         utilityGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-            .whenActive(new ParallelDeadlineGroup (
+            .whenActive(new ParallelCommandGroup (
                     new CommandIntakeRotateWheels(Intake.WheelPower.LOAD, 800), // Same thing here.
                     new CommandIntakeSetArm(Intake.ArmPosition.PICKUP)
             ), true);

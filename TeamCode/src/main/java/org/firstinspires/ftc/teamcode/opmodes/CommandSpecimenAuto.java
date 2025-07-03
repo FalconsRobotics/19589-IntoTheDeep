@@ -61,7 +61,7 @@ public class CommandSpecimenAuto extends CommandOpMode {
                                             .splineToLinearHeading(baseBarIntermediatePathPosition, Math.toRadians(90))
 //                                            .splineToSplineHeading(baseBarPosition, Math.toRadians(90))),
                                             .back(37.5)
-                                            .strafeRight(3)
+                                            .strafeRight(4)
                             ),
                             new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
                             new CommandIntakeSetArm(Intake.ArmPosition.IDLE)
@@ -72,6 +72,7 @@ public class CommandSpecimenAuto extends CommandOpMode {
                             new CommandIntakeSetPivot(RIGHT_45),
                             new CommandFollowTrajectories(autoDrive,
                                     autoDrive.trajectorySequenceBuilder()
+                                            .strafeLeft(3)
                                             .turn(Math.toRadians(60)))
                     ),
                     new ParallelDeadlineGroup(
