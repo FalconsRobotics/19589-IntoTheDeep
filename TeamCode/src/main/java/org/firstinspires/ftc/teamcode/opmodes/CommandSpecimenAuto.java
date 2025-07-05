@@ -61,7 +61,7 @@ public class CommandSpecimenAuto extends CommandOpMode {
                                             .splineToLinearHeading(baseBarIntermediatePathPosition, Math.toRadians(90))
 //                                            .splineToSplineHeading(baseBarPosition, Math.toRadians(90))),
                                             .back(37.5)
-                                            .strafeRight(4)
+                                            .strafeRight(3)
                             ),
                             new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR),
                             new CommandIntakeSetArm(Intake.ArmPosition.IDLE)
