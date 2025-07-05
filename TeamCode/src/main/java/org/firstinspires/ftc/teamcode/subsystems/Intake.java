@@ -37,7 +37,7 @@ public class Intake extends SubsystemBase {
 
     /** Pre-defined arm positions. */
     public static final class ArmPosition {
-        public static final int UNLOAD = -1000;
+        public static final int UNLOAD = -1050;
         public static final int IDLE = -814;
         public static final int HOVER = -305;
         public static final int PICKUP = 0;
