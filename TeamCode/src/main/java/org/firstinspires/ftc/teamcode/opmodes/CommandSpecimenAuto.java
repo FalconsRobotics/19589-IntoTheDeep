@@ -100,7 +100,7 @@ public class CommandSpecimenAuto extends CommandOpMode {
                                             .splineToLinearHeading(new Pose2d(38, -48, Math.toRadians(270)), Math.toRadians(0))
 //                                            .lineToConstantHeading(new Vector2d(38, -12))),
                                             .lineToConstantHeading(new Vector2d(40, -14))
-                                            .strafeRight(4)
+                                            .strafeRight(5)
                             ),
                             new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR)
                     ),
@@ -116,7 +116,7 @@ public class CommandSpecimenAuto extends CommandOpMode {
                                             .splineToLinearHeading(new Pose2d(38, -48, Math.toRadians(270)), Math.toRadians(0))
 //                                            .lineToConstantHeading(new Vector2d(38, -12))),
                                             .lineToConstantHeading(new Vector2d(40, -14))
-                                            .strafeRight(4)
+                                            .strafeRight(5)
                             ),
                             new CommandExtakeSetLift(Extake.LiftPosition.TOP_BAR)
                     ),
