@@ -20,24 +20,41 @@ import java.util.Objects;
 /** Utility class for managing everything to do with vision on the robot. */
 public class VisionUtility {
 
-    public static class Pipeline {
-        public static final double YELLOW_BLOCKS = 0;
-        public static final double BLUE_BLOCKS = 1;
-        public static final double RED_BLOCKS = 2;
-        public static final double APRIL_TAGS = 3;
+    public static class LimelightPipelineIndex {
+        public static final double BLUE_BLOCKS = 0;
     }
 
     /** For use outside of the utility object. Depending on how much this utility class does the
      *  user may never have to access this directly. */
     public Limelight3A limelight;
 
+    /** Stores active pipeline object. This should remain the only reference to it at any
+     *  point. */
+    private Pipeline active;
+
     public VisionUtility(HardwareMap map) {
         limelight = map.get(Limelight3A.class, "limelight");
         limelight.setPollRateHz(25); // Can be polled more often but expect the camera to heat up.
         limelight.pipelineSwitch(0);
         limelight.start();
+
+        active = null;
     }
 
+    public void switchPipelines(Pipeline pipeline) {
+        active = pipeline;
+    }
+
+    public void loop() {
+        // Bad code, loop returns true when it should end
+        if (active.loop())
+            active.end();
+    }
+
+    public Pose3D getSuggestedAction() { return active.getSuggestedAction(); }
+
+
+    /*
     public double findDistanceToBlock(){
         LLResult result = limelight.getLatestResult();
         List<LLResultTypes.ColorResult> colorResults = result.getColorResults();
@@ -61,8 +78,10 @@ public class VisionUtility {
 
         return distance;
     }
+     */
 
     /** Finds angle of block relative to limelight (in degrees). */
+    /*
     public double findBlockAngle(int color) {
         //limelight.pipelineSwitch(color);
         LLResult result = limelight.getLatestResult();
@@ -137,7 +156,7 @@ public class VisionUtility {
     private Geometry.Vector2D getVectorFromList(List<Double> cornerList) {
         return new Geometry.Vector2D(cornerList.get(0), cornerList.get(1));
     }
-
+     */
 }
 
 
