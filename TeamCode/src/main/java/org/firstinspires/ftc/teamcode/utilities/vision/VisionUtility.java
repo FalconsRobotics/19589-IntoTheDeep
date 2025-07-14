@@ -21,7 +21,7 @@ import java.util.Objects;
 public class VisionUtility {
 
     public static class LimelightPipelineIndex {
-        public static final double BLUE_BLOCKS = 0;
+        public static final int BLUE_BLOCKS = 0;
     }
 
     /** For use outside of the utility object. Depending on how much this utility class does the
@@ -41,13 +41,15 @@ public class VisionUtility {
         active = null;
     }
 
+    public Pipeline getPipeline() { return active; }
+
     public void switchPipelines(Pipeline pipeline) {
         active = pipeline;
     }
 
-    public void loop() {
+    public void periodic() {
         // Bad code, loop returns true when it should end
-        if (active.loop())
+        if (active.periodic())
             active.end();
     }
 

@@ -7,33 +7,45 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
+import org.firstinspires.ftc.teamcode.utilities.vision.BlockLocatorPipeline;
+import org.firstinspires.ftc.teamcode.utilities.vision.VisionUtility;
+
 import java.util.List;
 
-@Disabled
 @TeleOp(name="Limelight Test")
-public class visionTest extends LinearOpMode {
+public class VisionTest extends LinearOpMode {
 
 
     public void runOpMode() throws InterruptedException {
-        Limelight3A limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        SubsystemsCollection.deinit();
+        final SubsystemsCollection sys = SubsystemsCollection.getInstance(hardwareMap);
 
-        telemetry.setMsTransmissionInterval(11);
-
-        limelight.setPollRateHz(25);
-        limelight.pipelineSwitch(0);
-
-        /*
-         * Starts polling for data.
-         */
-        limelight.start();
-        telemetry.addLine("Robot Ready");
-        telemetry.update();
+        final VisionUtility vision = new VisionUtility(hardwareMap);
+        vision.switchPipelines(
+                new BlockLocatorPipeline(VisionUtility.LimelightPipelineIndex.BLUE_BLOCKS,
+                        vision.limelight)
+        );
 
         waitForStart();
 
         while (opModeIsActive()) {
+            sys.periodic();
 
-            LLResult result = limelight.getLatestResult();
+            vision.limelight.start();
+
+            if (gamepad1.a) vision.getPipeline().init();
+
+            Pose3D action = vision.getSuggestedAction();
+            if (action == null) continue;
+
+            telemetry.addData("X: ", action.getPosition().x);
+            telemetry.addData("Y: ", action.getPosition().y);
+            telemetry.addData("Yaw: ", action.getOrientation().getYaw());
+            telemetry.update();
+
+            LLResult result = vision.limelight.getLatestResult();
             if (result != null && result.isValid()) {
                 double tx = result.getTx(); // How far left or right the target is (degrees)
                 double ty = result.getTy(); // How far up or down the target is (degrees)
@@ -55,10 +67,10 @@ public class visionTest extends LinearOpMode {
                         }
                     }
 
-                   // telemetry.addData("X pixels: ", colorResult.getTargetXPixels());
-                   // telemetry.addData("X degrees: ", colorResult.getTargetXDegrees());
-                   // telemetry.addData("Y pixels: ", colorResult.getTargetYPixels());
-                   // telemetry.addData("Y degrees: ", colorResult.getTargetYDegrees());
+                    telemetry.addData("X pixels: ", colorResult.getTargetXPixels());
+                    telemetry.addData("X degrees: ", colorResult.getTargetXDegrees());
+                    telemetry.addData("Y pixels: ", colorResult.getTargetYPixels());
+                    telemetry.addData("Y degrees: ", colorResult.getTargetYDegrees());
 
                     double angle = Math.toDegrees(Math.atan2(corner2.get(1) - corner1.get(1), corner2.get(0) - corner1.get(0)));
 
@@ -74,6 +86,6 @@ public class visionTest extends LinearOpMode {
             }
             telemetry.update();
             sleep(500);
-        }
-    }
+       }
+   }
 }

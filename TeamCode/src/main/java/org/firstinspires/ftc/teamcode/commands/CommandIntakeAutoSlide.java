@@ -9,31 +9,31 @@ import org.firstinspires.ftc.teamcode.utilities.SubsystemsCollection;
 import org.firstinspires.ftc.teamcode.utilities.vision.VisionUtility;
 
 public class CommandIntakeAutoSlide extends CommandBase {
-    private final SubsystemsCollection sys;
-    private final VisionUtility vision;
-    private double position;
-    private double distance;
-
-    private static final double NO_POSITION_FOUND = 1.0;
-
-    public CommandIntakeAutoSlide(HardwareMap hardwareMap){
-        sys = SubsystemsCollection.getInstance(null);
-        vision = new VisionUtility(hardwareMap);
-        position = NO_POSITION_FOUND;
-    }
-
-    public void execute() {
-        distance = vision.findDistanceToBlock();
-
-        if (distance > 2 || distance < -2){
-            position -= .001 * Math.signum(distance);
-            sys.intake.setSlidePosition(position);
-            //sys.intake.setSlidePosition(Clamp.clamp(sys.intake.leftSlide.servo.getPosition(), Intake.SlidePosition.EXTENDED, Intake.SlidePosition.RETRACTED));
-            distance = vision.findDistanceToBlock();
-        }
-    }
-
-    public boolean isFinished() {
-        return distance > 2 || distance < -2;
-    }
+//    private final SubsystemsCollection sys;
+//    private final VisionUtility vision;
+//    private double position;
+//    private double distance;
+//
+//    private static final double NO_POSITION_FOUND = 1.0;
+//
+//    public CommandIntakeAutoSlide(HardwareMap hardwareMap){
+//        sys = SubsystemsCollection.getInstance(null);
+//        vision = new VisionUtility(hardwareMap);
+//        position = NO_POSITION_FOUND;
+//    }
+//
+//    public void execute() {
+//        distance = vision.findDistanceToBlock();
+//
+//        if (distance > 2 || distance < -2){
+//            position -= .001 * Math.signum(distance);
+//            sys.intake.setSlidePosition(position);
+//            //sys.intake.setSlidePosition(Clamp.clamp(sys.intake.leftSlide.servo.getPosition(), Intake.SlidePosition.EXTENDED, Intake.SlidePosition.RETRACTED));
+//            distance = vision.findDistanceToBlock();
+//        }
+//    }
+//
+//    public boolean isFinished() {
+//        return distance > 2 || distance < -2;
+//    }
 }

@@ -17,9 +17,9 @@ public class Pipeline {
 
 
     /** Initializes a pipeline with an ID and limelight object. */
-    protected Pipeline(int id, HardwareMap map) {
+    protected Pipeline(int id, Limelight3A limelight) {
         this.id = id;
-        limelight = map.get(Limelight3A.class, "limelight");
+        this.limelight = limelight;
     }
 
 
@@ -32,7 +32,7 @@ public class Pipeline {
     }
 
     /** Returns whether or not pipeline should end. */
-    boolean loop() {
+    boolean periodic() {
         // To be defined entirely by children.
         return true;
     }

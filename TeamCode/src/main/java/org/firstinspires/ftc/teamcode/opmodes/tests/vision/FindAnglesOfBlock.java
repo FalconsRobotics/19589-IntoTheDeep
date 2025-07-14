@@ -18,7 +18,7 @@ public class FindAnglesOfBlock extends LinearOpMode {
             telemetry.addData("Name", "%s", status.getName());
             telemetry.addData("Pipeline", "Index: %d, Type: %s", status.getPipelineIndex(), status.getPipelineType());
 
-            telemetry.addData("Angle:", vision.findBlockAngle(0));
+           //  telemetry.addData("Angle:", vision.findBlockAngle(0));
             telemetry.update();
         }
     }

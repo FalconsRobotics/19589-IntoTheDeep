@@ -305,7 +305,7 @@ public class CommandTeleOp extends CommandOpMode {
                 new CommandExtakeSetBucket(Extake.BucketPosition.UNLOAD)
             ));
 
-        utilityGamepad.getGamepadButton(GamepadKeys.Button.START)
-                .whileActiveOnce(new CommandIntakeAutoPivot(hardwareMap));
+//        utilityGamepad.getGamepadButton(GamepadKeys.Button.START)
+//                .whileActiveOnce(new CommandIntakeAutoPivot(hardwareMap));
     }
 }
